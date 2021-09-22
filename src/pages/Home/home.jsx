@@ -60,7 +60,7 @@ const Home = () => {
                     component={NavLink}
                     to="/signup"
                   >
-                    Create New Account
+                    Sign In With Google
                   </Button>
                 </Stack>
               </div>
@@ -228,7 +228,6 @@ const Home = () => {
           className="col-md-3"
           style={{
             marginTop: 10,
-            
           }}
         >
           <div className="row">
@@ -242,12 +241,12 @@ const Home = () => {
                 borderRadius: 5,
               }}
             >
-              <h4>Right Section</h4>
+              <h4>400+ Interview Questions</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                architecto vero, omnis harum, illo quo ex voluptas et quae
-                incidunt tenetur ipsam dolorem, ullam similique voluptatibus vel
-                rerum non reprehenderit.
+                JavaScript Centric Provides more then 400 interview question
+                which helps you to prepare for any javascript interview. We
+                covered almost all important questions from basic to advance
+                level with the exact answers.
               </p>
             </div>
           </div>
@@ -260,12 +259,11 @@ const Home = () => {
                 backgroundColor: "white",
               }}
             >
-              <h4>Right Section</h4>
+              <h4>100+ Coding Challenge</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                architecto vero, omnis harum, illo quo ex voluptas et quae
-                incidunt tenetur ipsam dolorem, ullam similique voluptatibus vel
-                rerum non reprehenderit.
+                JavaScript Centric Provides different varity of coding problems
+                that helps you in coding round of any big MNC like Amazon,
+                Google, Flipkart, Paytm, Wallmart and many more.
               </p>
             </div>
           </div>
@@ -278,12 +276,10 @@ const Home = () => {
                 backgroundColor: "white",
               }}
             >
-              <h4>Right Section</h4>
+              <h4>100+ Programs</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                architecto vero, omnis harum, illo quo ex voluptas et quae
-                incidunt tenetur ipsam dolorem, ullam similique voluptatibus vel
-                rerum non reprehenderit.
+              JavaScript Centric have more then 100 basic to advance level programs that can help you to solve problems.
+              and helps you for any coding challenge.
               </p>
             </div>
           </div>
@@ -296,7 +292,7 @@ const Home = () => {
                 backgroundColor: "white",
               }}
             >
-              <h4>Right Section</h4>
+              <h4>JS Data Structure</h4>
               <p>
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
                 architecto vero, omnis harum, illo quo ex voluptas et quae
@@ -305,7 +301,6 @@ const Home = () => {
               </p>
             </div>
           </div>
-          
         </div>
       </div>
     </div>
