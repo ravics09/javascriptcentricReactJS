@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import LoginIcon from "@mui/icons-material/Login";
 
 const Home = () => {
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const now = new Date();
+    // console.log("timediff============",(loggedInUser.expiry-now));
+    if (loggedInUser) {
+      if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
+        alert("Password expired. Please Sign In again..");
+      } else {
+        setUser(loggedInUser.user);
+        alert(`Welcome back ${loggedInUser.user}`);
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -278,8 +296,9 @@ const Home = () => {
             >
               <h4>100+ Programs</h4>
               <p>
-              JavaScript Centric have more then 100 basic to advance level programs that can help you to solve problems.
-              and helps you for any coding challenge.
+                JavaScript Centric have more then 100 basic to advance level
+                programs that can help you to solve problems. and helps you for
+                any coding challenge.
               </p>
             </div>
           </div>

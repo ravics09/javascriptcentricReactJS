@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import "./navbar.css";
 
 class NavBar extends Component {
   constructor(props) {
@@ -12,12 +13,13 @@ class NavBar extends Component {
 
   logout = () => {
     this.setState({currentUser: true});
+    localStorage.clear();
   }
 
   render() {
     const { currentUser, userName } = this.state;
     return (
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand color-nav">
         <div className="container-fluid" style={{paddingLeft: 100, paddingRight: 190}}>
           <NavLink className="navbar-brand" exact to="/">
             JavaScript Centric
@@ -38,6 +40,11 @@ class NavBar extends Component {
               </div>
             ) : (
               <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <NavLink to={"/signin"} exact className="nav-link">
+                    Sign In
+                  </NavLink>
+                </li>
                 <li className="nav-item">
                   <NavLink to={"/signup"} exact className="nav-link">
                     Sign Up
