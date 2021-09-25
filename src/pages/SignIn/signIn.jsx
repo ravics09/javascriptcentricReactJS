@@ -10,6 +10,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
+  const [userId, setUserId] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const validateForm = () => {
@@ -29,18 +30,23 @@ const SignIn = () => {
       (response) => {
         if (response.data.statusCode === 200) {
           let userName = response.data.user.fullName;
+          let jwtToken = response.data.token;
           setUser(userName);
           setEmail("");
           setPassword("");
+          setUserId(response.data.user._id);// will use userId for further operation
           alert(`Welcome ${user} ${response.data.message}`);
-
+          console.log("userId====",response.data.user._id);
+          
           if (checkboxChecked) {
             let today = new Date();
-            let expiryDay = new Date(today.setDate(today.getDate() + 30));
+            let expiry = new Date(today.setDate(today.getDate() + 30));
 
+            let expiryDay = (expiry.getTime()/1000);
             const item = {
               user: userName,
               expiry: expiryDay,
+              token: jwtToken
             };
 
             localStorage.setItem("userData", JSON.stringify(item));
