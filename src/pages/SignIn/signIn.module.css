@@ -1,0 +1,28 @@
+.container {
+  background-color: #181A1F;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  min-width: auto;
+}
+.signInForm {
+  display:grid;
+  justify-content: center;
+  color: #fff;
+  width: 500px;
+  padding: 50px;
+  margin: 50px
+}
+.formControl {
+  color: black;
+  width: 320px;
+  margin-top: 10px;
+}
+.customBtn {
+  background-color: blueviolet !important;
+  border: #fff !important;
+  border-radius: 10px !important;
+  border-width: 10px !important;
+  margin-top: 15px;
+}

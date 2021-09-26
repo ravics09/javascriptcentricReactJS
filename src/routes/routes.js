@@ -7,20 +7,17 @@ import Home from "./../pages/Home/home";
 import Profile from "./../pages/Profile/profile";
 import Main from "../pages/Main/main";
 //#283747  #34475B  #181A1F
-const {innerHeight: winHight } = window;
 
 const Routes = () => {
   return (
-    <div style={{ paddingLeft: 100, paddingRight: 100, height:winHight, backgroundColor:'#181A1F' }}>
       <Switch>
-        <Route exact component={Home} path="/" />
+        <Route exact component={SignIn} path="/" />
         <Route exact component={Home} path="/home" />
         <Route exact component={SignIn} path="/signin" />
         <Route exact component={SignUp} path="/signup" />
         <Route exact component={Profile} path="/profile" />
         <Route exact component={Main} path="/main" />
       </Switch>
-    </div>
   );
 };
 

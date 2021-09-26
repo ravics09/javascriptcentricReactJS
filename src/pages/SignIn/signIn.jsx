@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import "./signIn.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import signInStyle from "./signIn.module.css";
 
 const API_URL = "http://localhost:9090/user";
 
@@ -34,19 +36,19 @@ const SignIn = () => {
           setUser(userName);
           setEmail("");
           setPassword("");
-          setUserId(response.data.user._id);// will use userId for further operation
+          setUserId(response.data.user._id); // will use userId for further operation
           alert(`Welcome ${user} ${response.data.message}`);
-          console.log("userId====",response.data.user._id);
-          
+          console.log("userId====", response.data.user._id);
+
           if (checkboxChecked) {
             let today = new Date();
             let expiry = new Date(today.setDate(today.getDate() + 30));
 
-            let expiryDay = (expiry.getTime()/1000);
+            let expiryDay = expiry.getTime() / 1000;
             const item = {
               user: userName,
               expiry: expiryDay,
-              token: jwtToken
+              token: jwtToken,
             };
 
             localStorage.setItem("userData", JSON.stringify(item));
@@ -65,49 +67,62 @@ const SignIn = () => {
   };
 
   return (
-    <div className="row">
-      <div className="col-md-12">
-        <div
-          className="Login"
-          style={{ border: "1px solid gray", borderRadius: "20px" }}
+    <div
+      className={signInStyle.container}
+      style={{ border: "1px solid gray", borderRadius: 10 }}
+    >
+      <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>
+        <h3 className="mb-3">Sign In</h3>
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Control
+            autoFocus
+            type="email"
+            placeholder="Email"
+            className={signInStyle.formControl}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="password">
+          <Form.Control
+            placeholder="Password"
+            type="password"
+            className={signInStyle.formControl}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="checkbox">
+          <Form.Check
+            type="checkbox"
+            label="Keep me logged in for 30 days"
+            onChange={(e) => setCheckboxChecked(!checkboxChecked)}
+          />
+        </Form.Group>
+        <Link to="/" style={{ color: "white" }}>
+          Forget Password ?
+        </Link>
+        <Button
+          block
+          className={signInStyle.customBtn}
+          type="submit"
+          disabled={!validateForm()}
         >
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="email">
-              <h3 className="mb-3">Sign In</h3>
-              <Form.Control
-                autoFocus
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Control
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="checkbox">
-              <Form.Check
-                type="checkbox"
-                label="Keep me logged in for 30 days"
-                onChange={(e) => setCheckboxChecked(!checkboxChecked)}
-              />
-            </Form.Group>
-            <Button
-              block
-              className="mb-3"
-              type="submit"
-              disabled={!validateForm()}
-            >
-              Sign In
-            </Button>
-          </Form>
-        </div>
-      </div>
+          Sign In
+        </Button>
+        <Button block className={signInStyle.customBtn} type="submit">
+          Sign In With Google
+        </Button>
+        <Button block className={signInStyle.customBtn} type="submit">
+          Sign In With LinkedIn
+        </Button>
+        <p style={{ color: "white", paddingTop: 10, textAlign: "center" }}>
+          Don't have an account ? {""}
+          <Link to="/signup" style={{ color: "white" }}>
+            Sign Up
+          </Link>
+        </p>
+      </Form>
     </div>
   );
 };

@@ -1,0 +1,15 @@
+.navBrandLink {
+  color: gray;
+  text-decoration: none !important;
+  pointer-events: none;
+  font-size: 20px;
+}
+.navLink {
+  color: gray;
+  text-decoration: none;
+  padding-right: 5px;
+}
+.activeNavLink {
+  color: white;
+  text-decoration: none;
+}
