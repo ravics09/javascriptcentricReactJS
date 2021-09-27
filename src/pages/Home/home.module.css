@@ -1,5 +1,52 @@
-.container{
-    background-color: #181A1F;
-    padding-left:15px;
-    padding-right: 15px;
+.firstColumn {
+  background-color: #abcff7;
+  margin-right: 2px;
+  margin-bottom: 10px;
+}
+.secondColumn {
+  background-color: white;
+  margin-right: 2px;
+  margin-bottom: 10px;
+}
+.thirdColumn {
+  background-color: #ABCFF7;
+  margin-bottom: 10px;
+  margin-right: 2px;
+}
+.firstFirstColumn {
+  background-color: #abcff7;
+  margin-bottom: 5px;
+}
+.firstSecondColumn {
+  background-color: #F7DC6F;
+  margin-bottom: 10px;
+  margin-right: 2px;
+}
+.interviewSection {
+    background-color: #ABCFF7;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+.codingSection {
+    background-color: #F9E79F;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+.programSection {
+    background-color: #F1948A;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+.dataStructureSection {
+    background-color: #F7DC6F;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    border-radius: 5px;
+    border-width: 1px;
 }

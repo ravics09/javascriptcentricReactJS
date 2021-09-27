@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarStyle from "./navbar.module.css";
-import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const NavBar = () => {
