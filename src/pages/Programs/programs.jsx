@@ -1,42 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import LoginIcon from "@mui/icons-material/Login";
+import { useHistory } from "react-router-dom";
 
-const Home = () => {
+const JavaScriptPrograms = () => {
   const history = useHistory();
   const [user, setUser] = useState("");
 
   const openInterviewQuestion = () => {
-    history.push('/interviewquestions');
-  }
+    history.push("/interviewquestions");
+  };
 
   const openCodingChallenge = () => {
     // alert("OpenCodingChallenge called");
-    history.push('/codingchallenge');
-  }
+    history.push("/codingchallenge");
+  };
 
   const openAllPrograms = () => {
     // alert("OpenAllPrograms called");
-    history.push('/programs');
-  }
+    history.push("/programs");
+  };
 
   const openDataStructures = () => {
     // alert("OpenDataStructures called");
-    history.push('/interviewquestions');
-  }
+    history.push("/interviewquestions");
+  };
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     const now = new Date();
-    // console.log("timediff============",(loggedInUser.expiry-now));
     if (loggedInUser) {
       if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
-        // alert("Password expired. Please Sign In again..");
       } else {
         setUser(loggedInUser.user);
-        // alert(`Welcome back ${loggedInUser.user}`);
       }
     } else {
       return null;
@@ -47,102 +41,25 @@ const Home = () => {
     <div className="container-fluid">
       <div className="row">
         <div
-          className="col-md-3"
+          className="col-md-8"
           style={{
             marginTop: 10,
             marginRight: 5,
           }}
         >
           <div className="row">
-            <div
-              style={{
-                marginBottom: 10,
-                backgroundColor: "#ABCFF7",
-                borderWidth: 1,
-                borderRadius: 5,
-              }}
-            >
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <h4>Everything on one place</h4>
-                <p>
-                  A Platform where you can find everything related with
-                  javascript like Interview questions, Javascript programs,
-                  Javascript data structure, codeing challenge and latest
-                  article on Javascript.
-                </p>
-              </div>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <Stack spacing={2} direction="row">
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    component={NavLink}
-                    endIcon={<LoginIcon />}
-                    to="/signin"
-                  >
-                    Sign In
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    component={NavLink}
-                    to="/signup"
-                  >
-                    Sign In With Google
-                  </Button>
-                </Stack>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div
-              style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-                marginBottom: 10,
-                backgroundColor: "#F7DC6F",
-              }}
-            >
-              <h4>Current Jobs</h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                architecto vero, omnis harum, illo quo ex voluptas et quae
-                incidunt tenetur ipsam dolorem, ullam similique voluptatibus vel
-                rerum non reprehenderit.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="col-md-5"
-          style={{
-            marginTop: 10,
-            marginRight: 5,
-          }}
-        >
-          {/* <div className="row">
             <div
               className="d-flex"
               style={{
-                paddingTop: 10,
+                padding: 10,
+                marginBottom: 10,
+                backgroundColor: "#F1948A",
+                borderRadius: 5,
               }}
             >
-              <Button variant="text">Feed</Button>
-              <Button variant="text">Latest</Button>
-              <Button variant="text">Top</Button>
+              <h5>100+ JavaScript Programs</h5>
             </div>
-          </div> */}
+          </div>
           <div className="row">
             <div
               style={{
@@ -346,7 +263,7 @@ const Home = () => {
                 backgroundColor: "#ABCFF7",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openInterviewQuestion}
             >
@@ -368,7 +285,7 @@ const Home = () => {
                 backgroundColor: "#F9E79F",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openCodingChallenge}
             >
@@ -389,7 +306,7 @@ const Home = () => {
                 backgroundColor: "#F1948A",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openAllPrograms}
             >
@@ -410,7 +327,7 @@ const Home = () => {
                 backgroundColor: "#F7DC6F",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openDataStructures}
             >
@@ -428,4 +345,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default JavaScriptPrograms;

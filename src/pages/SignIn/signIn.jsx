@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,7 +8,8 @@ import signInStyle from "./signIn.module.css";
 
 const API_URL = "http://localhost:9090/user";
 
-const SignIn = () => {
+const SignIn = ({props}) => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
@@ -21,7 +22,6 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const url = `${API_URL}/signin`;
     const payload = {
       email,
@@ -36,9 +36,7 @@ const SignIn = () => {
           setUser(userName);
           setEmail("");
           setPassword("");
-          setUserId(response.data.user._id); // will use userId for further operation
-          alert(`Welcome ${user} ${response.data.message}`);
-          console.log("userId====", response.data.user._id);
+          setUserId(response.data.userId); // will use userId for further operation
 
           if (checkboxChecked) {
             let today = new Date();
@@ -49,6 +47,7 @@ const SignIn = () => {
               user: userName,
               expiry: expiryDay,
               token: jwtToken,
+              userId: response.data.userId
             };
 
             localStorage.setItem("userData", JSON.stringify(item));
@@ -56,12 +55,14 @@ const SignIn = () => {
           } else {
             localStorage.setItem("userData", userName);
           }
+          history.push('/home');
         } else {
           alert(`Retrieve Message ${response.data.message}`);
         }
       },
       (error) => {
         alert(`Server not responding or check your internet connection`);
+        console.log(error);
       }
     );
   };

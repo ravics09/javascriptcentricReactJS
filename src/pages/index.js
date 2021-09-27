@@ -1,5 +1,6 @@
-import { Home } from "./Home/home";
-import { SignIn } from "./SignIn/sign";
-import { SignUp } from "./SignUp/signup";
+import  Home  from "./Home/home";
+import  SignIn  from "./SignIn/signIn";
+import  SignUp  from "./SignUp/signUp";
+import  InterviewQuestions from "./InterviewQuestions/interviewQuestions";
 
-export { Home, SignIn ,SignUp };
+export default { Home, SignIn ,SignUp, InterviewQuestions };
