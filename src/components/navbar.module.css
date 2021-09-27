@@ -1,13 +1,24 @@
+.navContainer{
+  background-color: #181A1F;
+}
 .navBrandLink {
-  color: gray;
-  text-decoration: none !important;
+  color: yellow;
+  text-decoration: none;
   pointer-events: none;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 5px;
 }
 .navLink {
   color: gray;
+  font-size: 16px;
   text-decoration: none;
   padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+.navLink:hover {
+  color: white;
 }
 .activeNavLink {
   color: white;

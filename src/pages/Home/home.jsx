@@ -3,29 +3,31 @@ import { NavLink, useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import LoginIcon from "@mui/icons-material/Login";
+import "bootstrap/dist/css/bootstrap.min.css";
+import homeStyle from "./home.module.css";
 
 const Home = () => {
   const history = useHistory();
   const [user, setUser] = useState("");
 
   const openInterviewQuestion = () => {
-    history.push('/interviewquestions');
-  }
+    history.push("/interviewquestions");
+  };
 
   const openCodingChallenge = () => {
     // alert("OpenCodingChallenge called");
-    history.push('/codingchallenge');
-  }
+    history.push("/codingchallenge");
+  };
 
   const openAllPrograms = () => {
     // alert("OpenAllPrograms called");
-    history.push('/programs');
-  }
+    history.push("/programs");
+  };
 
   const openDataStructures = () => {
     // alert("OpenDataStructures called");
-    history.push('/interviewquestions');
-  }
+    history.push("/interviewquestions");
+  };
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
@@ -44,7 +46,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div className={homeStyle.container}>
       <div className="row">
         <div
           className="col-md-3"
@@ -76,13 +78,8 @@ const Home = () => {
                   article on Javascript.
                 </p>
               </div>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <Stack spacing={2} direction="row">
+              <div style={{ marginBottom: 10 }}>
+                <Stack gap={1}>
                   <Button
                     size="small"
                     variant="outlined"
@@ -98,7 +95,7 @@ const Home = () => {
                     component={NavLink}
                     to="/signup"
                   >
-                    Sign In With Google
+                    Create New Account
                   </Button>
                 </Stack>
               </div>
@@ -115,10 +112,9 @@ const Home = () => {
             >
               <h4>Current Jobs</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                architecto vero, omnis harum, illo quo ex voluptas et quae
-                incidunt tenetur ipsam dolorem, ullam similique voluptatibus vel
-                rerum non reprehenderit.
+                Please Sign Up to get notify for latest jobs related with
+                javascript. You can click on below job links to apply for a
+                particular job opportunity.
               </p>
             </div>
           </div>
@@ -131,18 +127,6 @@ const Home = () => {
             marginRight: 5,
           }}
         >
-          {/* <div className="row">
-            <div
-              className="d-flex"
-              style={{
-                paddingTop: 10,
-              }}
-            >
-              <Button variant="text">Feed</Button>
-              <Button variant="text">Latest</Button>
-              <Button variant="text">Top</Button>
-            </div>
-          </div> */}
           <div className="row">
             <div
               style={{
@@ -346,7 +330,7 @@ const Home = () => {
                 backgroundColor: "#ABCFF7",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openInterviewQuestion}
             >
@@ -368,7 +352,7 @@ const Home = () => {
                 backgroundColor: "#F9E79F",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openCodingChallenge}
             >
@@ -389,7 +373,7 @@ const Home = () => {
                 backgroundColor: "#F1948A",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openAllPrograms}
             >
@@ -410,7 +394,7 @@ const Home = () => {
                 backgroundColor: "#F7DC6F",
                 borderWidth: 1,
                 borderRadius: 5,
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={openDataStructures}
             >
