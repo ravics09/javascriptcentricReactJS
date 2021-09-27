@@ -1,8 +1,9 @@
 .navContainer{
-  background-color: #181A1F;
+  background-color: #181A1F !important;
+  padding-left: 10px;
 }
 .navBrandLink {
-  color: yellow;
+  color: white !important;
   text-decoration: none;
   pointer-events: none;
   font-size: 16px;
@@ -10,7 +11,7 @@
   padding-top: 5px;
 }
 .navLink {
-  color: gray;
+  color: gray !important;
   font-size: 16px;
   text-decoration: none;
   padding-right: 5px;
@@ -18,9 +19,13 @@
   padding-top: 5px;
 }
 .navLink:hover {
-  color: white;
+  color: white !important;
 }
 .activeNavLink {
-  color: white;
+  color: white !important;
   text-decoration: none;
+}
+.navDropdownLink{
+  color: white !important;
+  align-self: flex-end!important;
 }

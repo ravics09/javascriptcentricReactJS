@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarStyle from "./navbar.module.css";
-import { NavDropdown, Image } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const NavBar = () => {
   const history = useHistory();
@@ -11,7 +12,6 @@ const NavBar = () => {
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
-
     if (loggedInUser) {
       setUserName(loggedInUser.user);
     }
@@ -22,81 +22,66 @@ const NavBar = () => {
     localStorage.clear();
     history.push("/signin");
   };
+
   return (
-    <nav className="navbar navbar-expand">
-      <div className="container-fluid">
-        <div className="navbar-nav ml-auto d-flex">
-          <li className="nav-item">
-            <NavLink className={NavBarStyle.navBrandLink} exact to="/home">
+    <div>
+      <div className="row">
+        <div className="col-md-12">
+          <Navbar className={NavBarStyle.navContainer} expand="lg" sticky="top">
+            <Navbar.Brand className={NavBarStyle.navBrandLink}>
               JavaScript Centric
-            </NavLink>
-          </li>
-        </div>
-        <div className="navbar-nav ml-auto d-flex" style={{ paddingRight: 80 }}>
-          <li className="nav-item">
-            <NavLink
-              to={"/home"}
-              exact={true}
-              className={NavBarStyle.navLink}
-              activeClassName={NavBarStyle.activeNavLink}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              to={"/aboutus"}
-              exact={true}
-              className={NavBarStyle.navLink}
-              activeClassName={NavBarStyle.activeNavLink}
-            >
-              About
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              to={"/contactus"}
-              exact={true}
-              className={NavBarStyle.navLink}
-              activeClassName={NavBarStyle.activeNavLink}
-            >
-              Contact
-            </NavLink>
-          </li>
-          {currentUser ? (
-            <NavDropdown title={userName} id="basic-nav-dropdown">
-              <NavDropdown.Item to="/profile" exact>
-                Edit Profile
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={logout} exact>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          ) : // <div className="navbar-nav ml-auto d-flex">
-          //   <li className="nav-item">
-          //     <NavLink
-          //       to={"/profile"}
-          //       exact
-          //       className={NavBarStyle.navLink}
-          //     >
-          //       {userName}
-          //     </NavLink>
-          //   </li>
-          // <li className="nav-item">
-          //   <NavLink
-          //     to="/signin"
-          //     exact
-          //     className={NavBarStyle.navLink}
-          //     onClick={this.logout}
-          //   >
-          //     Logout
-          //   </NavLink>
-          // </li>
-          // </div>
-          null}
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ml-auto">
+                <LinkContainer
+                  exact
+                  to="/home"
+                  activeClassName={NavBarStyle.activeNavLink}
+                >
+                  <Nav.Link className={NavBarStyle.navLink}>Home</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer
+                  exact
+                  to="/contactus"
+                  activeClassName={NavBarStyle.activeNavLink}
+                >
+                  <Nav.Link className={NavBarStyle.navLink}>
+                    Contact Us
+                  </Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer
+                  exact
+                  to="/aboutus"
+                  activeClassName={NavBarStyle.activeNavLink}
+                >
+                  <Nav.Link className={NavBarStyle.navLink}>About Us</Nav.Link>
+                </LinkContainer>
+              </Nav>
+              <Nav className="ms-auto">
+                <NavDropdown title="Ravi" id="basic-nav-dropdown" className={NavBarStyle.navDropdownLink}>
+                  <LinkContainer exact to="/profile">
+                    <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer exact to="/profile">
+                    <NavDropdown.Item>Readling List</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer exact to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer exact to="/profile">
+                    <NavDropdown.Item>Settings</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 export default NavBar;
