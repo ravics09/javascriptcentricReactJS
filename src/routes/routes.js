@@ -11,22 +11,28 @@ import CodingChallenge from "./../pages/CodingChallenge/codingChallenge";
 import JavaScriptPrograms from "./../pages/Programs/programs";
 import ContactUs from "./../pages/ContactUs/contactUs";
 import AboutUs from "./../pages/AboutUs/aboutUs";
+import ReadingList from "./../pages/ReadingList/readingList";
+import Dashboard from "./../pages/Dashboard/dashboard";
+import Settings from "./../pages/Settings/settings";
 
 const Routes = () => {
   return (
-      <Switch>
-        <Route exact component={SignIn} path="/" />
-        <Route exact component={Home} path="/home" />
-        <Route exact component={SignIn} path="/signin" />
-        <Route exact component={SignUp} path="/signup" />
-        <Route exact component={Profile} path="/profile" />
-        <Route exact component={Main} path="/main" />
-        <Route exact component={InterviewQuestions} path="/interviewquestions"/>
-        <Route exact component={CodingChallenge} path="/codingchallenge"/>
-        <Route exact component={JavaScriptPrograms} path="/programs"/>
-        <Route exact component={ContactUs} path="/contactus"/>
-        <Route exact component={AboutUs} path="/aboutus"/>
-      </Switch>
+    <Switch>
+      <Route exact component={SignIn} path="/" />
+      <Route exact component={Home} path="/home" />
+      <Route exact component={SignIn} path="/signin" />
+      <Route exact component={SignUp} path="/signup" />
+      <Route exact component={Profile} path="/profile" />
+      <Route exact component={Main} path="/main" />
+      <Route exact component={InterviewQuestions} path="/interviewquestions" />
+      <Route exact component={CodingChallenge} path="/codingchallenge" />
+      <Route exact component={JavaScriptPrograms} path="/programs" />
+      <Route exact component={ContactUs} path="/contactus" />
+      <Route exact component={AboutUs} path="/aboutus" />
+      <Route exact component={ReadingList} path="/readinglist" />
+      <Route exact component={Dashboard} path="/dashboard" />
+      <Route exact component={Settings} path="/settings" />
+    </Switch>
   );
 };
 

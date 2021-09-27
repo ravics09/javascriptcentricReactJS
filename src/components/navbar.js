@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarStyle from "./navbar.module.css";
 import { LinkContainer } from "react-router-bootstrap";
@@ -9,6 +9,7 @@ const NavBar = () => {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState(true);
   const [userName, setUserName] = useState("");
+  const [dropdownActiveKey, setActiveKey] = useState(1);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
@@ -16,6 +17,10 @@ const NavBar = () => {
       setUserName(loggedInUser.user);
     }
   }, []);
+
+  const handleSelect = (key) => {
+    setActiveKey(Math.trunc(key));
+  };
 
   const logout = () => {
     setCurrentUser(false);
@@ -34,46 +39,78 @@ const NavBar = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
-                <LinkContainer
+                <Nav.Link
                   exact
+                  as={NavLink}
                   to="/home"
+                  className={NavBarStyle.navLink}
                   activeClassName={NavBarStyle.activeNavLink}
                 >
-                  <Nav.Link className={NavBarStyle.navLink}>Home</Nav.Link>
-                </LinkContainer>
-
-                <LinkContainer
+                  Home
+                </Nav.Link>
+                <Nav.Link
                   exact
+                  as={NavLink}
                   to="/contactus"
+                  className={NavBarStyle.navLink}
                   activeClassName={NavBarStyle.activeNavLink}
                 >
-                  <Nav.Link className={NavBarStyle.navLink}>
-                    Contact Us
-                  </Nav.Link>
-                </LinkContainer>
-
-                <LinkContainer
+                  Contact Us
+                </Nav.Link>
+                <Nav.Link
                   exact
+                  as={NavLink}
                   to="/aboutus"
+                  className={NavBarStyle.navLink}
                   activeClassName={NavBarStyle.activeNavLink}
                 >
-                  <Nav.Link className={NavBarStyle.navLink}>About Us</Nav.Link>
-                </LinkContainer>
+                  About Us
+                </Nav.Link>
               </Nav>
-              <Nav className="ms-auto">
-                <NavDropdown title="Ravi" id="basic-nav-dropdown" className={NavBarStyle.navDropdownLink}>
-                  <LinkContainer exact to="/profile">
-                    <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer exact to="/profile">
-                    <NavDropdown.Item>Readling List</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer exact to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer exact to="/profile">
-                    <NavDropdown.Item>Settings</NavDropdown.Item>
-                  </LinkContainer>
+              <Nav
+                className="ms-auto"
+                activeKey={dropdownActiveKey}
+                onSelect={handleSelect}
+                pullRight
+              >
+                <NavDropdown
+                  title={<span className={NavBarStyle.navLink}>Ravi</span>}
+                  id="nav-dropdown"
+                  className={NavBarStyle.navDropdownLink}
+                  eventKey={3}
+                >
+                  <NavDropdown.Item
+                    exact
+                    as={NavLink}
+                    to="/dashboard"
+                    eventKey={3.1}
+                  >
+                    Dashboard
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    exact
+                    as={NavLink}
+                    to="/readinglist"
+                    eventKey={3.2}
+                  >
+                    Readling List
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    exact
+                    as={NavLink}
+                    to="/profile"
+                    eventKey={3.3}
+                  >
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    exact
+                    as={NavLink}
+                    to="/settings"
+                    eventKey={3.4}
+                  >
+                    Settings
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
