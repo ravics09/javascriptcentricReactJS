@@ -6,7 +6,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const NavBar = () => {
   const history = useHistory();
-  const [currentUser, setCurrentUser] = useState(true);
+  const [currentUser, setCurrentUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [dropdownActiveKey, setActiveKey] = useState(1);
 
@@ -28,56 +28,65 @@ const NavBar = () => {
   };
 
   return (
-    <div>
-      <div className="row">
-        <div className="col-md-12">
-          <Navbar className={NavBarStyle.navContainer} expand="lg" sticky="top">
-            <Navbar.Brand className={NavBarStyle.navBrandLink}>
-              JavaScript Centric
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                <Nav.Link
-                  exact
-                  as={NavLink}
-                  to="/home"
-                  className={NavBarStyle.navLink}
-                  activeClassName={NavBarStyle.activeNavLink}
-                >
-                  Home
-                </Nav.Link>
-                <Nav.Link
-                  exact
-                  as={NavLink}
-                  to="/contactus"
-                  className={NavBarStyle.navLink}
-                  activeClassName={NavBarStyle.activeNavLink}
-                >
-                  Contact Us
-                </Nav.Link>
-                <Nav.Link
-                  exact
-                  as={NavLink}
-                  to="/aboutus"
-                  className={NavBarStyle.navLink}
-                  activeClassName={NavBarStyle.activeNavLink}
-                >
-                  About Us
-                </Nav.Link>
-              </Nav>
+    <div className="row">
+      <div className="col-md-12">
+        <Navbar className={NavBarStyle.navContainer} expand="lg" sticky="top">
+          <Navbar.Brand className={NavBarStyle.navBrandLink}>
+            JavaScript Centric
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ml-auto">
+              <Nav.Link
+                exact
+                as={NavLink}
+                to="/home"
+                className={NavBarStyle.navLink}
+                activeClassName={NavBarStyle.activeNavLink}
+              >
+                Home
+              </Nav.Link>
+              <Nav.Link
+                exact
+                as={NavLink}
+                to="/contactus"
+                className={NavBarStyle.navLink}
+                activeClassName={NavBarStyle.activeNavLink}
+              >
+                Contact Us
+              </Nav.Link>
+              <Nav.Link
+                exact
+                as={NavLink}
+                to="/aboutus"
+                className={NavBarStyle.navLink}
+                activeClassName={NavBarStyle.activeNavLink}
+              >
+                About Us
+              </Nav.Link>
+            </Nav>
+            {currentUser ? (
               <Nav
                 className="ms-auto"
                 activeKey={dropdownActiveKey}
                 onSelect={handleSelect}
-                pullRight
               >
                 <NavDropdown
+                  alignLeft
+                  flip
                   title={<span className={NavBarStyle.navLink}>Ravi</span>}
-                  id="nav-dropdown"
+                  id="basic-nav-dropdown"
                   className={NavBarStyle.navDropdownLink}
                   eventKey={3}
                 >
+                  <NavDropdown.Item
+                    exact
+                    as={NavLink}
+                    to="/createpost"
+                    eventKey={3.1}
+                  >
+                    Create Post
+                  </NavDropdown.Item>
                   <NavDropdown.Item
                     exact
                     as={NavLink}
@@ -113,9 +122,9 @@ const NavBar = () => {
                   <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-        </div>
+            ) : null}
+          </Navbar.Collapse>
+        </Navbar>
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import LoginIcon from "@mui/icons-material/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import homeStyle from "./home.module.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const Home = () => {
   const history = useHistory();
@@ -58,32 +58,34 @@ const Home = () => {
                   paddingBottom: 10,
                 }}
               >
-                <h4>Everything on one place</h4>
-                <p>
-                  A Platform where you can find everything related with
-                  javascript like Interview questions, Javascript programs,
-                  Javascript data structure, codeing challenge and latest
-                  article on Javascript.
-                </p>
+                <article>
+                  <h4>Everything on one place</h4>
+                  <p>
+                    A Platform where you can find everything related with
+                    javascript like Interview questions, Javascript programs,
+                    Javascript data structure, codeing challenge and latest
+                    article on Javascript.
+                  </p>
+                </article>
               </div>
               <div style={{ paddingBottom: 10 }}>
                 <Stack gap={1}>
                   <Button
                     size="small"
-                    variant="outlined"
-                    component={NavLink}
+                    variant="primary"
+                    as={NavLink}
+                    to="/signup"
+                  >
+                    Create New Account
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outline-primary"
+                    as={NavLink}
                     endIcon={<LoginIcon />}
                     to="/signin"
                   >
                     Sign In
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    component={NavLink}
-                    to="/signup"
-                  >
-                    Create New Account
                   </Button>
                 </Stack>
               </div>
@@ -273,13 +275,15 @@ const Home = () => {
                 }}
                 onClick={openInterviewQuestion}
               >
-                <h4>400+ Interview Questions</h4>
-                <p>
-                  JavaScript Centric Provides more then 400 interview question
-                  which helps you to prepare for any javascript interview. We
-                  covered almost all important questions from basic to advance
-                  level with the exact answers.
-                </p>
+                <article>
+                  <h4>400+ Interview Questions</h4>
+                  <p>
+                    JavaScript Centric Provides more then 400 interview question
+                    which helps you to prepare for any javascript interview. We
+                    covered almost all important questions from basic to advance
+                    level with the exact answers.
+                  </p>
+                </article>
               </div>
             </Col>
           </Row>
@@ -293,12 +297,14 @@ const Home = () => {
                 }}
                 onClick={openCodingChallenge}
               >
-                <h4>100+ Coding Challenge</h4>
-                <p>
-                  JavaScript Centric Provides different varity of coding
-                  problems that helps you in coding round of any big MNC like
-                  Amazon, Google, Flipkart, Paytm, Wallmart and many more.
-                </p>
+                <article>
+                  <h4>100+ Coding Challenge</h4>
+                  <p>
+                    JavaScript Centric Provides different varity of coding
+                    problems that helps you in coding round of any big MNC like
+                    Amazon, Google, Flipkart, Paytm, Wallmart and many more.
+                  </p>
+                </article>
               </div>
             </Col>
           </Row>
@@ -312,12 +318,14 @@ const Home = () => {
                 }}
                 onClick={openAllPrograms}
               >
-                <h4>100+ Programs</h4>
-                <p>
-                  JavaScript Centric have more then 100 basic to advance level
-                  programs that can help you to solve problems. and helps you
-                  for any coding challenge.
-                </p>
+                <article>
+                  <h4>100+ Programs</h4>
+                  <p>
+                    JavaScript Centric have more then 100 basic to advance level
+                    programs that can help you to solve problems. and helps you
+                    for any coding challenge.
+                  </p>
+                </article>
               </div>
             </Col>
           </Row>
@@ -331,13 +339,15 @@ const Home = () => {
                 }}
                 onClick={openDataStructures}
               >
-                <h4>JS Data Structure</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                  architecto vero, omnis harum, illo quo ex voluptas et quae
-                  incidunt tenetur ipsam dolorem, ullam similique voluptatibus
-                  vel rerum non reprehenderit.
-                </p>
+                <article>
+                  <h4>JS Data Structure</h4>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Quod architecto vero, omnis harum, illo quo ex voluptas et
+                    quae incidunt tenetur ipsam dolorem, ullam similique
+                    voluptatibus vel rerum non reprehenderit.
+                  </p>
+                </article>
               </div>
             </Col>
           </Row>

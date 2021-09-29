@@ -14,6 +14,7 @@ import AboutUs from "./../pages/AboutUs/aboutUs";
 import ReadingList from "./../pages/ReadingList/readingList";
 import Dashboard from "./../pages/Dashboard/dashboard";
 import Settings from "./../pages/Settings/settings";
+import CreatePost from "./../pages/CreatePost/createPost";
 
 const Routes = () => {
   return (
@@ -32,6 +33,7 @@ const Routes = () => {
       <Route exact component={ReadingList} path="/readinglist" />
       <Route exact component={Dashboard} path="/dashboard" />
       <Route exact component={Settings} path="/settings" />
+      <Route exact component={CreatePost} path="/createpost" />
     </Switch>
   );
 };
