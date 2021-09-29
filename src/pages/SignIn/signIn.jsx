@@ -27,8 +27,8 @@ const initialValues = {
 const SignIn = ({ props }) => {
   const history = useHistory();
 
-  const [disabled, setDisable] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  // const [disabled, setDisable] = useState(false);
+  // const [submitting, setSubmitting] = useState(false);
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
@@ -104,9 +104,13 @@ const SignIn = ({ props }) => {
       <Formik
         validationSchema={validationSchema}
         initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          await handleSignIn(values);
+          handleSignIn(values);
+          setTimeout(() => {
+            resetForm();
+            setSubmitting(false);
+          }, 1000);
         }}
       >
         {({
@@ -190,21 +194,19 @@ const SignIn = ({ props }) => {
                 className={signInStyle.customBtn}
                 type="submit"
                 disabled={isSubmitting}
-                as={Col}
-                md="12"
               >
                 Sign In
               </Button>
             </Row>
 
             <Row className="mr-3">
-              <Button block className={signInStyle.customBtn} as={Col} md="12">
+              <Button block className={signInStyle.customBtn}>
                 Sign In With Google
               </Button>
             </Row>
 
             <Row className="ml-3">
-              <Button block className={signInStyle.customBtn} as={Col} md="12">
+              <Button block className={signInStyle.customBtn}>
                 Sign In With LinkedIn
               </Button>
             </Row>

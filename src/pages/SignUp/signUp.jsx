@@ -75,9 +75,14 @@ const SignUp = ({ props }) => {
       <Formik
         validationSchema={validationSchema}
         initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          await handleSignUp(values);
+          handleSignUp(values);
+          setTimeout(() => {
+            resetForm();
+            setSubmitting(false);
+          }, 1000);
+
         }}
       >
         {({
@@ -182,8 +187,6 @@ const SignUp = ({ props }) => {
                 className={signUpStyle.customBtn}
                 type="submit"
                 disabled={isSubmitting}
-                as={Col}
-                md="12"
               >
                 Sign Up
               </Button>
