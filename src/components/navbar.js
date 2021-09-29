@@ -12,8 +12,20 @@ const NavBar = () => {
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const now = new Date();
+    // console.log("timediff============",(loggedInUser.expiry-now));
     if (loggedInUser) {
-      setUserName(loggedInUser.user);
+      if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
+        // alert(`Please login again`);
+        setUserName(loggedInUser.user);
+        setCurrentUser(true);
+      } else {
+        setUserName(loggedInUser.user);
+        setCurrentUser(true);
+      }
+    } else {
+      // alert(`Please login to up to date`);
+      return null;
     }
   }, []);
 
@@ -74,7 +86,7 @@ const NavBar = () => {
                 <NavDropdown
                   alignLeft
                   flip
-                  title={<span className={NavBarStyle.navLink}>Ravi</span>}
+                  title={<span className={NavBarStyle.navLink}>{userName}</span>}
                   id="basic-nav-dropdown"
                   className={NavBarStyle.navDropdownLink}
                   eventKey={3}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-// import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import LoginIcon from "@mui/icons-material/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,38 +8,30 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 const Home = () => {
   const history = useHistory();
-  const [user, setUser] = useState("");
+  const [userName, setUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(false);
 
   const openInterviewQuestion = () => {
     history.push("/interviewquestions");
   };
 
   const openCodingChallenge = () => {
-    // alert("OpenCodingChallenge called");
     history.push("/codingchallenge");
   };
 
   const openAllPrograms = () => {
-    // alert("OpenAllPrograms called");
     history.push("/programs");
   };
 
   const openDataStructures = () => {
-    // alert("OpenDataStructures called");
     history.push("/interviewquestions");
   };
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
-    const now = new Date();
-    // console.log("timediff============",(loggedInUser.expiry-now));
     if (loggedInUser) {
-      if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
-        // alert("Password expired. Please Sign In again..");
-      } else {
-        setUser(loggedInUser.user);
-        // alert(`Welcome back ${loggedInUser.user}`);
-      }
+      setUser(loggedInUser.user);
+      setCurrentUser(true);
     } else {
       return null;
     }
@@ -68,27 +59,29 @@ const Home = () => {
                   </p>
                 </article>
               </div>
-              <div style={{ paddingBottom: 10 }}>
-                <Stack gap={1}>
-                  <Button
-                    size="small"
-                    variant="primary"
-                    as={NavLink}
-                    to="/signup"
-                  >
-                    Create New Account
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outline-primary"
-                    as={NavLink}
-                    endIcon={<LoginIcon />}
-                    to="/signin"
-                  >
-                    Sign In
-                  </Button>
-                </Stack>
-              </div>
+              {currentUser ? null : (
+                <div style={{ paddingBottom: 10 }}>
+                  <Stack gap={1}>
+                    <Button
+                      size="small"
+                      variant="primary"
+                      as={NavLink}
+                      to="/signup"
+                    >
+                      Create New Account
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outline-primary"
+                      as={NavLink}
+                      endIcon={<LoginIcon />}
+                      to="/signin"
+                    >
+                      Sign In
+                    </Button>
+                  </Stack>
+                </div>
+              )}
             </Col>
           </Row>
           <Row className={homeStyle.firstSecondColumn}>

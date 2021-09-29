@@ -1,116 +1,207 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import * as yup from "yup";
 import axios from "axios";
+import { Formik } from "formik";
+import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import signUpStyle from "./signUp.module.css";
+
 const API_URL = "http://localhost:9090/user";
 
-const SignUp = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+const validationSchema = yup.object().shape({
+  fullName: yup.string()
+    .min(2, "*Names must have at least 2 characters")
+    .max(100, "*Names can't be longer than 100 characters")
+    .required("*Full Name is required"),
+  email: yup.string()
+    .email("*Must be a valid email address")
+    .max(100, "*Email must be less than 100 characters")
+    .required("*Email is required"),
+  password: yup.string().required("Password is mendatory"),
+  confirmPassword: yup.string().required("Confirm Password is mendatory"),
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const initialValues = {
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
-    const url = `${API_URL}/signup`;
-    const payload = {
-      fullName,
-      email,
-      password,
-    };
+const SignUp = ({ props }) => {
+  // const [fullName, setFullName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
 
-    axios.post(url, payload).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          setFullName("");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
-          alert(`Retrieve Message ${response.data.message}`);
-        } else {
-          alert(`Retrieve Message ${response.data.message}`);
+  const handleSignUp = (formValues) => {
+    return new Promise((resolve, reject) => {
+      console.log("handle sign up called",formValues);
+      
+      let fullName = formValues.fullName;
+      let email = formValues.email;
+      let password = formValues.password;
+
+      const url = `${API_URL}/signup`;
+      const payload = {
+        fullName,
+        email,
+        password,
+      };
+
+      axios.post(url, payload).then(
+        (response) => {
+          if (response.data.statusCode === 200) {
+            alert(`Retrieve Message ${response.data.message}`);
+          } else {
+            alert(`Retrieve Message ${response.data.message}`);
+          }
+          resolve(response);
+        },
+        (error) => {
+          alert(`Server not responding or check your internet connection`);
+          reject(error);
         }
-      },
-      (error) => {
-        alert(`Server not responding or check your internet connection`);
-      }
-    );
+      );
+    });
   };
-
-  const validateForm = () => {
-    if (
-      email.length > 0 &&
-      password.length > 0 &&
-      password === confirmPassword
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  //#283747  #34475B  #181A1F
   return (
-    <div className={signUpStyle.container} style={{border: '1px solid gray', borderRadius: 10}}>
-      <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
-      <h3 className="mb-3">Sign Up</h3>
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Control
-            autoFocus
-            type="text"
-            placeholder="Full Name"
-            className={signUpStyle.formControl}
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Control
-            placeholder="Email"
-            type="email"
-            className={signUpStyle.formControl}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Control
-            placeholder="Password"
-            className={signUpStyle.formControl}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="confirmPassword">
-          <Form.Control
-            placeholder="Confirm Password"
-            className={signUpStyle.formControl}
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button
-          block
-          className={signUpStyle.customBtn}
-          type="submit"
-          disabled={!validateForm()}
-        >
-          Sign Up
-        </Button>
-        <p style={{ color: "white", paddingTop: 10, textAlign: "center" }}>
-          Already have an account ? {""}
-          <Link to="/signin" style={{ color: "white" }}>
-            Sign In here
-          </Link>
-        </p>
-      </Form>
-    </div>
+    <Container
+      className={signUpStyle.container}
+      style={{ border: "1px solid gray", borderRadius: 10 }}
+    >
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          setSubmitting(true);
+          await handleSignUp(values);
+        }}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          isSubmitting,
+          values,
+          touched,
+          isValid,
+          errors,
+        }) => (
+          <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
+            <h3 className="mb-3">Sign Up</h3>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationFormFullName">
+                <Form.Label>Full Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Full Name"
+                  name="fullName"
+                  className={signUpStyle.formControl}
+                  value={values.fullName}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  isInvalid={!!errors.fullName}
+                />
+                {touched.fullName && errors.fullName ? (
+                  <Form.Control.Feedback type="invalid">
+                    {errors.fullName}
+                  </Form.Control.Feedback>
+                ) : null}
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationFormEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  className={signUpStyle.formControl}
+                  value={values.email}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  isInvalid={!!errors.email}
+                />
+                {touched.email && errors.email ? (
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                ) : null}
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationFormPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  className={signUpStyle.formControl}
+                  value={values.password}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  isInvalid={!!errors.password}
+                />
+                {touched.password && errors.password ? (
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
+                ) : null}
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="12"
+                controlId="validationFormConfirmPassword"
+              >
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  className={signUpStyle.formControl}
+                  value={values.confirmPassword}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  isInvalid={!!errors.confirmPassword}
+                />
+                {touched.confirmPassword && errors.confirmPassword ? (
+                  <Form.Control.Feedback type="invalid">
+                    {errors.confirmPassword}
+                  </Form.Control.Feedback>
+                ) : null}
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Button
+                block
+                className={signUpStyle.customBtn}
+                type="submit"
+                disabled={isSubmitting}
+                as={Col}
+                md="12"
+              >
+                Sign Up
+              </Button>
+            </Row>
+            <Row className="mb-3">
+              <p
+                style={{ color: "white", paddingTop: 10, textAlign: "center" }}
+              >
+                Already have an account ? {""}
+                <Link to="/signin" style={{ color: "white" }}>
+                  Sign In here
+                </Link>
+              </p>
+            </Row>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 };
 export default SignUp;

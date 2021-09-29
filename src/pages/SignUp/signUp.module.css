@@ -1,28 +1,21 @@
 .container {
-  background-color: #181A1F;
+  background-color:#181A1F;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 500px;
-  min-width: auto;
+  height: 600px;
 }
 .signUpForm {
-  display:grid;
-  justify-content: center;
   color: #fff;
-  width: 500px;
-  padding: 50px;
-  margin: 50px
+  width: 300px;
 }
 .formControl {
   color: black;
-  width: 320px;
-  margin-top: 10px;
 }
 .customBtn {
   background-color: blueviolet !important;
   border: #fff !important;
   border-radius: 10px !important;
-  border-width: 10 !important;
+  border-width: 10px !important;
   margin-top: 15px;
 }
