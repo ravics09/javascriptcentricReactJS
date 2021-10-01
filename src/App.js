@@ -20,7 +20,7 @@ const App = () => {
       }}
     >
       <Router>
-        <Navbar />
+        <Navbar style={{position: "sticky"}}/>
         <Routes />
       </Router>
     </div>

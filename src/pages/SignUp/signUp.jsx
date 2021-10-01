@@ -101,7 +101,9 @@ const SignUp = ({ props }) => {
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
-            <h3 className="mb-3">Sign Up</h3>
+            <Row className="mb-5">
+              <h3>Sign Up</h3>
+            </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormFullName">
                 <Form.Label>Full Name</Form.Label>
@@ -213,7 +215,7 @@ const SignUp = ({ props }) => {
                 </InputGroup>
               </Form.Group>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-3" style={{ paddingLeft: 10, paddingRight: 10 }}>
               <Button
                 block
                 className={signUpStyle.customBtn}

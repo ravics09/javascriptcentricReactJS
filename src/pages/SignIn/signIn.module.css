@@ -17,5 +17,24 @@
   border: #fff !important;
   border-radius: 10px !important;
   border-width: 10px !important;
-  margin-top: 15px;
+}
+.googleSignBtn{
+  background-color: white !important;
+  border: white !important;
+  border-radius: 10px !important;
+  border-width: 10px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+.linkedInSignBtn{
+  background-color: #0472AD !important;
+  border: #fff !important;
+  border-radius: 10px !important;
+  border-width: 10px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }

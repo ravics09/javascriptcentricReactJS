@@ -6,6 +6,8 @@ import { Link, useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { FaLinkedinIn } from "react-icons/fa";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
@@ -126,12 +128,14 @@ const SignIn = ({ props }) => {
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>
-            <h3 className="mb-3">Sign In</h3>
+            <Row className="mb-5">
+              <h3>Sign In</h3>
+            </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormPassword">
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
-                  <InputGroup.Text style={{backgroundColor:'white'}}>
+                  <InputGroup.Text style={{ backgroundColor: "white" }}>
                     <AiOutlineMail />
                   </InputGroup.Text>
                   <Form.Control
@@ -156,7 +160,7 @@ const SignIn = ({ props }) => {
               <Form.Group as={Col} md="12" controlId="validationFormPassword">
                 <Form.Label>Password</Form.Label>
                 <InputGroup>
-                  <InputGroup.Text style={{backgroundColor:'white'}}>
+                  <InputGroup.Text style={{ backgroundColor: "white" }}>
                     <BsLock />
                   </InputGroup.Text>
                   <Form.Control
@@ -172,13 +176,12 @@ const SignIn = ({ props }) => {
                   <InputGroup.Text onClick={() => setShowPass(!showPass)}>
                     {showPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                   </InputGroup.Text>
+                  {touched.password && errors.password ? (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  ) : null}
                 </InputGroup>
-
-                {touched.password && errors.password ? (
-                  <Form.Control.Feedback type="invalid">
-                    {errors.password}
-                  </Form.Control.Feedback>
-                ) : null}
               </Form.Group>
             </Row>
             <Row className="mb-3">
@@ -195,7 +198,7 @@ const SignIn = ({ props }) => {
                 Forget Password ?
               </Link>
             </Row>
-            <Row>
+            <Row className="mb-2" style={{ padding: 10 }}>
               <Button
                 block
                 className={signInStyle.customBtn}
@@ -206,19 +209,36 @@ const SignIn = ({ props }) => {
               </Button>
             </Row>
 
-            <Row className="mr-3">
-              <Button block className={signInStyle.customBtn}>
-                Sign In With Google
+            <Row className="mb-2" style={{ paddingLeft: 10, paddingRight: 10 }}>
+              <Button block className={signInStyle.googleSignBtn}>
+                Sign In With {"  "}
+                <InputGroup.Text
+                  style={{
+                    backgroundColor: "#ffff",
+                    border: "white",
+                  }}
+                >
+                  <FcGoogle />
+                </InputGroup.Text>
               </Button>
             </Row>
 
-            <Row className="ml-3">
-              <Button block className={signInStyle.customBtn}>
-                Sign In With LinkedIn
+            <Row className="mb-2" style={{ padding: 10 }}>
+              <Button block className={signInStyle.linkedInSignBtn}>
+                Sign In With{" "}
+                <InputGroup.Text
+                  style={{
+                    backgroundColor: "#0472AD",
+                    border: "#0472AD",
+                    color: "white",
+                  }}
+                >
+                  <FaLinkedinIn />
+                </InputGroup.Text>
               </Button>
             </Row>
 
-            <Row className="mb-3">
+            <Row className="mb-2">
               <p
                 style={{ color: "white", paddingTop: 10, textAlign: "center" }}
               >

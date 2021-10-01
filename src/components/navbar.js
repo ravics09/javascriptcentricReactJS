@@ -42,7 +42,10 @@ const NavBar = () => {
   return (
     <div className="row">
       <div className="col-md-12">
-        <Navbar className={NavBarStyle.navContainer} expand="lg" sticky="top">
+        <Navbar
+          className={NavBarStyle.navContainer}
+          expand="lg"
+        >
           <Navbar.Brand className={NavBarStyle.navBrandLink}>
             JavaScript Centric
           </Navbar.Brand>
@@ -86,7 +89,9 @@ const NavBar = () => {
                 <NavDropdown
                   alignLeft
                   flip
-                  title={<span className={NavBarStyle.navLink}>{userName}</span>}
+                  title={
+                    <span className={NavBarStyle.navLink}>{userName}</span>
+                  }
                   id="basic-nav-dropdown"
                   className={NavBarStyle.navDropdownLink}
                   eventKey={3}
