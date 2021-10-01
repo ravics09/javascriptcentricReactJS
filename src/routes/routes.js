@@ -15,6 +15,8 @@ import ReadingList from "./../pages/ReadingList/readingList";
 import Dashboard from "./../pages/Dashboard/dashboard";
 import Settings from "./../pages/Settings/settings";
 import CreatePost from "./../pages/CreatePost/createPost";
+import ForgetPassword from "./../pages/ForgetPassword/forgetPassword";
+import ResetPassword from "./../pages/ResetPassword/resetPassword";
 
 const Routes = () => {
   return (
@@ -34,6 +36,8 @@ const Routes = () => {
       <Route exact component={Dashboard} path="/dashboard" />
       <Route exact component={Settings} path="/settings" />
       <Route exact component={CreatePost} path="/createpost" />
+      <Route exact component={ForgetPassword} path="/forgetpassword" />
+      <Route exact component={ResetPassword} path="/resetpassword" />
     </Switch>
   );
 };

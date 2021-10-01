@@ -132,7 +132,7 @@ const SignIn = ({ props }) => {
               <h3>Sign In</h3>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormPassword">
+              <Form.Group as={Col} md="12" controlId="validationFormEmail">
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
                   <InputGroup.Text style={{ backgroundColor: "white" }}>
@@ -194,7 +194,7 @@ const SignIn = ({ props }) => {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Link to="/" style={{ color: "white" }} as={Col} md="12">
+              <Link to="/forgetpassword" style={{ color: "white" }} as={Col} md="12">
                 Forget Password ?
               </Link>
             </Row>
