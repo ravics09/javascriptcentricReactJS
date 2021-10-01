@@ -4,6 +4,8 @@ import axios from "axios";
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
+import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
+import { AiOutlineMail } from "react-icons/ai";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
@@ -27,7 +29,7 @@ const initialValues = {
 const SignIn = ({ props }) => {
   const history = useHistory();
 
-  // const [disabled, setDisable] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   // const [submitting, setSubmitting] = useState(false);
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
@@ -41,7 +43,7 @@ const SignIn = ({ props }) => {
 
   const handleSignIn = (formValues) => {
     return new Promise((resolve, reject) => {
-      console.log("handle sign in called",formValues);
+      console.log("handle sign in called", formValues);
       let email = formValues.email;
       let password = formValues.password;
 
@@ -128,44 +130,49 @@ const SignIn = ({ props }) => {
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormPassword">
                 <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  className={signInStyle.formControl}
-                  value={values.email}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  isInvalid={!!errors.email}
-                />
-                {touched.email && errors.email ? (
-                  <Form.Control.Feedback type="invalid">
-                    {errors.email}
-                  </Form.Control.Feedback>
-                ) : null}
+                <InputGroup>
+                  <InputGroup.Text style={{backgroundColor:'white'}}>
+                    <AiOutlineMail />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    className={signInStyle.formControl}
+                    value={values.email}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    isInvalid={!!errors.email}
+                  />
+                  {touched.email && errors.email ? (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  ) : null}
+                </InputGroup>
               </Form.Group>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  className={signInStyle.formControl}
-                  value={values.password}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  isInvalid={!!errors.password}
-                />
-                {/* <InputGroup.Append>
-                  <InputGroup.Text>
-                    <i
-                      onClick={clickHandler}
-                      class={showPass ? "fas fa-eye-slash" : "fas fa-eye"}
-                    ></i>
+                <InputGroup>
+                  <InputGroup.Text style={{backgroundColor:'white'}}>
+                    <BsLock />
                   </InputGroup.Text>
-                </InputGroup.Append> */}
+                  <Form.Control
+                    type={showPass ? "text" : "password"}
+                    placeholder="Password"
+                    name="password"
+                    className={signInStyle.formControl}
+                    value={values.password}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    isInvalid={!!errors.password}
+                  />
+                  <InputGroup.Text onClick={() => setShowPass(!showPass)}>
+                    {showPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                  </InputGroup.Text>
+                </InputGroup>
 
                 {touched.password && errors.password ? (
                   <Form.Control.Feedback type="invalid">
