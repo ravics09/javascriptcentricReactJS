@@ -5,6 +5,8 @@ import axios from "axios";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
+import { FaDev, FaFacebookF, FaYoutube, FaMediumM } from "react-icons/fa";
+import { ImYoutube2 } from "react-icons/im";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 
 const API_URL = "http://localhost:9090/user";
@@ -78,7 +80,7 @@ const ContactUs = () => {
               >
                 <Row className="mb-5">
                   <article>
-                    <h3>Contact Us</h3>
+                    <h3>Send Message To Us</h3>
                     <p>Have any questions ? we'd love to hear from you.</p>
                   </article>
                 </Row>
@@ -195,14 +197,45 @@ const ContactUs = () => {
           </Formik>
         </Col>
         <Col className={contactUsStyle.contactInfo}>
-          <article>
-            <h4>How Can We Help You?</h4>
-            <p>
-              We always welcome new suggestions any correction if it happend by
-              mistake. Please write us if you find any issue with this platform
-              or{" "}
-            </p>
-          </article>
+          <Row className="mb-5">
+            <article>
+              <h3>How Can We Help You?</h3>
+              <p>
+                We always welcome new suggestions any correction if it happend
+                by mistake. Please write us if you find any issue with this
+                platform or you can raise a pull request on our github page.
+              </p>
+              <p>
+                Github Link:{" "}
+                <a href="https://github.com/ravics09/javascriptcentricreactjs">
+                  https://github.com/ravics09/javascriptcentricreactjs
+                </a>
+              </p>
+            </article>
+          </Row>
+          <Row className="mb-5">
+            <article>
+              <p>
+                <strong>Email: ravisharmacs09@gmail.com</strong>
+              </p>
+              <p>
+                <strong>Phone: +91-8817147753</strong>
+              </p>
+              <p>
+                <strong>
+                  Address: Raja Ram Nagar, Dewas M.P. Pincode 455001
+                </strong>
+              </p>
+            </article>
+          </Row>
+          <Row className="mb-5">
+           <article>
+             <h4>Join us on other social platform</h4>
+             <p><FaYoutube size={40} color="#F20000"/> {" "}<a href="https://www.youtube.com/channel/JavaScriptCentric">https://www.youtube.com/channel/JavaScriptCentric</a></p>
+             <p> <FaDev size={40} color="white"/>{" "}<a href="https://dev.to/javascriptcentric">https://dev.to/javascriptcentric</a></p>
+             <p> <FaMediumM size={40} color="white"/>{" "}<a href="https://www.javascriptcentric.medium.com">https://www.javascriptcentric.medium.com</a></p>
+           </article>
+          </Row>
         </Col>
       </Row>
     </Container>

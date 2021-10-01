@@ -17,9 +17,7 @@
     background-color:#181A1F;
     color: white !important;  
     height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 50px;
   }
   .contactForm {
     color: #fff;
