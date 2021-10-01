@@ -1,0 +1,38 @@
+.container {
+    background-color: #181A1F !important;
+    display: flex;
+    justify-content: center;
+    height: 600px;
+    box-shadow: 5px 5px 20px 2px gray !important;  
+  }
+  .contactUsForm{
+    background-color:#181A1F;
+    color: white !important;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contactInfo{
+    background-color:#181A1F;
+    color: white !important;  
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contactForm {
+    color: #fff;
+    width: 300px;
+  }
+  .formControl {
+    color: black;
+  }
+  .customBtn {
+    background-color: blueviolet !important;
+    border: #fff !important;
+    border-radius: 10px !important;
+    border-width: 10px !important;
+    margin-top: 15px;
+  }
+  

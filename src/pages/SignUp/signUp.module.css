@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 600px;
+  box-shadow: 5px 5px 20px 2px gray !important; 
 }
 .signUpForm {
   color: #fff;
