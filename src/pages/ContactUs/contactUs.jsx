@@ -5,8 +5,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
-import { FaDev, FaFacebookF, FaYoutube, FaMediumM } from "react-icons/fa";
-import { ImYoutube2 } from "react-icons/im";
+import { FaDev, FaYoutube, FaMediumM } from "react-icons/fa";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 
 const API_URL = "http://localhost:9090/user";
