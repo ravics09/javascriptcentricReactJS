@@ -4,8 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import aboutUsStyle from "./aboutUs.module.css";
 import {
   Card,
-  ListGroup,
-  ListGroupItem,
   Container,
   Row,
   Col,

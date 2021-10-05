@@ -1,0 +1,46 @@
+.container {
+  background-color: #181a1f !important;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.firstColumn {
+  background-color: gray !important;
+  color: #fff !important;
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-bottom: 10px;
+}
+.secondColumn {
+  background-color: lightgray !important;
+  margin-bottom: 10px;
+  margin-left: 1px;
+  margin-right: 1px;
+  padding-top: 10px;
+  border-radius: 5px;
+  border-width: 1px;
+  /* box-shadow: 2px 1px 5px 2px white !important;  */
+}
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cardTitle {
+  padding-top: 10px;
+}
+.cardSubtitle {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.cardName {
+  padding-left: 10px;
+}
+.thirdColumn {
+  background-color: #abcff7 !important;
+  margin-bottom: 10px;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 5px;
+  border-width: 1px;
+}
