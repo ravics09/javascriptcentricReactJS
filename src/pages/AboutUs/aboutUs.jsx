@@ -63,7 +63,7 @@ const AboutUs = () => {
         <Col md="auto">
           <article>
             <p>
-              We have team of 4 members who are working on different
+              We have team of 4 members who are working on different cut-off technologies.
             </p>
           </article>
         </Col>

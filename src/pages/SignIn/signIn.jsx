@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
+import swal from 'sweetalert';
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
@@ -85,6 +86,13 @@ const SignIn = ({ props }) => {
               };
               localStorage.setItem("userData", JSON.stringify(item));
             }
+            swal({
+              title: "Done!",
+              text: "user is added to database",
+              icon: "success",
+              timer: 2000,
+              button: false
+            });
             history.push("/home");
             resolve(response);
           } else {

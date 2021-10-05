@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
+import swal from 'sweetalert';
 import { Formik } from "formik";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
@@ -60,7 +61,14 @@ const SignUp = ({ props }) => {
       axios.post(url, payload).then(
         (response) => {
           if (response.data.statusCode === 200) {
-            alert(`Retrieve Message ${response.data.message}`);
+            swal({
+              title: "Done!",
+              text: "You have successfully signed up! Now you should be able to sign in.",
+              icon: "success",
+              timer: 5000,
+              button: false
+            });
+            
           } else {
             alert(`Retrieve Message ${response.data.message}`);
           }

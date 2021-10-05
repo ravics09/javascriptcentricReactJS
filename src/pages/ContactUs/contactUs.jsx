@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
+import swal from 'sweetalert';
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
@@ -42,7 +42,33 @@ const initialValues = {
 
 const ContactUs = () => {
   const handleContactForm = (formValues) => {
-    alert("Your Message: " + formValues.message);
+    swal({
+      title: "Are You sure ?",
+      text: "You want to send this message ?",
+      icon: "warning",
+      dangerMode: true,
+    })
+    .then(willSend => {
+      if (willSend) {
+        swal({
+          title: "Done!",
+          text: "Your Message Sent.",
+          icon: "success",
+          timer: 2000,
+          button: false
+        })
+        // axios.post(`api_url/${this.state.user._id}`)
+        //   .then(res => {
+        //     swal({
+        //       title: "Done!",
+        //       text: "user is deleted",
+        //       icon: "success",
+        //       timer: 2000,
+        //       button: false
+        //     })
+        // });
+      }
+    });
   };
   return (
     <Container
@@ -60,7 +86,7 @@ const ContactUs = () => {
               setTimeout(() => {
                 resetForm();
                 setSubmitting(false);
-              }, 1000);
+              }, 6000);
             }}
           >
             {({
