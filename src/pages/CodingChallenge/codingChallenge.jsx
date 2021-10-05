@@ -39,11 +39,10 @@ const CodingChallenges = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Col xs={12} md={9}>
-          <Row className={codingChallengeStyle.header}>
-            <Col>
+    <Container className={codingChallengeStyle.container}>
+      <Row className="mb-3">
+        <Col md={9}>
+          <Row className={codingChallengeStyle.firstColumnHeader}>
               <div
                 style={{
                   paddingTop: 10,
@@ -54,10 +53,8 @@ const CodingChallenges = () => {
                   <big>100+ JavaScript Coding Challenges</big>
                 </b>
               </div>
-            </Col>
           </Row>
-          <Row className={codingChallengeStyle.secondColumn}>
-            <Col>
+          <Row className={codingChallengeStyle.firstColumnRows}>
               <div
                 style={{
                   paddingTop: 10,
@@ -70,7 +67,6 @@ const CodingChallenges = () => {
                   Please Login To Continue For This Section...
                 </p>
               </div>
-            </Col>
           </Row>
           </Col>
         <Col xs={12} md={3}>

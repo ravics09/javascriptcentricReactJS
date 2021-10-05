@@ -1,14 +1,59 @@
-.firstColumn {
+.container {
+  background-color: #181a1f !important;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.firstColumnFirstRow {
   background-color: #abcff7;
+  margin-left: 2px;
   margin-right: 2px;
   margin-bottom: 10px;
   border-radius: 5px;
   border-width: 1px;
+  box-shadow: 2px 1px 5px 2px gray !important; 
+}
+.firstColumnSecondRow {
+  background-color: #F7DC6F;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .secondColumn {
-  background-color: white;
-  margin-right: 2px;
+  background-color: lightgray;
   margin-bottom: 10px;
+  margin-left: 1px;
+  margin-right: 1px;
+  padding-top: 10px;
+  border-radius: 5px;
+  border-width: 1px;
+}
+.cardHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cardTitle{
+  padding-top: 10px;
+}
+.cardName{
+  padding-left: 10px;
+}
+.cardSubtitle{
+  padding-top: 10px;
+}
+.cardBody{
+  /* padding-left: 70px; */
+}
+.cardFooter{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .thirdColumn {
   background-color: #ABCFF7;
@@ -18,37 +63,41 @@
 .firstFirstColumn {
   background-color: #abcff7;
   margin-bottom: 5px;
-}
-.firstSecondColumn {
-  background-color: #F7DC6F;
-  margin-bottom: 10px;
-  margin-right: 2px;
+  margin-left: 2px;
 }
 .interviewSection {
     background-color: #ABCFF7;
     margin-bottom: 10px;
     margin-right: 2px;
+    margin-left: 2px;
     border-radius: 5px;
     border-width: 1px;
+    box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .codingSection {
     background-color: #F9E79F;
     margin-bottom: 10px;
     margin-right: 2px;
+    margin-left: 2px;
     border-radius: 5px;
     border-width: 1px;
+    box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .programSection {
     background-color: #F1948A;
     margin-bottom: 10px;
     margin-right: 2px;
+    margin-left: 2px;
     border-radius: 5px;
     border-width: 1px;
+    box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .dataStructureSection {
     background-color: #F7DC6F;
     margin-bottom: 10px;
     margin-right: 2px;
+    margin-left: 2px;
     border-radius: 5px;
     border-width: 1px;
+    box-shadow: 2px 1px 5px 2px gray !important; 
 }

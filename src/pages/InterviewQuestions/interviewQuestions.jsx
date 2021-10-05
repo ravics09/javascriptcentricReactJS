@@ -39,47 +39,22 @@ const InterviewQuestions = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Col xs={12} md={9}>
-          <Row className={interviewQuestionsStyle.header}>
-            <Col>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <b>
-                  <big>400+ JavaScript Intreview Questions</big>
-                </b>
-              </div>
-            </Col>
+    <Container className={interviewQuestionsStyle.container}>
+      <Row className="mb-3">
+        <Col md={9}>
+          <Row className={interviewQuestionsStyle.firstColumnHeader}>
+            <div
+              style={{
+                paddingTop: 10,
+                paddingBottom: 10,
+              }}
+            >
+              <b>
+                <big>400+ JavaScript Intreview Questions</big>
+              </b>
+            </div>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
-            <Col>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <article><h4>1.What is a prototype chain</h4>
-
-                <blockquote>
-                  Prototype chaining is used to build new types of objects based
-                  on existing ones. It is similar to inheritance in a class
-                  based language.The prototype on object instance is available
-                  through Object.getPrototypeOf(object) or proto property
-                  whereas prototype on constructors function is available
-                  through Object.prototype.
-                </blockquote>
-                <Image src={PROTOTYPE_CHAIN_IMG} style={{width: '100%'}}/>
-                </article>
-              </div>
-            </Col>
-          </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -88,25 +63,47 @@ const InterviewQuestions = () => {
                 }}
               >
                 <article>
-                  <h4>
-                    2.What is the difference between Call, Apply and Bind
-                  </h4>
-                <p>
-                  The difference between Call, Apply and Bind can be explained
-                  with below examples.
-                </p>
-                <p>
-                  Call: The call() method invokes a function with a given this
-                  value and arguments provided one by one.
-                </p>
-                <pre
-                  style={{
-                    padding: 10,
-                    backgroundColor: "#181A1F",
-                    color: "white",
-                  }}
-                >
-                  {`var employee1 = {firstName: 'John', lastName: 'Rodson'};
+                  <h4>1.What is a prototype chain</h4>
+
+                  <blockquote>
+                    Prototype chaining is used to build new types of objects
+                    based on existing ones. It is similar to inheritance in a
+                    class based language.The prototype on object instance is
+                    available through Object.getPrototypeOf(object) or proto
+                    property whereas prototype on constructors function is
+                    available through Object.prototype.
+                  </blockquote>
+                  <Image src={PROTOTYPE_CHAIN_IMG} style={{ width: "100%" }} />
+                </article>
+              </div>
+            </Col>
+          </Row>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
+            <Col>
+              <div
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                }}
+              >
+                <article>
+                  <h4>2.What is the difference between Call, Apply and Bind</h4>
+                  <p>
+                    The difference between Call, Apply and Bind can be explained
+                    with below examples.
+                  </p>
+                  <p>
+                    Call: The call() method invokes a function with a given this
+                    value and arguments provided one by one.
+                  </p>
+                  <pre
+                    style={{
+                      padding: 10,
+                      backgroundColor: "#181A1F",
+                      color: "white",
+                    }}
+                  >
+                    {`var employee1 = {firstName: 'John', lastName: 'Rodson'};
 var employee2 = {firstName: 'Jimmy', lastName: 'Baily'};
                   
 function invite(greeting1, greeting2) {
@@ -116,19 +113,19 @@ function invite(greeting1, greeting2) {
 invite.call(employee1, 'Hello', 'How are you?'); // Hello John Rodson, How are you?
 invite.call(employee2, 'Hello', 'How are you?'); // Hello Jimmy Baily, How are you?
 `}
-                </pre>
-                <p>
-                  Apply: Invokes the function with a given this value and allows
-                  you to pass in arguments as an array
-                </p>
-                <pre
-                  style={{
-                    padding: 10,
-                    backgroundColor: "#181A1F",
-                    color: "white",
-                  }}
-                >
-                  {`var employee1 = {firstName: 'John', lastName: 'Rodson'};
+                  </pre>
+                  <p>
+                    Apply: Invokes the function with a given this value and
+                    allows you to pass in arguments as an array
+                  </p>
+                  <pre
+                    style={{
+                      padding: 10,
+                      backgroundColor: "#181A1F",
+                      color: "white",
+                    }}
+                  >
+                    {`var employee1 = {firstName: 'John', lastName: 'Rodson'};
 var employee2 = {firstName: 'Jimmy', lastName: 'Baily'};
 
 function invite(greeting1, greeting2) {
@@ -137,12 +134,12 @@ function invite(greeting1, greeting2) {
 
 invite.apply(employee1, ['Hello', 'How are you?']); // Hello John Rodson, How are you?
 invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How are you?`}
-                </pre>
+                  </pre>
                 </article>
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -159,7 +156,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -176,7 +173,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -193,7 +190,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -210,7 +207,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -227,7 +224,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.secondColumn}>
+          <Row className={interviewQuestionsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -245,7 +242,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
             </Col>
           </Row>
         </Col>
-        <Col xs={12} md={3}>
+        <Col md={3}>
           <Row className={interviewQuestionsStyle.interviewSection}>
             <Col>
               <div

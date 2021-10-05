@@ -38,10 +38,10 @@ const JavaScriptPrograms = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Col xs={12} md={9}>
-          <Row className={programsStyle.header}>
+    <Container className={programsStyle.container}>
+      <Row className="mb-3">
+        <Col md={9}>
+          <Row className={programsStyle.firstColumnHeader}>
             <Col>
               <div
                 style={{
@@ -55,7 +55,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -96,7 +96,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -113,7 +113,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -130,7 +130,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -147,7 +147,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -164,7 +164,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -181,7 +181,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{
@@ -198,7 +198,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.secondColumn}>
+          <Row className={programsStyle.firstColumnRows}>
             <Col>
               <div
                 style={{

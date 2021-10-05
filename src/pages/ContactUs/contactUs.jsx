@@ -1,12 +1,12 @@
 import React from "react";
 import * as yup from "yup";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
 import { FaDev, FaYoutube, FaMediumM } from "react-icons/fa";
-import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
 const API_URL = "http://localhost:9090/user";
 
@@ -42,31 +42,52 @@ const initialValues = {
 
 const ContactUs = () => {
   const handleContactForm = (formValues) => {
+    const url = `${API_URL}/sentmessage`;
+
+    let fullName = formValues.fullName;
+    let email = formValues.email;
+    let subject = formValues.subject;
+    let message = formValues.message;
+
+    const payload = {
+      fullName,
+      email,
+      subject,
+      message,
+    };
+
     swal({
       title: "Are You sure ?",
       text: "You want to send this message ?",
       icon: "warning",
       dangerMode: true,
-    })
-    .then(willSend => {
+    }).then((willSend) => {
       if (willSend) {
-        swal({
-          title: "Done!",
-          text: "Your Message Sent.",
-          icon: "success",
-          timer: 2000,
-          button: false
-        })
-        // axios.post(`api_url/${this.state.user._id}`)
-        //   .then(res => {
-        //     swal({
-        //       title: "Done!",
-        //       text: "user is deleted",
-        //       icon: "success",
-        //       timer: 2000,
-        //       button: false
-        //     })
-        // });
+        axios.post(url, payload).then(
+          (response) => {
+            if (response.data.statusCode === 200) {
+              swal({
+                title: "Done!",
+                text: "Your Message Sent.",
+                icon: "success",
+                timer: 2000,
+                button: false,
+              });
+            } else {
+              swal("Oops!", "Something went wrong!", "error");
+            }
+          },
+          (error) => {
+            swal({
+              title: "Error",
+              text: `${error}`,
+              timer: 2000,
+              button: false,
+              icon: "warning",
+              dangerMode: true,
+            });
+          }
+        );
       }
     });
   };
@@ -254,12 +275,29 @@ const ContactUs = () => {
             </article>
           </Row>
           <Row className="mb-5">
-           <article>
-             <h4>Join us on other social platform</h4>
-             <p><FaYoutube size={40} color="#F20000"/> {" "}<a href="https://www.youtube.com/channel/JavaScriptCentric">https://www.youtube.com/channel/JavaScriptCentric</a></p>
-             <p> <FaDev size={40} color="white"/>{" "}<a href="https://dev.to/javascriptcentric">https://dev.to/javascriptcentric</a></p>
-             <p> <FaMediumM size={40} color="white"/>{" "}<a href="https://www.javascriptcentric.medium.com">https://www.javascriptcentric.medium.com</a></p>
-           </article>
+            <article>
+              <h4>Join us on other social platform</h4>
+              <p>
+                <FaYoutube size={40} color="#F20000" />{" "}
+                <a href="https://www.youtube.com/channel/JavaScriptCentric">
+                  https://www.youtube.com/channel/JavaScriptCentric
+                </a>
+              </p>
+              <p>
+                {" "}
+                <FaDev size={40} color="white" />{" "}
+                <a href="https://dev.to/javascriptcentric">
+                  https://dev.to/javascriptcentric
+                </a>
+              </p>
+              <p>
+                {" "}
+                <FaMediumM size={40} color="white" />{" "}
+                <a href="https://www.javascriptcentric.medium.com">
+                  https://www.javascriptcentric.medium.com
+                </a>
+              </p>
+            </article>
           </Row>
         </Col>
       </Row>
