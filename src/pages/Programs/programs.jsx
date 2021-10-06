@@ -55,7 +55,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.firstColumnRows}>
+          <Row className={programsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{
@@ -96,7 +96,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.firstColumnRows}>
+          <Row className={programsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{
@@ -113,7 +113,7 @@ const JavaScriptPrograms = () => {
               </div>
             </Col>
           </Row>
-          <Row className={programsStyle.firstColumnRows}>
+          <Row className={programsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{

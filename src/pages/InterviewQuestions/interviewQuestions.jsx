@@ -54,7 +54,7 @@ const InterviewQuestions = () => {
               </b>
             </div>
           </Row>
-          <Row className={interviewQuestionsStyle.firstColumnRows}>
+          <Row className={interviewQuestionsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{
@@ -78,7 +78,7 @@ const InterviewQuestions = () => {
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.firstColumnRows}>
+          <Row className={interviewQuestionsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{
@@ -139,7 +139,7 @@ invite.apply(employee2, ['Hello', 'How are you?']); // Hello Jimmy Baily, How ar
               </div>
             </Col>
           </Row>
-          <Row className={interviewQuestionsStyle.firstColumnRows}>
+          <Row className={interviewQuestionsStyle.firstColumnRows} style={{ border: "1px solid gray", borderRadius: 10 }}>
             <Col>
               <div
                 style={{

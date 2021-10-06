@@ -11,7 +11,7 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 const PostData = [
   {
     fullName: "Ravi Sharma",
-    date: "4th Oct",
+    date: "4 Oct",
     title: "JavaScript References and Resource",
     subtitle: "This post contains reference materials that helped in writing..",
     likes: 24,
@@ -19,7 +19,7 @@ const PostData = [
   },
   {
     fullName: "Jay Sharma",
-    date: "5th Nov",
+    date: "5 Nov",
     title: "JavaScript GET Requests",
     subtitle: "Want to make a GET request from JavaScript in a webpage..",
     likes: 30,
@@ -27,7 +27,7 @@ const PostData = [
   },
   {
     fullName: "Vinay Soni",
-    date: "20th Dec",
+    date: "20 Dec",
     title: "Resources to Master Javascript",
     subtitle: "Ensure that both operands are primitives..",
     likes: 400,
@@ -35,7 +35,7 @@ const PostData = [
   },
   {
     fullName: "Vinit Patel",
-    date: "1st Jan",
+    date: "1 Jan",
     title: "Useful Javascript links - Interview preparation",
     subtitle: "In my Github I have listed some of the useful links..",
     likes: 200,
@@ -67,11 +67,14 @@ const Home = () => {
     alert("This article posted by: " + item);
   };
 
+  const onSave = (index) => {
+    alert("You saved item with index value: " + index);
+  }
+
   const PostCard = ({ item, index }) => (
     <Row
       className={homeStyle.secondColumn}
-      onClick={() => openSelectedPost(item.fullName)}
-      style={{ cursor: "pointer" }}
+      style={{ borderColor:'yellow', border: "1px solid gray", borderRadius: 10 }}
       key={index}
     >
       <div className={homeStyle.cardHeader}>
@@ -82,7 +85,7 @@ const Home = () => {
         </div>
       </div>
       <div className={homeStyle.cardBody}>
-        <div className={homeStyle.cardTitle}>
+        <div className={homeStyle.cardTitle} style={{ cursor: "pointer"}} onClick={() => openSelectedPost(item.fullName)}>
           <b>
             <big>{item.title}</big>
           </b>
@@ -93,7 +96,7 @@ const Home = () => {
             <FaHeart color="red" /> &nbsp; {item.likes} Reactions &nbsp;{" "}
             <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments} Comments
           </span>
-          <Button variant="outline-dark" size="sm">
+          <Button variant="outline-dark" size="sm" onClick={() => onSave(index)}>
             Save
           </Button>
         </div>

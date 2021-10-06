@@ -8,9 +8,10 @@
   background-color: #abcff7;
   margin-right: 2px;
   margin-left: 2px;
+  margin-bottom: 10px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important;
+  box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .firstColumnRows {
   background-color: white;
