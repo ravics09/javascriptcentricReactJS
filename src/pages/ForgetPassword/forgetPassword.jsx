@@ -1,6 +1,7 @@
 import React from "react";
 import * as yup from "yup";
 import axios from "axios";
+import swal from "sweetalert";
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
@@ -24,9 +25,38 @@ const initialValues = {
 
 const ForgetPassword = () => {
   const history = useHistory();
+
   const handleForgetPassword = (formValues) => {
     console.log("handleForgetPassword is called", formValues.email);
-      alert("You requested to reset link for "+formValues.email);
+    let email = formValues.email;
+    const url = `${API_URL}/forgetpassword`;
+
+    const payload = {
+      email,
+    };
+
+    axios.post(url, payload).then(
+      (response) => {
+        if (response.data.statusCode === 200) {
+          swal({
+            title: "Done!",
+            text: "Password reset link sent to your registered email address.",
+            icon: "success",
+            timer: 2000,
+            button: false,
+          });
+        }
+      },
+      (error) => {
+        swal({
+          title: "Error!",
+          text: "This email address not registered with us.",
+          icon: "danger",
+          timer: 2000,
+          button: false,
+        });
+      }
+    );
   };
 
   return (
@@ -43,7 +73,7 @@ const ForgetPassword = () => {
           setTimeout(() => {
             resetForm();
             setSubmitting(false);
-          }, 1000);
+          }, 4000);
         }}
       >
         {({
@@ -99,10 +129,7 @@ const ForgetPassword = () => {
               </Button>
             </Row>
             <Row className="mb-2">
-              <Link
-                to="/signin"
-                style={{ color: "white" }}
-              >
+              <Link to="/signin" style={{ color: "white" }}>
                 Back To Sign In Page ?
               </Link>
             </Row>
