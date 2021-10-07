@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import * as yup from "yup";
 import axios from "axios";
+import swal from "sweetalert";
 import { Formik } from "formik";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
@@ -21,7 +22,45 @@ const initialValues = {
 };
 
 const ResetPassword = () => {
+  const { id, token } = useParams();
+
+  useEffect(() => {
+    const url = `${API_URL}/validateresetlink/${id}/${token}`;
+
+    const payload = {
+      id,
+      token,
+    };
+
+    try {
+      axios.get(url, payload).then((response) => {
+        console.log("response from validate link",response);
+        if (response.status === 200) {
+          swal({
+            title: "Done!",
+            text: "Reset Link Is Ok, You Can Reset Password",
+            icon: "success",
+            timer: 2000,
+            button: false,
+          });
+        }
+      });
+    } catch (error) {
+      console.log("error response from validate link",error);
+      swal({
+        title: "Error!",
+        text: "Reset Password Link Expired",
+        icon: "danger",
+        timer: 2000,
+        button: false,
+      });
+    }
+  }, []);
+
   const history = useHistory();
+
+  // let id  = useParams();
+  // console.log("id value",id);
 
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);

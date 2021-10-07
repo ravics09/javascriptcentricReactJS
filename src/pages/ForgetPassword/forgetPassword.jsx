@@ -27,7 +27,6 @@ const ForgetPassword = () => {
   const history = useHistory();
 
   const handleForgetPassword = (formValues) => {
-    console.log("handleForgetPassword is called", formValues.email);
     let email = formValues.email;
     const url = `${API_URL}/forgetpassword`;
 
@@ -50,7 +49,7 @@ const ForgetPassword = () => {
       (error) => {
         swal({
           title: "Error!",
-          text: "This email address not registered with us.",
+          text: "Check Your Internet Connection",
           icon: "danger",
           timer: 2000,
           button: false,

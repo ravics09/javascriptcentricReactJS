@@ -38,7 +38,7 @@ const Routes = () => {
       <Route exact component={Settings} path="/settings" />
       <Route exact component={CreatePost} path="/createpost" />
       <Route exact component={ForgetPassword} path="/forgetpassword" />
-      <Route exact component={ResetPassword} path="/resetpassword" />
+      <Route exact component={ResetPassword} path="/resetpassword/:id/:token" />
       <Route exact component={FullArticle} path="/fullarticle" />
     </Switch>
   );
