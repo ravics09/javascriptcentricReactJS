@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
@@ -45,67 +45,75 @@ const SignIn = ({ props }) => {
   // };
 
   const handleSignIn = (formValues) => {
-    return new Promise((resolve, reject) => {
-      console.log("handle sign in called", formValues);
-      let email = formValues.email;
-      let password = formValues.password;
+    let email = formValues.email;
+    let password = formValues.password;
 
-      const url = `${API_URL}/signin`;
-      const payload = {
-        email,
-        password,
-      };
+    const url = `${API_URL}/signin`;
+    const payload = {
+      email,
+      password,
+    };
 
-      axios.post(url, payload).then(
-        (response) => {
-          if (response.data.statusCode === 200) {
-            let userName = response.data.user.fullName;
-            let jwtToken = response.data.token;
-            setUser(userName);
-            setUserId(response.data.userId); // will use userId for further operation
+    axios.post(url, payload).then(
+      (response) => {
+        if (response.data.statusCode === 200) {
+          let userName = response.data.user.fullName;
+          let jwtToken = response.data.token;
+          setUser(userName);
+          setUserId(response.data.userId); // will use userId for further operation
 
-            if (checkboxChecked) {
-              let today = new Date();
-              let expiry = new Date(today.setDate(today.getDate() + 30));
+          if (checkboxChecked) {
+            let today = new Date();
+            let expiry = new Date(today.setDate(today.getDate() + 30));
 
-              let expiryDay = expiry.getTime() / 1000;
-              const item = {
-                user: userName,
-                expiry: expiryDay,
-                token: jwtToken,
-                userId: response.data.userId,
-              };
+            let expiryDay = expiry.getTime() / 1000;
+            const item = {
+              user: userName,
+              expiry: expiryDay,
+              token: jwtToken,
+              userId: response.data.userId,
+            };
 
-              localStorage.setItem("userData", JSON.stringify(item));
-              setCheckboxChecked(!checkboxChecked);
-            } else {
-              const item = {
-                user: userName,
-                token: jwtToken,
-                userId: response.data.userId,
-              };
-              localStorage.setItem("userData", JSON.stringify(item));
-            }
-            swal({
-              title: "Done!",
-              text: "user is added to database",
-              icon: "success",
-              timer: 2000,
-              button: false
-            });
-            history.push("/home");
-            resolve(response);
+            localStorage.setItem("userData", JSON.stringify(item));
+            setCheckboxChecked(!checkboxChecked);
           } else {
-            alert(`Retrieve Message ${response.data.message}`);
+            const item = {
+              user: userName,
+              token: jwtToken,
+              userId: response.data.userId,
+            };
+            localStorage.setItem("userData", JSON.stringify(item));
           }
-        },
-        (error) => {
-          // alert(`Server not responding or check your internet connection`);
-          // console.log(error);
-          reject(error);
+          swal({
+            title: "Done!",
+            text: "You are redirecting to home page",
+            icon: "success",
+            timer: 2000,
+            button: false,
+          });
+          history.push("/home");
         }
-      );
-    });
+      },
+      (error) => {
+        if (error.response) {
+          swal({
+            title: "Error!",
+            text: `${error.response.data}`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error!",
+            text: `Server Not Responding`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        }
+      }
+    );
   };
 
   return (
@@ -202,7 +210,12 @@ const SignIn = ({ props }) => {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Link to="/forgetpassword" style={{ color: "white" }} as={Col} md="12">
+              <Link
+                to="/forgetpassword"
+                style={{ color: "white" }}
+                as={Col}
+                md="12"
+              >
                 Forget Password ?
               </Link>
             </Row>

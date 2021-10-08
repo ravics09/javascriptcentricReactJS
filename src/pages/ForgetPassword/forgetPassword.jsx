@@ -47,13 +47,23 @@ const ForgetPassword = () => {
         }
       },
       (error) => {
-        swal({
-          title: "Error!",
-          text: "Check Your Internet Connection",
-          icon: "danger",
-          timer: 2000,
-          button: false,
-        });
+        if (error.response) {
+          swal({
+            title: "Error!",
+            text: `${error.response.data}`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error!",
+            text: `Server Not Responding`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        }
       }
     );
   };

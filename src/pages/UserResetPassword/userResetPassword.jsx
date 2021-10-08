@@ -7,7 +7,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
-import ResetPasswordStyle from "./resetPassword.module.css";
+import UserResetPasswordStyle from "./userResetPassword.module.css";
 
 const API_URL = "http://localhost:9090/user";
 
@@ -21,47 +21,25 @@ const initialValues = {
   confirmPassword: "",
 };
 
-const ResetPassword = () => {
-  const { id, token } = useParams();
+const UserResetPassword = () => {
   const history = useHistory();
-  const [userId, setUserId] = useState(id);
+  const [id, setUserId] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   useEffect(() => {
-    const url = `${API_URL}/validateresetlink/${id}/${token}`;
-    const payload = {
-      id,
-      token,
-    };
-
-    try {
-      axios.get(url, payload).then((response) => {
-        console.log("response from validate link", response);
-        if (response.status === 200) {
-          swal({
-            title: "Done!",
-            text: "Reset Link Is Ok, You Can Reset Password",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-        }
-      });
-    } catch (error) {
-      console.log("error response from validate link", error);
-      swal({
-        title: "Error!",
-        text: "Reset Password Link Expired",
-        icon: "danger",
-        timer: 2000,
-        button: false,
-      });
+    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    if (loggedInUser) {
+      setUserId(loggedInUser.userId);
+      console.log("In useEffect Used Id==",loggedInUser.userId);
+    } else {
+      return null;
     }
   }, []);
 
-  const handleResetPassword = (formValues) => {
-    const url = `${API_URL}/resetpassword/${userId}`;
+  const handleUserResetPassword = (formValues) => {
+    console.log("In handleUserResetPassword Used Id==",id);
+    const url = `${API_URL}/resetpassword/${id}`;
     const password = formValues.password;
     const payload = {
       password,
@@ -80,30 +58,20 @@ const ResetPassword = () => {
         }
       },
       (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "danger",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
+        swal({
+          title: "Error!",
+          text: "Failed To Update Password.",
+          icon: "danger",
+          timer: 2000,
+          button: false,
+        });
       }
     );
   };
 
   return (
     <Container
-      className={ResetPasswordStyle.container}
+      className={UserResetPasswordStyle.container}
       style={{ border: "1px solid gray", borderRadius: 10 }}
     >
       <Formik
@@ -111,7 +79,7 @@ const ResetPassword = () => {
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          handleResetPassword(values);
+          handleUserResetPassword(values);
           setTimeout(() => {
             resetForm();
             setSubmitting(false);
@@ -130,7 +98,7 @@ const ResetPassword = () => {
         }) => (
           <Form
             onSubmit={handleSubmit}
-            className={ResetPasswordStyle.resetPasswordForm}
+            className={UserResetPasswordStyle.resetPasswordForm}
           >
             <Row className="mb-5">
               <h3>Use Strong Password</h3>
@@ -146,7 +114,7 @@ const ResetPassword = () => {
                     type={showPass ? "text" : "password"}
                     placeholder="Password"
                     name="password"
-                    className={ResetPasswordStyle.formControl}
+                    className={UserResetPasswordStyle.formControl}
                     value={values.password}
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -178,7 +146,7 @@ const ResetPassword = () => {
                     type={showConfirmPass ? "text" : "password"}
                     placeholder="Confirm Password"
                     name="confirmPassword"
-                    className={ResetPasswordStyle.formControl}
+                    className={UserResetPasswordStyle.formControl}
                     value={values.confirmPassword}
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -204,17 +172,12 @@ const ResetPassword = () => {
             <Row className="mb-2" style={{ padding: 10 }}>
               <Button
                 block
-                className={ResetPasswordStyle.customBtn}
+                className={UserResetPasswordStyle.customBtn}
                 type="submit"
                 disabled={isSubmitting}
               >
                 Submit
               </Button>
-            </Row>
-            <Row className="mb-2">
-              <Link to="/signin" style={{ color: "white" }}>
-                Back To Sign In Page ?
-              </Link>
             </Row>
           </Form>
         )}
@@ -222,4 +185,4 @@ const ResetPassword = () => {
     </Container>
   );
 };
-export default ResetPassword;
+export default UserResetPassword;

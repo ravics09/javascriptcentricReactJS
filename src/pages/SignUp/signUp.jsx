@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import { Formik } from "formik";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
@@ -44,42 +44,49 @@ const SignUp = ({ props }) => {
   // const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignUp = (formValues) => {
-    return new Promise((resolve, reject) => {
-      console.log("handle sign up called", formValues);
+    let fullName = formValues.fullName;
+    let email = formValues.email;
+    let password = formValues.password;
 
-      let fullName = formValues.fullName;
-      let email = formValues.email;
-      let password = formValues.password;
+    const url = `${API_URL}/signup`;
+    const payload = {
+      fullName,
+      email,
+      password,
+    };
 
-      const url = `${API_URL}/signup`;
-      const payload = {
-        fullName,
-        email,
-        password,
-      };
-
-      axios.post(url, payload).then(
-        (response) => {
-          if (response.data.statusCode === 200) {
-            swal({
-              title: "Done!",
-              text: "You have successfully signed up! Now you should be able to sign in.",
-              icon: "success",
-              timer: 5000,
-              button: false
-            });
-            
-          } else {
-            alert(`Retrieve Message ${response.data.message}`);
-          }
-          resolve(response);
-        },
-        (error) => {
-          alert(`Server not responding or check your internet connection`);
-          reject(error);
+    axios.post(url, payload).then(
+      (response) => {
+        if (response.data.statusCode === 200) {
+          swal({
+            title: "Done!",
+            text: "You have successfully signed up! Now you should be able to sign in.",
+            icon: "success",
+            timer: 5000,
+            button: false,
+          });
         }
-      );
-    });
+      },
+      (error) => {
+        if (error.response) {
+          swal({
+            title: "Error!",
+            text: `${error.response.data}`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error!",
+            text: `Server Not Responding`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        }
+      }
+    );
   };
   return (
     <Container
@@ -116,7 +123,7 @@ const SignUp = ({ props }) => {
               <Form.Group as={Col} md="12" controlId="validationFormFullName">
                 <Form.Label>Full Name</Form.Label>
                 <InputGroup>
-                <InputGroup.Text style={{ backgroundColor: "white" }}>
+                  <InputGroup.Text style={{ backgroundColor: "white" }}>
                     <AiOutlineUser />
                   </InputGroup.Text>
                   <Form.Control
@@ -141,8 +148,7 @@ const SignUp = ({ props }) => {
               <Form.Group as={Col} md="12" controlId="validationFormEmail">
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
-
-                <InputGroup.Text style={{ backgroundColor: "white" }}>
+                  <InputGroup.Text style={{ backgroundColor: "white" }}>
                     <AiOutlineMail />
                   </InputGroup.Text>
                   <Form.Control
@@ -212,8 +218,14 @@ const SignUp = ({ props }) => {
                     onChange={handleChange}
                     isInvalid={!!errors.confirmPassword}
                   />
-                  <InputGroup.Text onClick={() => setShowConfirmPass(!showConfirmPass)}>
-                    {showConfirmPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                  <InputGroup.Text
+                    onClick={() => setShowConfirmPass(!showConfirmPass)}
+                  >
+                    {showConfirmPass ? (
+                      <BsFillEyeSlashFill />
+                    ) : (
+                      <BsFillEyeFill />
+                    )}
                   </InputGroup.Text>
                   {touched.confirmPassword && errors.confirmPassword ? (
                     <Form.Control.Feedback type="invalid">
