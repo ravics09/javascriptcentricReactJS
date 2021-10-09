@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
+import swal from "sweetalert";
+import moment from "moment";
 import LoginIcon from "@mui/icons-material/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import homeStyle from "./home.module.css";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import LEADER_IMG from "./../../assets/images/leader.jpeg";
+import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import { FaHeart, FaRegComment } from "react-icons/fa";
+
+const API_URL = "http://localhost:9090/feed";
 
 const PostData = [
   {
@@ -45,6 +51,7 @@ const PostData = [
 const Home = () => {
   const history = useHistory();
   const [userName, setUser] = useState("");
+  const [userPosts, setUserPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(false);
 
   const openInterviewQuestion = () => {
@@ -64,54 +71,100 @@ const Home = () => {
   };
 
   const openSelectedPost = (item) => {
-    alert("This article posted by: " + item);
+    let Id = item._id;
+    history.push(`/fullarticle/${Id}`, { data: item});
   };
 
   const onSave = (index) => {
     alert("You saved item with index value: " + index);
-  }
+  };
 
-  const PostCard = ({ item, index }) => (
-    <Row
-      className={homeStyle.secondColumn}
-      style={{ borderColor:'yellow', border: "1px solid gray", borderRadius: 10 }}
-      key={index}
-    >
-      <div className={homeStyle.cardHeader}>
-        <Image src={LEADER_IMG} width={50} height={50} roundedCircle />
-        <div className={homeStyle.cardName}>
-          <strong>{item.fullName}</strong>
-          <p>{item.date}</p>
+  const PostCard = ({ item, index }) => {
+    const formateDate = moment(item.createdAt).format("MMM Do");
+    const hourAgo = moment(item.createdAt).startOf('hour').fromNow(); 
+    const minAgo = moment(item.createdAt).startOf('minute').fromNow(); 
+    const relTime = moment(item.createdAt).format('LT');
+    return (
+      <Row
+        className={homeStyle.secondColumn}
+        style={{
+          borderColor: "yellow",
+          border: "1px solid gray",
+          borderRadius: 10,
+        }}
+        key={index}
+      >
+        <div className={homeStyle.cardHeader}>
+          <Image src={item.profilePic ? LEADER_IMG : PLACEHOLDER_IMG} width={50} height={50} roundedCircle />
+          <div className={homeStyle.cardName}>
+            <strong>{item.fullName}</strong>
+            <p>
+            {formateDate} {hourAgo > 1 ? hourAgo : minAgo}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className={homeStyle.cardBody}>
-        <div className={homeStyle.cardTitle} style={{ cursor: "pointer"}} onClick={() => openSelectedPost(item.fullName)}>
-          <b>
-            <big>{item.title}</big>
-          </b>
+        <div className={homeStyle.cardBody}>
+          <div
+            className={homeStyle.cardTitle}
+            style={{ cursor: "pointer" }}
+            onClick={() => openSelectedPost(item)}
+          >
+            <b>
+              <big>{item.postTitle}</big>
+            </b>
+          </div>
+          <div className={homeStyle.cardFooter}>
+            <span>
+              <FaHeart color="red" /> &nbsp; {item.likes} Reactions &nbsp;{" "}
+              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments} Comments
+            </span>
+            <Button
+              variant="outline-dark"
+              size="sm"
+              onClick={() => onSave(item)}
+            >
+              Save
+            </Button>
+          </div>
         </div>
-        <div className={homeStyle.cardSubtitle}>{item.subtitle}</div>
-        <div className={homeStyle.cardFooter}>
-          <span>
-            <FaHeart color="red" /> &nbsp; {item.likes} Reactions &nbsp;{" "}
-            <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments} Comments
-          </span>
-          <Button variant="outline-dark" size="sm" onClick={() => onSave(index)}>
-            Save
-          </Button>
-        </div>
-      </div>
-    </Row>
-  );
+      </Row>
+    );
+  };
 
   useEffect(() => {
+    const url = `${API_URL}/getPosts`;
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     if (loggedInUser) {
       setUser(loggedInUser.user);
       setCurrentUser(true);
-    } else {
-      return null;
     }
+
+    axios.get(url).then(
+      (response) => {
+        if (response.data.statusCode === 200) {
+          setUserPosts(response.data.posts);
+        }
+      },
+      (error) => {
+        if (error.response) {
+          swal({
+            title: "Error!",
+            text: `Something is wrong.`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error!",
+            text: `Server Not Responding`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        }
+      }
+    );
   }, []);
 
   return (
@@ -176,7 +229,7 @@ const Home = () => {
           </Row>
         </Col>
         <Col md={6}>
-          {PostData.map((item, index) => (
+          {userPosts.map((item, index) => (
             <PostCard item={item} index={index} />
           ))}
         </Col>

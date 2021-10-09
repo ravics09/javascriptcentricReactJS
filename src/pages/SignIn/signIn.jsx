@@ -91,7 +91,11 @@ const SignIn = ({ props }) => {
             timer: 2000,
             button: false,
           });
-          history.push("/home");
+
+          setTimeout(function () {
+            history.push("/home");
+        }, 3000);
+
         }
       },
       (error) => {

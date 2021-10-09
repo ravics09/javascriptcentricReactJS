@@ -37,7 +37,6 @@ const ResetPassword = () => {
 
     try {
       axios.get(url, payload).then((response) => {
-        console.log("response from validate link", response);
         if (response.status === 200) {
           swal({
             title: "Done!",
@@ -49,7 +48,6 @@ const ResetPassword = () => {
         }
       });
     } catch (error) {
-      console.log("error response from validate link", error);
       swal({
         title: "Error!",
         text: "Reset Password Link Expired",

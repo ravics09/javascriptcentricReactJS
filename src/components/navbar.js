@@ -47,7 +47,7 @@ const NavBar = () => {
           expand="lg"
         >
           <Navbar.Brand className={NavBarStyle.navBrandLink}>
-            JavaScript Centric
+            JSCentric
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -60,6 +60,15 @@ const NavBar = () => {
                 activeClassName={NavBarStyle.activeNavLink}
               >
                 Home
+              </Nav.Link>
+              <Nav.Link
+                exact
+                as={NavLink}
+                to="/jobs"
+                className={NavBarStyle.navLink}
+                activeClassName={NavBarStyle.activeNavLink}
+              >
+                Jobs
               </Nav.Link>
               <Nav.Link
                 exact

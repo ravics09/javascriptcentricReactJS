@@ -41,7 +41,7 @@ const Routes = () => {
       <Route exact component={ForgetPassword} path="/forgetpassword" />
       <Route exact component={ResetPassword} path="/resetpassword/:id/:token" />
       <Route exact component={UserResetPassword} path="/userresetpassword" />
-      <Route exact component={FullArticle} path="/fullarticle" />
+      <Route exact component={FullArticle} path="/fullarticle/:id" />
     </Switch>
   );
 };
