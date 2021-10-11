@@ -50,7 +50,6 @@ const PostData = [
 ];
 const Home = () => {
   const history = useHistory();
-  const [userName, setUser] = useState("");
   const [userPosts, setUserPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(false);
 
@@ -72,7 +71,7 @@ const Home = () => {
 
   const openSelectedPost = (item) => {
     let Id = item._id;
-    history.push(`/fullarticle/${Id}`, { data: item});
+    history.push(`/fullarticle/${Id}`, { data: item });
   };
 
   const onSave = (index) => {
@@ -80,10 +79,11 @@ const Home = () => {
   };
 
   const PostCard = ({ item, index }) => {
+    console.log("ITEM Value===",item);
+
     const formateDate = moment(item.createdAt).format("MMM Do");
-    const hourAgo = moment(item.createdAt).startOf('hour').fromNow(); 
-    const minAgo = moment(item.createdAt).startOf('minute').fromNow(); 
-    const relTime = moment(item.createdAt).format('LT');
+    const hourAgo = moment(item.createdAt).startOf("hour").fromNow();
+    const minAgo = moment(item.createdAt).startOf("minute").fromNow();
     return (
       <Row
         className={homeStyle.secondColumn}
@@ -95,11 +95,16 @@ const Home = () => {
         key={index}
       >
         <div className={homeStyle.cardHeader}>
-          <Image src={item.profilePic ? LEADER_IMG : PLACEHOLDER_IMG} width={50} height={50} roundedCircle />
+          <Image
+            src={item.postedBy.profilePic ? LEADER_IMG : PLACEHOLDER_IMG}
+            width={50}
+            height={50}
+            roundedCircle
+          />
           <div className={homeStyle.cardName}>
-            <strong>{item.fullName}</strong>
+            <strong>{item.postedBy.fullName}</strong>
             <p>
-            {formateDate} {hourAgo > 1 ? hourAgo : minAgo}
+              {formateDate} {hourAgo > 1 ? hourAgo : minAgo}
             </p>
           </div>
         </div>
@@ -135,7 +140,6 @@ const Home = () => {
     const url = `${API_URL}/getPosts`;
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     if (loggedInUser) {
-      setUser(loggedInUser.user);
       setCurrentUser(true);
     }
 
@@ -229,9 +233,11 @@ const Home = () => {
           </Row>
         </Col>
         <Col md={6}>
-          {userPosts.map((item, index) => (
-            <PostCard item={item} index={index} />
-          ))}
+          {userPosts
+            ? userPosts.map((item, index) => (
+                <PostCard item={item} index={index} />
+              ))
+            : null}
         </Col>
         <Col md={3}>
           <Row className={homeStyle.interviewSection}>

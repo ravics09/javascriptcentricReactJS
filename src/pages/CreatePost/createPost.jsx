@@ -26,7 +26,6 @@ const initialValues = {
 };
 
 const CreatePost = () => {
-  const [userName, setUser] = useState("");
   const [userId, setUserId] = useState("");
   const [isLoading, setLoading] = useState(false);
 
@@ -37,7 +36,6 @@ const CreatePost = () => {
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     if (loggedInUser) {
-      setUser(loggedInUser.user);
       setUserId(loggedInUser.userId);
     } else {
       return null;
@@ -56,7 +54,6 @@ const CreatePost = () => {
     const url = `${API_URL}/createpost`;
     const payload = {
       userId,
-      userName,
       postTitle,
       postContent,
     };

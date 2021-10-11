@@ -7,10 +7,8 @@ import fullArticleStyle from "./fullArticle.module.css";
 import { Container, Row, Col, Button, Card, Image } from "react-bootstrap";
 import LEADER_IMG from "./../../assets/images/leader.jpeg";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
-import COVERIMAGE from "./../../assets/images/coverImage.jpeg";
+import COVERIMAGE from "./../../assets/images/coverImage.jpg";
 import { FaHeart, FaRegComment } from "react-icons/fa";
-
-const API_URL = "http://localhost:9090/user";
 
 const FullArticle = () => {
   const history = useHistory();
@@ -20,20 +18,11 @@ const FullArticle = () => {
   useEffect(() => {
     const { state } = history.location;
     setPostData(state.data);
-    const userId = state.data.userId;
-    const url = `${API_URL}/profile/${userId}/`;
-
-    axios.get(url).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          setUserDetails(response.data.user);
-        }
-      },
-      (error) => {}
-    );
+    setUserDetails(state.data.postedBy);
   }, []);
 
-  const joinedDate = moment(postData.createdAt).format("LL");
+  const joinedDate = moment(userDetails.createdAt).format("LL");
+  const postDate = moment(postData.createdAt).format("MMM Do YYYY");
   return (
     <Container className={fullArticleStyle.container}>
       <Row className="mb-3">
@@ -60,8 +49,8 @@ const FullArticle = () => {
                 roundedCircle
               />
               <div className={fullArticleStyle.cardName}>
-                <strong>{postData.fullName}</strong>
-                <p>Posted on 5 Oct</p>
+                <strong>{userDetails.fullName}</strong>
+                <p>Posted on {postDate}</p>
               </div>
             </div>
             <div className={fullArticleStyle.cardTitle}>
@@ -95,7 +84,7 @@ const FullArticle = () => {
                   <p>
                     <strong>Work</strong>
                   </p>
-                  {userDetails.work}
+                  {userDetails.work ? userDetails.work : "Software Engineer"}
                 </Card.Text>
                 <Card.Text>
                   <p>
