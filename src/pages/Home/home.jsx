@@ -14,40 +14,6 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 
 const API_URL = "http://localhost:9090/feed";
 
-const PostData = [
-  {
-    fullName: "Ravi Sharma",
-    date: "4 Oct",
-    title: "JavaScript References and Resource",
-    subtitle: "This post contains reference materials that helped in writing..",
-    likes: 24,
-    comments: 30,
-  },
-  {
-    fullName: "Jay Sharma",
-    date: "5 Nov",
-    title: "JavaScript GET Requests",
-    subtitle: "Want to make a GET request from JavaScript in a webpage..",
-    likes: 30,
-    comments: 25,
-  },
-  {
-    fullName: "Vinay Soni",
-    date: "20 Dec",
-    title: "Resources to Master Javascript",
-    subtitle: "Ensure that both operands are primitives..",
-    likes: 400,
-    comments: 20,
-  },
-  {
-    fullName: "Vinit Patel",
-    date: "1 Jan",
-    title: "Useful Javascript links - Interview preparation",
-    subtitle: "In my Github I have listed some of the useful links..",
-    likes: 200,
-    comments: 150,
-  },
-];
 const Home = () => {
   const history = useHistory();
   const [userPosts, setUserPosts] = useState([]);
@@ -79,7 +45,6 @@ const Home = () => {
   };
 
   const PostCard = ({ item, index }) => {
-    console.log("ITEM Value===",item);
 
     const formateDate = moment(item.createdAt).format("MMM Do");
     const hourAgo = moment(item.createdAt).startOf("hour").fromNow();
@@ -121,7 +86,7 @@ const Home = () => {
           <div className={homeStyle.cardFooter}>
             <span>
               <FaHeart color="red" /> &nbsp; {item.likes} Reactions &nbsp;{" "}
-              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments} Comments
+              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length} Comments
             </span>
             <Button
               variant="outline-dark"

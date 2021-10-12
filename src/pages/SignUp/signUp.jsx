@@ -116,8 +116,9 @@ const SignUp = ({ props }) => {
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
-            <Row className="mb-5">
-              <h3>Sign Up</h3>
+            <Row className="mb-3">
+              <h3>Welcome</h3>
+              <p>We are not sharing user details to anyone.</p>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormFullName">

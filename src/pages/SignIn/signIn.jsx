@@ -148,8 +148,9 @@ const SignIn = ({ props }) => {
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>
-            <Row className="mb-5">
-              <h3>Sign In</h3>
+            <Row className="mb-3">
+              <h3>Welcome Back</h3>
+              <p>Enter your email and password to sign in</p>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormEmail">
