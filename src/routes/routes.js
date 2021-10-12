@@ -15,6 +15,7 @@ import ReadingList from "./../pages/ReadingList/readingList";
 import Dashboard from "./../pages/Dashboard/dashboard";
 import Settings from "./../pages/Settings/settings";
 import CreatePost from "./../pages/CreatePost/createPost";
+import EditPost from "./../pages/EditPost/editPost";
 import ForgetPassword from "./../pages/ForgetPassword/forgetPassword";
 import ResetPassword from "./../pages/ResetPassword/resetPassword";
 import UserResetPassword from "./../pages/UserResetPassword/userResetPassword";
@@ -42,6 +43,7 @@ const Routes = () => {
       <Route exact component={ResetPassword} path="/resetpassword/:id/:token" />
       <Route exact component={UserResetPassword} path="/userresetpassword" />
       <Route exact component={FullArticle} path="/fullarticle/:id" />
+      <Route exact component={EditPost} path="/:id/editpost" />
     </Switch>
   );
 };

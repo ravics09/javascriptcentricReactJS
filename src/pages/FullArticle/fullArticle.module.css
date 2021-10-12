@@ -84,7 +84,11 @@
 }
 .customBtn {
   border-radius: 10px !important;
-  width: 150px;
+  width: 100px;
+}
+.editLikeSaveBtn{
+  border-radius: 10px !important;
+  width: 100px;
 }
 .showComments{
   background-color: #3D3D3D !important;

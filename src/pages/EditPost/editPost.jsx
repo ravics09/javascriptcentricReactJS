@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
-import createPostStyle from "./createPost.module.css";
+import editPostStyle from "./editPost.module.css";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 
 const API_URL = "http://localhost:9090/feed";
@@ -20,26 +21,60 @@ const validationSchema = yup.object().shape({
     .required("Post Content is mendatory"),
 });
 
-const initialValues = {
-  title: "",
-  content: "",
-};
-
-const CreatePost = () => {
+const EditPost = () => {
+  const history = useHistory();
+  const formikRef = useRef();
+  const { id } = useParams();
   const [userId, setUserId] = useState("");
   const [isLoading, setLoading] = useState(false);
-
+  const [initialValues, setInitialValues] = useState({
+    title: "",
+    content: "",
+  });
   const simulateNetworkRequest = () => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   };
 
   useEffect(() => {
+    const { state } = history.location;
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+
+    if (state) {
+      if (formikRef.current) {
+        formikRef.current.setFieldValue("title", state.data.postData.postTitle);
+        formikRef.current.setFieldValue(
+          "content",
+          state.data.postData.postContent
+        );
+      }
+    } else {
+      const url = `${API_URL}/getpost/${id}`;
+      const payload = {
+        id,
+      };
+
+      axios.get(url, payload).then((response) => {
+        if (response.status === 200) {
+          if (formikRef.current) {
+            formikRef.current.setFieldValue(
+              "title",
+              response.data.post.postTitle
+            );
+            formikRef.current.setFieldValue(
+              "content",
+              response.data.post.postContent
+            );
+          }
+        }
+      });
+    }
+
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
     } else {
       return null;
     }
+
     if (isLoading) {
       simulateNetworkRequest().then(() => {
         setLoading(false);
@@ -48,22 +83,21 @@ const CreatePost = () => {
   }, []);
 
   const handleSubmitPost = (formValues) => {
-    let postTitle = formValues.title;
-    let postContent = formValues.content;
+    let updatedPostTitle = formValues.title;
+    let updatePostContent = formValues.content;
 
-    const url = `${API_URL}/createpost`;
+    const url = `${API_URL}/editpost/${id}`;
     const payload = {
-      userId,
-      postTitle,
-      postContent,
+      updatedPostTitle,
+      updatePostContent,
     };
 
-    axios.post(url, payload).then(
+    axios.put(url, payload).then(
       (response) => {
         if (response.status === 200) {
           swal({
             title: "Done!",
-            text: "You have posted successfully.",
+            text: "Your post updated successfully.",
             icon: "success",
             timer: 2000,
             button: false,
@@ -92,24 +126,24 @@ const CreatePost = () => {
     );
   };
 
+
   return (
-    <Container className={createPostStyle.container}>
+    <Container className={editPostStyle.container}>
       <Row className="mb-3">
         <Col md={9}>
           <Formik
             validationSchema={validationSchema}
+            innerRef={formikRef}
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(true);
-              setLoading(true)
-              if(values){
+              setLoading(true);
+              if (values) {
                 handleSubmitPost(values);
-              } else {
-                  alert("Title missing")
               }
               setTimeout(() => {
                 setSubmitting(false);
-                setLoading(false)
+                setLoading(false);
               }, 3000);
             }}
           >
@@ -121,12 +155,9 @@ const CreatePost = () => {
               isSubmitting,
               values,
             }) => (
-              <Form
-                onSubmit={handleSubmit}
-                className={createPostStyle.postForm}
-              >
+              <Form onSubmit={handleSubmit} className={editPostStyle.postForm}>
                 <Row className="mb-5">
-                  <h3 style={{ marginLeft: 10 }}>Create A New Post</h3>
+                  <h3 style={{ marginLeft: 10 }}>Edit Your Post</h3>
                 </Row>
                 <Row className="mb-3">
                   <Form.Group as={Col} md="12" controlId="validationPostTitle">
@@ -136,7 +167,7 @@ const CreatePost = () => {
                         autoFocus
                         placeholder="New Post Title Here..."
                         name="title"
-                        className={createPostStyle.postTitle}
+                        className={editPostStyle.postTitle}
                         value={values.title}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -156,7 +187,7 @@ const CreatePost = () => {
                         type="text"
                         placeholder="Write your post content here..."
                         name="content"
-                        className={createPostStyle.postContent}
+                        className={editPostStyle.postContent}
                         value={values.content}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -169,24 +200,34 @@ const CreatePost = () => {
                 <Row className="mb-2" style={{ padding: 10 }}>
                   <Button
                     block
-                    className={createPostStyle.customBtn}
+                    className={editPostStyle.customBtn}
                     type="submit"
                     disabled={isLoading}
                     variant={isLoading ? "success" : "primary"}
                   >
-                      {isLoading ? 'Waiting to publish' : 'Publish'}
-                    
+                    {isLoading ? "Waiting to save" : "Save Changes"}
                   </Button>
                   &nbsp;&nbsp;&nbsp;
                   <Button
                     block
-                    className={createPostStyle.customBtn}
+                    className={editPostStyle.customBtn}
                     type="reset"
                     disabled={isSubmitting}
                     variant="outline-danger"
                     onClick={resetForm}
                   >
-                    Clear
+                    Clear All
+                  </Button>
+                  &nbsp;&nbsp;&nbsp;
+                  <Button
+                    block
+                    className={editPostStyle.customBtn}
+                    type="reset"
+                    disabled={isSubmitting}
+                    variant="danger"
+                    onClick={()=>history.replace(`/home`)}
+                  >
+                    Go Back
                   </Button>
                 </Row>
               </Form>
@@ -198,4 +239,4 @@ const CreatePost = () => {
     </Container>
   );
 };
-export default CreatePost;
+export default EditPost;

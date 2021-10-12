@@ -85,7 +85,7 @@ const Home = () => {
           </div>
           <div className={homeStyle.cardFooter}>
             <span>
-              <FaHeart color="red" /> &nbsp; {item.likes} Reactions &nbsp;{" "}
+              <FaHeart color="red" /> &nbsp; {item.likes} Likes &nbsp;{" "}
               <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length} Comments
             </span>
             <Button

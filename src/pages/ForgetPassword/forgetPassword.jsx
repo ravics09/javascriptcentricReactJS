@@ -100,7 +100,8 @@ const ForgetPassword = () => {
             className={ForgetPasswordStyle.forgetPasswordForm}
           >
             <Row className="mb-5">
-              <h3>Send Password Reset Link</h3>
+              <h3>Password Reset Link</h3>
+              <p>Forgot your password? Reset it here.</p>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="12" controlId="validationFormPassword">

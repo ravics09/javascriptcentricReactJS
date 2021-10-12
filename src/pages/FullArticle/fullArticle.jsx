@@ -46,9 +46,11 @@ const FullArticle = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
 
     if (state) {
+      // console.log("data from home page");
       setPostData(state.data);
       setAuthorDetails(state.data.postedBy);
     } else {
+      // console.log("data from api");
       const url = `${API_URL}/getpost/${id}`;
       const payload = {
         id,
@@ -56,7 +58,6 @@ const FullArticle = () => {
 
       axios.get(url, payload).then((response) => {
         if (response.status === 200) {
-          console.log("response====", response);
           setPostData(response.data.post);
           setAuthorDetails(response.data.post.postedBy);
         }
@@ -123,7 +124,8 @@ const FullArticle = () => {
   };
 
   const ShowComments = ({ item, index }) => {
-    const commentDate = moment(item.postedBy.createdAt).format("MMM Do YYYY");
+    //const commentMinAgo = moment(item.postedBy.createdAt).startOf("minute").fromNow();
+    const commentDate = moment(item.postedBy.createdAt).format("MMM Do");
     return (
       <Row
         className={fullArticleStyle.commentDetails}
@@ -159,15 +161,21 @@ const FullArticle = () => {
               block
               className={fullArticleStyle.customBtn}
               type="submit"
-              variant="secondary"
+              variant="info"
+              size="sm"
             >
-              reply
+              Reply
             </Button>
           </div>
         </div>
       </Row>
     );
   };
+
+  const EditPost = (postData,authorDetails) => {
+    const item = {postData, authorDetails};
+    history.push(`/${id}/editpost`, { data: item });
+  }
 
   const joinedDate = moment(authorDetails.createdAt).format("LL");
   const postDate = moment(postData.createdAt).format("MMM Do YYYY");
@@ -213,14 +221,51 @@ const FullArticle = () => {
                 </div>
               </div>
               <div>
-                <Button
-                  block
-                  className={fullArticleStyle.customBtn}
-                  type="submit"
-                  variant="primary"
-                >
-                  Save
-                </Button>
+                {authorDetails._id === userId ? (
+                  <div>
+                    <Button
+                      block
+                      className={fullArticleStyle.editLikeSaveBtn}
+                      type="submit"
+                      variant="danger"
+                      size="sm"
+                    >
+                      Like
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                      block
+                      className={fullArticleStyle.editLikeSaveBtn}
+                      variant="primary"
+                      size="sm"
+                      onClick={()=> EditPost(postData,authorDetails)}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <Button
+                      block
+                      className={fullArticleStyle.editLikeSaveBtn}
+                      type="submit"
+                      variant="danger"
+                      size="sm"
+                    >
+                      Like
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                      block
+                      className={fullArticleStyle.editLikeSaveBtn}
+                      type="submit"
+                      variant="primary"
+                      size="sm"
+                    >
+                      Save
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -246,7 +291,7 @@ const FullArticle = () => {
               </div>
               <div>
                 <big>
-                  <b>Subscribe (0)</b>
+                  <b>Subscribe</b>
                 </big>
               </div>
             </div>
@@ -295,6 +340,7 @@ const FullArticle = () => {
                         value={values.comment}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        disabled={userId ? false: true}
                         maxlength="5000"
                         minlength="10"
                       />
@@ -310,7 +356,7 @@ const FullArticle = () => {
                       block
                       className={fullArticleStyle.customBtn}
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={userId ? false: true}
                       variant={isSubmitting ? "success" : "primary"}
                     >
                       {isSubmitting ? "Waiting to publish" : "Publish"}

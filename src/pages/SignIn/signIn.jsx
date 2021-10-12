@@ -209,7 +209,7 @@ const SignIn = ({ props }) => {
               <Form.Group as={Col} md="12" controlId="validationFormCheckbox">
                 <Form.Check
                   type="checkbox"
-                  label="Keep me logged in for 30 days"
+                  label="Remember for 30 days"
                   onChange={(e) => setCheckboxChecked(!checkboxChecked)}
                 />
               </Form.Group>
@@ -245,21 +245,6 @@ const SignIn = ({ props }) => {
                   }}
                 >
                   <FcGoogle />
-                </InputGroup.Text>
-              </Button>
-            </Row>
-
-            <Row className="mb-2" style={{ padding: 10 }}>
-              <Button block className={signInStyle.linkedInSignBtn}>
-                Sign In With{" "}
-                <InputGroup.Text
-                  style={{
-                    backgroundColor: "#0472AD",
-                    border: "#0472AD",
-                    color: "white",
-                  }}
-                >
-                  <FaLinkedinIn />
                 </InputGroup.Text>
               </Button>
             </Row>
