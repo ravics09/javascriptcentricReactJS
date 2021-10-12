@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import swal from "sweetalert";
@@ -36,6 +36,7 @@ const initialValues = {
 };
 const FullArticle = () => {
   const history = useHistory();
+  const { id } = useParams();
   const [postData, setPostData] = useState({});
   const [authorDetails, setAuthorDetails] = useState({});
   const [userId, setUserId] = useState("");
@@ -43,17 +44,23 @@ const FullArticle = () => {
   useEffect(() => {
     const { state } = history.location;
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+
     if (state) {
       setPostData(state.data);
       setAuthorDetails(state.data.postedBy);
     } else {
-      swal({
-        title: "Error!",
-        text: `Server Not Responding. Please try after some time`,
-        icon: "warning",
-        timer: 4000,
-        button: false,
-      }); 
+      const url = `${API_URL}/getpost/${id}`;
+      const payload = {
+        id,
+      };
+
+      axios.get(url, payload).then((response) => {
+        if (response.status === 200) {
+          console.log("response====", response);
+          setPostData(response.data.post);
+          setAuthorDetails(response.data.post.postedBy);
+        }
+      });
     }
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
