@@ -8,7 +8,7 @@ import contactUsStyle from "./contactUs.module.css";
 import { FaDev, FaYoutube, FaMediumM } from "react-icons/fa";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
-const API_URL = "http://localhost:9090/user";
+const API_URL = "http://localhost:9090/other";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -42,7 +42,7 @@ const initialValues = {
 
 const ContactUs = () => {
   const handleContactForm = (formValues) => {
-    const url = `${API_URL}/sentmessage`;
+    const url = `${API_URL}/sendmessage`;
 
     let fullName = formValues.fullName;
     let email = formValues.email;
@@ -68,7 +68,7 @@ const ContactUs = () => {
             if (response.data.statusCode === 200) {
               swal({
                 title: "Done!",
-                text: "Your Message Sent.",
+                text: "Your Message Sent Successfully.",
                 icon: "success",
                 timer: 2000,
                 button: false,
