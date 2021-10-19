@@ -10,6 +10,10 @@ import homeStyle from "./home.module.css";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import LEADER_IMG from "./../../assets/images/leader.jpeg";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
+import CODING_IMG from "./../../assets/images/coding.png";
+import INTERVIEW_IMG from "./../../assets/images/interview.png";
+import PROGRAM_IMG from "./../../assets/images/program.png";
+import DATA_IMG from "./../../assets/images/data.png";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 
 const API_URL = "http://localhost:9090/feed";
@@ -45,7 +49,6 @@ const Home = () => {
   };
 
   const PostCard = ({ item, index }) => {
-
     const formateDate = moment(item.createdAt).format("MMM Do");
     const hourAgo = moment(item.createdAt).startOf("hour").fromNow();
     const minAgo = moment(item.createdAt).startOf("minute").fromNow();
@@ -86,7 +89,8 @@ const Home = () => {
           <div className={homeStyle.cardFooter}>
             <span>
               <FaHeart color="red" /> &nbsp; {item.likes} Likes &nbsp;{" "}
-              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length} Comments
+              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length}{" "}
+              Comments
             </span>
             <Button
               variant="outline-dark"
@@ -216,12 +220,19 @@ const Home = () => {
             >
               <article>
                 <h4>400+ Interview Questions</h4>
-                <p>
-                  JavaScript Centric Provides more then 400 interview question
-                  which helps you to prepare for any javascript interview. We
-                  covered almost all important questions from basic to advance
-                  level with the exact answers.
-                </p>
+                <div className={homeStyle.interviewSectionBody}>
+                  <Image
+                    src={INTERVIEW_IMG}
+                    width={80}
+                    height={80}
+                    
+                    style={{paddingRight: 10}}
+                  />
+                  <p>
+                    We provides more then 400 interview question which helps you
+                    to prepare for any javascript interview.
+                  </p>
+                </div>
               </article>
             </div>
           </Row>
@@ -236,11 +247,18 @@ const Home = () => {
             >
               <article>
                 <h4>100+ Coding Challenge</h4>
-                <p>
-                  JavaScript Centric Provides different varity of coding
-                  problems that helps you in coding round of any big MNC like
-                  Amazon, Google, Flipkart, Paytm, Wallmart and many more.
-                </p>
+                <div className={homeStyle.codingSectionBody}>
+                  <Image
+                    src={CODING_IMG}
+                    width={100}
+                    height={100}
+                    
+                    style={{paddingRight: 10}}
+                  />
+                  <p>
+                    We provide Wide range of coding problems for preparation of coding round.
+                  </p>
+                </div>
               </article>
             </div>
           </Row>
@@ -255,11 +273,19 @@ const Home = () => {
             >
               <article>
                 <h4>100+ Programs</h4>
-                <p>
-                  JavaScript Centric have more then 100 basic to advance level
-                  programs that can help you to solve problems. and helps you
-                  for any coding challenge.
-                </p>
+                <div className={homeStyle.programSectionBody}>
+                  <Image
+                    src={PROGRAM_IMG}
+                    width={100}
+                    height={100}
+                    
+                    style={{paddingRight: 10}}
+                  />
+                  <p>
+                    100+ Basic to advance level JS
+                    programs that test help you for coding round.
+                  </p>
+                </div>
               </article>
             </div>
           </Row>
@@ -274,12 +300,18 @@ const Home = () => {
             >
               <article>
                 <h4>JS Data Structure</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod
-                  architecto vero, omnis harum, illo quo ex voluptas et quae
-                  incidunt tenetur ipsam dolorem, ullam similique voluptatibus
-                  vel rerum non reprehenderit.
-                </p>
+                <div className={homeStyle.dataStructureSectionBody}>
+                  <Image
+                    src={DATA_IMG}
+                    width={100}
+                    height={100}
+                    
+                    style={{paddingRight: 10}}
+                  />
+                  <p>
+                    We provide one of the best content on JS DataStrucutre with clean and easy understanding.
+                  </p>
+                </div>
               </article>
             </div>
           </Row>

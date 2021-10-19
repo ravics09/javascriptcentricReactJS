@@ -11,16 +11,14 @@
   margin-bottom: 10px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .firstColumnSecondRow {
-  background-color: #F7DC6F;
+  background-color: #f7dc6f;
   margin-bottom: 10px;
   margin-left: 2px;
   margin-right: 2px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
 }
 .secondColumn {
   background-color: white;
@@ -28,26 +26,26 @@
   margin-left: 1px;
   margin-right: 1px;
   padding-top: 10px;
-  box-shadow: 2px 1px 2px black !important; 
+  box-shadow: 2px 1px 2px black !important;
 }
-.cardHeader{
+.cardHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.cardTitle{
+.cardTitle {
   padding-top: 10px;
 }
-.cardName{
+.cardName {
   padding-left: 10px;
 }
-.cardSubtitle{
+.cardSubtitle {
   padding-top: 10px;
 }
-.cardBody{
+.cardBody {
   /* padding-left: 70px; */
 }
-.cardFooter{
+.cardFooter {
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
@@ -55,7 +53,7 @@
   justify-content: space-between;
 }
 .thirdColumn {
-  background-color: #ABCFF7;
+  background-color: #abcff7;
   margin-bottom: 10px;
   margin-right: 2px;
 }
@@ -65,38 +63,94 @@
   margin-left: 2px;
 }
 .interviewSection {
-    background-color: #ABCFF7;
-    margin-bottom: 10px;
-    margin-right: 2px;
-    margin-left: 2px;
-    border-radius: 5px;
-    border-width: 1px;
-    box-shadow: 2px 1px 5px 2px gray !important; 
+  background-color: #abcff7;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transition: transform 0.2s;
+}
+.interviewSection:hover {
+  background-color: #abcff7;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transform: scale(1.5);
+  box-shadow: 2px 1px 5px 2px gray !important;
+}
+.interviewSectionBody {
+  display: flex;
+  justify-content: center;
 }
 .codingSection {
-    background-color: #F9E79F;
-    margin-bottom: 10px;
-    margin-right: 2px;
-    margin-left: 2px;
-    border-radius: 5px;
-    border-width: 1px;
-    box-shadow: 2px 1px 5px 2px gray !important; 
+  background-color: #f9e79f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transition: transform 0.2s;
+}
+.codingSection:hover {
+  background-color: #f9e79f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transform: scale(1.5);
+  box-shadow: 2px 1px 5px 2px gray !important;
+}
+.codingSectionBody {
+  display: flex;
+  justify-content: center;
 }
 .programSection {
-    background-color: #F1948A;
-    margin-bottom: 10px;
-    margin-right: 2px;
-    margin-left: 2px;
-    border-radius: 5px;
-    border-width: 1px;
-    box-shadow: 2px 1px 5px 2px gray !important; 
+  background-color: #f1948a;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transition: transform 0.2s;
+}
+.programSection:hover {
+  background-color: #f1948a;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transform: scale(1.5);
+  box-shadow: 2px 1px 5px 2px gray !important;
+}
+.programSectionBody {
+  display: flex;
+  justify-content: center;
 }
 .dataStructureSection {
-    background-color: #F7DC6F;
-    margin-bottom: 10px;
-    margin-right: 2px;
-    margin-left: 2px;
-    border-radius: 5px;
-    border-width: 1px;
-    box-shadow: 2px 1px 5px 2px gray !important; 
+  background-color: #f7dc6f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transition: transform 0.2s;
+}
+.dataStructureSection:hover {
+  background-color: #f7dc6f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  transform: scale(1.5);
+  box-shadow: 2px 1px 5px 2px gray !important;
+}
+.dataStructureSectionBody{
+  display: flex;
+  justify-content: center;
 }

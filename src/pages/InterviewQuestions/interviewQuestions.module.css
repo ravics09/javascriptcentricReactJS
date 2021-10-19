@@ -11,7 +11,7 @@
   margin-bottom: 10px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
+  box-shadow: 2px 1px 5px 2px gray !important;
 }
 .firstColumnRows {
   background-color: white;
@@ -20,38 +20,62 @@
   margin-bottom: 10px;
 }
 .interviewSection {
-  background-color: #ABCFF7;
+  background-color: #abcff7;
   margin-bottom: 10px;
   margin-right: 2px;
   margin-left: 2px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
+  box-shadow: 2px 1px 5px 2px gray !important;
 }
 .codingSection {
-  background-color: #F9E79F;
+  background-color: #f9e79f;
   margin-bottom: 10px;
   margin-right: 2px;
   margin-left: 2px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
+}
+.codingSection:hover {
+  background-color: #f9e79f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  box-shadow: 2px 1px 5px 2px gray !important;
 }
 .programSection {
-  background-color: #F1948A;
+  background-color: #f1948a;
   margin-bottom: 10px;
   margin-right: 2px;
   margin-left: 2px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
+}
+.programSection:hover {
+  background-color: #f1948a;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  box-shadow: 2px 1px 5px 2px gray !important;
 }
 .dataStructureSection {
-  background-color: #F7DC6F;
+  background-color: #f7dc6f;
   margin-bottom: 10px;
   margin-right: 2px;
   margin-left: 2px;
   border-radius: 5px;
   border-width: 1px;
-  box-shadow: 2px 1px 5px 2px gray !important; 
+}
+.dataStructureSection:hover {
+  background-color: #f7dc6f;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 5px;
+  border-width: 1px;
+  box-shadow: 2px 1px 5px 2px gray !important;
 }
