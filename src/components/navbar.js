@@ -132,10 +132,10 @@ const NavBar = () => {
                   <NavDropdown.Item
                     exact
                     as={NavLink}
-                    to="/profile"
+                    to="/account"
                     eventKey={3.3}
                   >
-                    Profile
+                    Account
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     exact

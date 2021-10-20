@@ -20,8 +20,8 @@ const validationSchema = yup.object().shape({
     .string()
     .email("*Must be a valid email address")
     .max(100, "*Email must be less than 100 characters")
-    .required("Email is mendatory"),
-  password: yup.string().required("Password is mendatory"),
+    .required("Please provide your email."),
+  password: yup.string().required("Please provide your password."),
 });
 
 const initialValues = {

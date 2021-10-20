@@ -20,6 +20,7 @@ import ForgetPassword from "./../pages/ForgetPassword/forgetPassword";
 import ResetPassword from "./../pages/ResetPassword/resetPassword";
 import UserResetPassword from "./../pages/UserResetPassword/userResetPassword";
 import FullArticle from "./../pages/FullArticle/fullArticle";
+import Account from "./../pages/Account/userAccount";
 
 const Routes = () => {
   return (
@@ -44,6 +45,7 @@ const Routes = () => {
       <Route exact component={UserResetPassword} path="/userresetpassword" />
       <Route exact component={FullArticle} path="/fullarticle/:id" />
       <Route exact component={EditPost} path="/:id/editpost" />
+      <Route exact component={Account} path="/account" />
     </Switch>
   );
 };
