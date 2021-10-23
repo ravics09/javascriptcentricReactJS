@@ -13,10 +13,8 @@ const NavBar = () => {
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     const now = new Date();
-    // console.log("timediff============",(loggedInUser.expiry-now));
     if (loggedInUser) {
       if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
-        // alert(`Please login again`);
         setUserName(loggedInUser.user);
         setCurrentUser(true);
       } else {
@@ -24,7 +22,6 @@ const NavBar = () => {
         setCurrentUser(true);
       }
     } else {
-      // alert(`Please login to up to date`);
       return null;
     }
   }, []);

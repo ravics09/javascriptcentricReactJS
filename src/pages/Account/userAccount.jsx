@@ -72,42 +72,43 @@ const UserAccount = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("userData"));
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
-    }
-    const url = `${API_URL}/profile/${loggedInUser.userId}`;
-    axios.get(url).then((response) => {
-      if (response.status === 200) {
-        setFullName(response.data.user.fullName);
-        setEmail(response.data.user.email);
-        setBio(response.data.user.bio);
-        setSkills(response.data.user.skills);
-        setLocation(response.data.user.location);
-        setWork(response.data.user.work);
-
-        if (formikRef.current) {
-          formikRef.current.setFieldValue(
-            "fullName",
-            response.data.user.fullName
-          );
-          formikRef.current.setFieldValue("email", response.data.user.email);
-          formikRef.current.setFieldValue(
-            "userName",
-            response.data.user.userName
-          );
-          formikRef.current.setFieldValue("mobile", response.data.user.mobile);
-          formikRef.current.setFieldValue(
-            "location",
-            response.data.user.location
-          );
-          formikRef.current.setFieldValue("bio", response.data.user.bio);
-          formikRef.current.setFieldValue("work", response.data.user.work);
-          formikRef.current.setFieldValue(
-            "education",
-            response.data.user.education
-          );
-          formikRef.current.setFieldValue("skills", response.data.user.skills);
+      const url = `${API_URL}/profile/${loggedInUser.userId}`;
+      axios.get(url).then((response) => {
+        if (response.status === 200) {
+          setFullName(response.data.user.fullName);
+          setEmail(response.data.user.email);
+          setBio(response.data.user.bio);
+          setSkills(response.data.user.skills);
+          setLocation(response.data.user.location);
+          setWork(response.data.user.work);
+  
+          if (formikRef.current) {
+            formikRef.current.setFieldValue(
+              "fullName",
+              response.data.user.fullName
+            );
+            formikRef.current.setFieldValue("email", response.data.user.email);
+            formikRef.current.setFieldValue(
+              "userName",
+              response.data.user.userName
+            );
+            formikRef.current.setFieldValue("mobile", response.data.user.mobile);
+            formikRef.current.setFieldValue(
+              "location",
+              response.data.user.location
+            );
+            formikRef.current.setFieldValue("bio", response.data.user.bio);
+            formikRef.current.setFieldValue("work", response.data.user.work);
+            formikRef.current.setFieldValue(
+              "education",
+              response.data.user.education
+            );
+            formikRef.current.setFieldValue("skills", response.data.user.skills);
+          }
         }
-      }
-    });
+      });
+    }
+
   }, []);
 
   const handleSubmitPost = (formValues) => {
@@ -298,7 +299,7 @@ const UserAccount = () => {
                 <Row className="mb-3">
                   <Form.Group as={Col} md="12" controlId="validationFullName">
                     <InputGroup>
-                      <Form.Control
+                      <Form.Control plaintext readOnly
                         type="email"
                         name="email"
                         disabled={true}
