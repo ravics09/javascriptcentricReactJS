@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarStyle from "./navbar.module.css";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import AuthService from './../services/authService';
 
 const NavBar = () => {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [dropdownActiveKey, setActiveKey] = useState(1);
+  // const { user: currentUserD } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
     const now = new Date();
     if (loggedInUser) {
       if (loggedInUser.expiry && Math.abs(loggedInUser.expiry - now) > 30) {
-        setUserName(loggedInUser.user);
+        setUserName(loggedInUser.user.fullName);
         setCurrentUser(true);
       } else {
-        setUserName(loggedInUser.user);
+        setUserName(loggedInUser.user.fullName);
         setCurrentUser(true);
       }
     } else {
@@ -30,11 +33,11 @@ const NavBar = () => {
     setActiveKey(Math.trunc(key));
   };
 
-  const logout = () => {
+  const handleLogout = async () => {
     setCurrentUser(false);
-    localStorage.clear();
+    await AuthService.signOut();
     history.push("/signin");
-  };
+  }
 
   return (
     <div className="row">
@@ -142,7 +145,7 @@ const NavBar = () => {
                   >
                     Settings
                   </NavDropdown.Item>
-                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
             ) : null}

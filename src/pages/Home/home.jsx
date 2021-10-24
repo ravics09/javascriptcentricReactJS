@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import swal from "sweetalert";
@@ -21,7 +22,47 @@ const API_URL = "http://localhost:9090/feed";
 const Home = () => {
   const history = useHistory();
   const [userPosts, setUserPosts] = useState([]);
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUserD, setCurrentUser] = useState(false);
+  // const { user: currentUser } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const url = `${API_URL}/getPosts`;
+    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    if (loggedInUser) {
+      setCurrentUser(true);
+    }
+
+    axios.get(url).then(
+      (response) => {
+        if (response.data.statusCode === 200) {
+          setUserPosts(response.data.posts);
+        }
+      },
+      (error) => {
+        if (error.response) {
+          swal({
+            title: "Error!",
+            text: `Something is wrong.`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error!",
+            text: `Server Not Responding`,
+            icon: "warning",
+            timer: 2000,
+            button: false,
+          });
+        }
+      }
+    );
+  }, []);
+
+  // if (!currentUser) {
+  //   return <Redirect to="/signin" />;
+  // }
 
   const openInterviewQuestion = () => {
     history.push("/interviewquestions");
@@ -105,40 +146,6 @@ const Home = () => {
     );
   };
 
-  useEffect(() => {
-    const url = `${API_URL}/getPosts`;
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
-    if (loggedInUser) {
-      setCurrentUser(true);
-    }
-
-    axios.get(url).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          setUserPosts(response.data.posts);
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `Something is wrong.`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
-      }
-    );
-  }, []);
 
   return (
     <Container className={homeStyle.container}>
@@ -161,7 +168,7 @@ const Home = () => {
                 </p>
               </article>
             </div>
-            {currentUser ? null : (
+            {currentUserD ? null : (
               <div style={{ paddingBottom: 10 }}>
                 <Stack gap={1}>
                   <Button

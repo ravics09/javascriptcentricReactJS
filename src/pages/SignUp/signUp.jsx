@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
@@ -10,8 +9,7 @@ import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signUpStyle from "./signUp.module.css";
-
-const API_URL = "http://localhost:9090/user";
+import AuthService from "./../../services/authService";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -36,58 +34,36 @@ const initialValues = {
 };
 
 const SignUp = ({ props }) => {
-  // const [fullName, setFullName] = useState("");
+  const history = useHistory();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignUp = (formValues) => {
-    let fullName = formValues.fullName;
-    let email = formValues.email;
-    let password = formValues.password;
+  const handleSignUp = async (formValues) => {
+    const result = await AuthService.signUp(formValues);
 
-    const url = `${API_URL}/signup`;
-    const payload = {
-      fullName,
-      email,
-      password,
-    };
+    if (result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
 
-    axios.post(url, payload).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          swal({
-            title: "Done!",
-            text: "You have successfully signed up! Now you should be able to sign in.",
-            icon: "success",
-            timer: 5000,
-            button: false,
-          });
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
-      }
-    );
+      setTimeout(function () {
+        history.push("/signin");
+      }, 3000);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
+
   return (
     <Container
       className={signUpStyle.container}
@@ -112,7 +88,6 @@ const SignUp = ({ props }) => {
           isSubmitting,
           values,
           touched,
-          isValid,
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>

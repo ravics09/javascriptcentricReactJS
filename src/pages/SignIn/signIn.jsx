@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
@@ -8,12 +8,11 @@ import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { FaLinkedinIn } from "react-icons/fa";
+import AuthService from "./../../services/authService";
+import {signIn} from './../../redux/slices/authSlice';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
-
-const API_URL = "http://localhost:9090/user";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -31,93 +30,48 @@ const initialValues = {
 
 const SignIn = ({ props }) => {
   const history = useHistory();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const [showPass, setShowPass] = useState(false);
-  // const [submitting, setSubmitting] = useState(false);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
-  const [userId, setUserId] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   // const validateForm = () => {
   //   return email.length > 0 && password.length > 0;
   // };
 
-  const handleSignIn = (formValues) => {
-    let email = formValues.email;
-    let password = formValues.password;
+  // useEffect(() => {
+  //   // dispatch(clearMessage());
+  // }, [dispatch]);
 
-    const url = `${API_URL}/signin`;
-    const payload = {
-      email,
-      password,
-    };
+  // if (isLoggedIn) {
+  //   return <Redirect to="/home" />;
+  // }
 
-    axios.post(url, payload).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          let userName = response.data.user.fullName;
-          let jwtToken = response.data.token;
-          setUser(userName);
-          setUserId(response.data.userId); // will use userId for further operation
+  const handleSignIn = async (formValues) => {
+    const result = await AuthService.signIn(formValues);
 
-          if (checkboxChecked) {
-            let today = new Date();
-            let expiry = new Date(today.setDate(today.getDate() + 30));
+    if (result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
 
-            let expiryDay = expiry.getTime() / 1000;
-            const item = {
-              user: userName,
-              expiry: expiryDay,
-              token: jwtToken,
-              userId: response.data.userId,
-            };
-
-            localStorage.setItem("userData", JSON.stringify(item));
-            setCheckboxChecked(!checkboxChecked);
-          } else {
-            const item = {
-              user: userName,
-              token: jwtToken,
-              userId: response.data.userId,
-            };
-            localStorage.setItem("userData", JSON.stringify(item));
-          }
-          swal({
-            title: "Done!",
-            text: "You are redirecting to home page",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-
-          setTimeout(function () {
-            history.push("/home");
-        }, 3000);
-
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
-      }
-    );
+      setTimeout(function () {
+        history.push("/home");
+      }, 3000);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   return (
@@ -144,7 +98,6 @@ const SignIn = ({ props }) => {
           isSubmitting,
           values,
           touched,
-          isValid,
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>

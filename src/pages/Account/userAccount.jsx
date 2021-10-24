@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Form from "react-bootstrap/Form";
-import { useParams } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,8 +16,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-
-const API_URL = "http://localhost:9090/user";
+import DataService from "./../../services/dataService";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -33,13 +30,10 @@ const validationSchema = yup.object().shape({
     .string()
     .max(10, "*Mobile number must be less than 10 characters"),
   location: yup.string(),
-  bio: yup
-    .string()
-    .max(500, "*About Us must be less than 500 characters"),
+  bio: yup.string().max(500, "*About Us must be less than 500 characters"),
   work: yup.string(),
-  education: yup
-    .string(),
-  skills: yup.string()
+  education: yup.string(),
+  skills: yup.string(),
 });
 
 const UserAccount = () => {
@@ -68,106 +62,60 @@ const UserAccount = () => {
   const [lgShow, setLgShow] = useState(false);
 
   useEffect(() => {
-    // let id = "61657cf9bed59bee8545f88f";
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
-      const url = `${API_URL}/profile/${loggedInUser.userId}`;
-      axios.get(url).then((response) => {
-        if (response.status === 200) {
-          setFullName(response.data.user.fullName);
-          setEmail(response.data.user.email);
-          setBio(response.data.user.bio);
-          setSkills(response.data.user.skills);
-          setLocation(response.data.user.location);
-          setWork(response.data.user.work);
-  
-          if (formikRef.current) {
-            formikRef.current.setFieldValue(
-              "fullName",
-              response.data.user.fullName
-            );
-            formikRef.current.setFieldValue("email", response.data.user.email);
-            formikRef.current.setFieldValue(
-              "userName",
-              response.data.user.userName
-            );
-            formikRef.current.setFieldValue("mobile", response.data.user.mobile);
-            formikRef.current.setFieldValue(
-              "location",
-              response.data.user.location
-            );
-            formikRef.current.setFieldValue("bio", response.data.user.bio);
-            formikRef.current.setFieldValue("work", response.data.user.work);
-            formikRef.current.setFieldValue(
-              "education",
-              response.data.user.education
-            );
-            formikRef.current.setFieldValue("skills", response.data.user.skills);
-          }
-        }
-      });
+      fetchData(loggedInUser.userId);
     }
 
-  }, []);
+    async function fetchData(id) {
+      const result = await DataService.getUserProfile(id);
 
-  const handleSubmitPost = (formValues) => {
-    let fullName = formValues.fullName;
-    let email = formValues.email;
-    let userName = formValues.userName;
-    let mobile = formValues.mobile;
-    let location = formValues.location;
-    let bio = formValues.bio;
-    let work = formValues.work;
-    let education = formValues.education;
-    let skills = formValues.skills;
+      if (result.status == "success") {
+        setFullName(result.user.fullName);
+        setEmail(result.user.email);
+        setBio(result.user.bio);
+        setSkills(result.user.skills);
+        setLocation(result.user.location);
+        setWork(result.user.work);
 
-    const url = `${API_URL}/editprofile/${id}`;
-    const payload = {
-      fullName,
-      email,
-      userName,
-      mobile,
-      location,
-      bio,
-      work,
-      education,
-      skills,
-    };
-
-    axios.put(url, payload).then(
-      (response) => {
-        if (response.status === 200) {
-          swal({
-            title: "Done!",
-            text: "Your Profile Updated Successfully",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-          window.location.reload();
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
+        if (formikRef.current) {
+          formikRef.current.setFieldValue("fullName", result.user.fullName);
+          formikRef.current.setFieldValue("email", result.user.email);
+          formikRef.current.setFieldValue("userName", result.user.userName);
+          formikRef.current.setFieldValue("mobile", result.user.mobile);
+          formikRef.current.setFieldValue("location", result.user.location);
+          formikRef.current.setFieldValue("bio", result.user.bio);
+          formikRef.current.setFieldValue("work", result.user.work);
+          formikRef.current.setFieldValue("education", result.user.education);
+          formikRef.current.setFieldValue("skills", result.user.skills);
         }
       }
-    );
+    }
+  }, []);
+
+  const handleSubmitPost = async (formValues) => {
+    const result = await DataService.editUserProfile(id, formValues);
+
+    if (result.status == "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
+      setTimeout(() => window.location.reload(), 2500);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   return (
@@ -191,8 +139,12 @@ const UserAccount = () => {
                       <big>{fullName}</big>
                     </b>
                   </p>
-                  <p style={{color: work ? "darkgreen" :"red"}}>{work ? work: "Add Work Experience"} </p>
-                  <p style={{color: location ? "darkgreen" :"red"}}>{location ? location : "Add Location Info"}</p>
+                  <p style={{ color: work ? "darkgreen" : "red" }}>
+                    {work ? work : "Add Work Experience"}{" "}
+                  </p>
+                  <p style={{ color: location ? "darkgreen" : "red" }}>
+                    {location ? location : "Add Location Info"}
+                  </p>
                 </div>
                 <div>
                   <Button variant="primary" onClick={() => setLgShow(true)}>
@@ -209,9 +161,7 @@ const UserAccount = () => {
             <Card>
               <Card.Header>About You</Card.Header>
               <Card.Body>
-                <Card.Text>
-                  {bio}
-                </Card.Text>
+                <Card.Text>{bio}</Card.Text>
               </Card.Body>
             </Card>
           </Row>
@@ -299,7 +249,8 @@ const UserAccount = () => {
                 <Row className="mb-3">
                   <Form.Group as={Col} md="12" controlId="validationFullName">
                     <InputGroup>
-                      <Form.Control plaintext readOnly
+                      <Form.Control
+                        readOnly
                         type="email"
                         name="email"
                         disabled={true}

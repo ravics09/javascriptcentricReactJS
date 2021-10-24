@@ -18,12 +18,13 @@
 }
 .cardRow {
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 .postsSection{
   /* background-color:gray !important; */
 }
 .otherInfoSection{
-  /* background-color:gray !important; */
+  padding-top: 10px;
 }
 .postRow {
   padding-top: 30px;
@@ -31,7 +32,9 @@
 .mainPostHeader {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 .mainPostRow {
   background-color:#242424 !important;
@@ -45,6 +48,7 @@
 .renderPost {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   color: white !important;
   padding-top: 10px;
   padding-bottom: 10px;
