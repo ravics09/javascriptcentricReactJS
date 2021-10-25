@@ -49,15 +49,12 @@ const UserAccount = () => {
     education: "",
     skills: "",
   });
+
   const [id, setUserId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [userName, setUsername] = useState("");
-  const [mobile, setMobile] = useState("");
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
   const [work, setWork] = useState("");
-  const [education, setEducation] = useState("");
   const [skills, setSkills] = useState("");
   const [lgShow, setLgShow] = useState(false);
 
@@ -72,9 +69,8 @@ const UserAccount = () => {
     async function fetchData(id) {
       const result = await DataService.getUserProfile(id);
 
-      if (result.status == "success") {
+      if (result.status === "success") {
         setFullName(result.user.fullName);
-        setEmail(result.user.email);
         setBio(result.user.bio);
         setSkills(result.user.skills);
         setLocation(result.user.location);
@@ -98,7 +94,7 @@ const UserAccount = () => {
   const handleSubmitPost = async (formValues) => {
     const result = await DataService.editUserProfile(id, formValues);
 
-    if (result.status == "success") {
+    if (result.status === "success") {
       swal({
         title: "Done!",
         text: `${result.message}`,

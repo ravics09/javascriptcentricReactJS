@@ -34,7 +34,7 @@ const CreatePost = () => {
   };
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
     } else {

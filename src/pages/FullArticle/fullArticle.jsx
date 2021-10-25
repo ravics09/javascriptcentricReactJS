@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, NavLink } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import moment from "moment";
@@ -20,8 +19,7 @@ import LEADER_IMG from "./../../assets/images/leader.jpeg";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import COVERIMAGE from "./../../assets/images/coverImage.jpg";
 import { FaHeart, FaComment, FaStarHalfAlt } from "react-icons/fa";
-
-const API_URL = "http://localhost:9090/feed";
+import FeedService from "./../../services/feedService";
 
 const validationSchema = yup.object().shape({
   comment: yup
@@ -34,35 +32,29 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   comment: "",
 };
+
 const FullArticle = () => {
   const history = useHistory();
   const { id } = useParams();
   const [postData, setPostData] = useState({});
   const [authorDetails, setAuthorDetails] = useState({});
   const [userId, setUserId] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const { state } = history.location;
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const { state } = history.location; // used 'state' to get article data from home page to fullarticle page
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-    if (state) {
-      // console.log("data from home page");
-      setPostData(state.data);
-      setAuthorDetails(state.data.postedBy);
-    } else {
-      // console.log("data from api");
-      const url = `${API_URL}/getpost/${id}`;
-      const payload = {
-        id,
-      };
-
-      axios.get(url, payload).then((response) => {
-        if (response.status === 200) {
-          setPostData(response.data.post);
-          setAuthorDetails(response.data.post.postedBy);
-        }
-      });
+    async function fetchData() {
+      const result = await FeedService.getPost(id);
+      if (result) {
+        setPostData(result.post);
+        setComments(result.post.comments);
+        setAuthorDetails(result.post.postedBy);
+      }
     }
+    fetchData();
+
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
     } else {
@@ -80,52 +72,35 @@ const FullArticle = () => {
     />
   );
 
-  const handleComment = (formValues) => {
-    const url = `${API_URL}/createnewcomment/${postData._id}`;
-    let comment = formValues.comment;
+  const handleComment = async (formValues) => {
+    const result = await FeedService.addComment(id, userId, formValues.comment);
 
-    const payload = {
-      comment,
-      userId,
-    };
-
-    axios.put(url, payload).then(
-      (response) => {
-        if (response.status === 200) {
-          swal({
-            title: "Done!",
-            text: "Your Comment Added Successfully.",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
-      }
-    );
+    if (result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
+      setComments(result.comments);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   const ShowComments = ({ item, index }) => {
     //const commentMinAgo = moment(item.postedBy.createdAt).startOf("minute").fromNow();
-    const commentDate = moment(item.postedBy.createdAt).format("MMM Do");
+    const commentDate = moment(item.createdAt).format("MMM Do");
     return (
       <Row
         className={fullArticleStyle.commentDetails}
@@ -163,6 +138,7 @@ const FullArticle = () => {
               type="submit"
               variant="info"
               size="sm"
+              disabled={userId ? false : true}
             >
               Reply
             </Button>
@@ -172,10 +148,10 @@ const FullArticle = () => {
     );
   };
 
-  const EditPost = (postData,authorDetails) => {
-    const item = {postData, authorDetails};
+  const EditPost = (postData, authorDetails) => {
+    const item = { postData, authorDetails };
     history.push(`/${id}/editpost`, { data: item });
-  }
+  };
 
   const joinedDate = moment(authorDetails.createdAt).format("LL");
   const postDate = moment(postData.createdAt).format("MMM Do YYYY");
@@ -193,9 +169,7 @@ const FullArticle = () => {
           </Row>
           <Row className={fullArticleStyle.firstColumnItem}>
             <FaComment color="#0C6EFD" size={24} />
-            <p>
-              {postData.comments ? postData.comments.length : null} Comments
-            </p>
+            <p>{comments ? comments.length : null} Comments</p>
           </Row>
         </Col>
         <Col md={9} className={fullArticleStyle.secondColumn}>
@@ -238,7 +212,7 @@ const FullArticle = () => {
                       className={fullArticleStyle.editLikeSaveBtn}
                       variant="primary"
                       size="sm"
-                      onClick={()=> EditPost(postData,authorDetails)}
+                      onClick={() => EditPost(postData, authorDetails)}
                     >
                       Edit
                     </Button>
@@ -251,6 +225,7 @@ const FullArticle = () => {
                       type="submit"
                       variant="danger"
                       size="sm"
+                      disabled={userId ? false : true}
                     >
                       Like
                     </Button>
@@ -261,6 +236,7 @@ const FullArticle = () => {
                       type="submit"
                       variant="primary"
                       size="sm"
+                      disabled={userId ? false : true}
                     >
                       Save
                     </Button>
@@ -290,9 +266,13 @@ const FullArticle = () => {
                 </big>
               </div>
               <div>
-                <big>
-                  <b>Subscribe</b>
-                </big>
+                <Button
+                  variant="light"
+                  as={NavLink}
+                  to="/signin"
+                >
+                  Subscribe
+                </Button>
               </div>
             </div>
           </Row>
@@ -340,7 +320,7 @@ const FullArticle = () => {
                         value={values.comment}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        disabled={userId ? false: true}
+                        disabled={userId ? false : true}
                         maxlength="5000"
                         minlength="10"
                       />
@@ -356,7 +336,7 @@ const FullArticle = () => {
                       block
                       className={fullArticleStyle.customBtn}
                       type="submit"
-                      disabled={userId ? false: true}
+                      disabled={userId ? false : true}
                       variant={isSubmitting ? "success" : "primary"}
                     >
                       {isSubmitting ? "Waiting to publish" : "Publish"}
@@ -366,7 +346,7 @@ const FullArticle = () => {
                       block
                       className={fullArticleStyle.customBtn}
                       type="reset"
-                      disabled={isSubmitting}
+                      disabled={userId ? false : true}
                       variant="outline-danger"
                       onClick={resetForm}
                     >
@@ -377,8 +357,8 @@ const FullArticle = () => {
               )}
             </Formik>
           </Row>
-          {postData.comments
-            ? postData.comments.map((item, index) => (
+          {comments
+            ? comments.map((item, index) => (
                 <ShowComments item={item} index={index} />
               ))
             : null}
@@ -411,7 +391,9 @@ const FullArticle = () => {
               </Card.Text>
             </Card.Body>
             <Card.Footer className="d-grid">
-              <Button size="sm">Follow</Button>
+              <Button size="sm" disabled={userId ? false : true}>
+                {userId ? "Follow" : "Sign In to follow"}
+              </Button>
             </Card.Footer>
           </Card>
         </Col>

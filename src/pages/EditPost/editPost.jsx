@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import editPostStyle from "./editPost.module.css";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+import FeedService from "./../../services/feedService";
 
 const API_URL = "http://localhost:9090/feed";
 
@@ -36,41 +37,27 @@ const EditPost = () => {
   };
 
   useEffect(() => {
-    const { state } = history.location;
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-    if (state) {
-      if (formikRef.current) {
-        formikRef.current.setFieldValue("title", state.data.postData.postTitle);
-        formikRef.current.setFieldValue(
-          "content",
-          state.data.postData.postContent
-        );
-      }
-    } else {
-      const url = `${API_URL}/getpost/${id}`;
-      const payload = {
-        id,
-      };
-
-      axios.get(url, payload).then((response) => {
-        if (response.status === 200) {
-          if (formikRef.current) {
-            formikRef.current.setFieldValue(
-              "title",
-              response.data.post.postTitle
-            );
-            formikRef.current.setFieldValue(
-              "content",
-              response.data.post.postContent
-            );
-          }
+    async function fetchPostData(){
+      const result = await FeedService.getPost(id);
+      if(result.status === "success"){
+        if (formikRef.current) {
+          formikRef.current.setFieldValue(
+            "title",
+            result.post.postTitle
+          );
+          formikRef.current.setFieldValue(
+            "content",
+            result.post.postContent
+          );
         }
-      });
+      }
     }
 
     if (loggedInUser) {
       setUserId(loggedInUser.userId);
+      fetchPostData();
     } else {
       return null;
     }
@@ -102,6 +89,9 @@ const EditPost = () => {
             timer: 2000,
             button: false,
           });
+          setTimeout(() =>{
+            history.push(`/home`);
+          },2500)
         }
       },
       (error) => {
@@ -125,7 +115,6 @@ const EditPost = () => {
       }
     );
   };
-
 
   return (
     <Container className={editPostStyle.container}>
@@ -225,7 +214,7 @@ const EditPost = () => {
                     type="reset"
                     disabled={isSubmitting}
                     variant="danger"
-                    onClick={()=>history.replace(`/home`)}
+                    onClick={() => history.replace(`/home`)}
                   >
                     Go Back
                   </Button>

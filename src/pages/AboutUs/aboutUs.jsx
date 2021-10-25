@@ -1,8 +1,7 @@
 import React from "react";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import aboutUsStyle from "./aboutUs.module.css";
-import { Card, Container, Row, Col, Image } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import LEADER_IMG from "./../../assets/images/leader.jpeg";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 

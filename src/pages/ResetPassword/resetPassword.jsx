@@ -3,7 +3,7 @@ import * as yup from "yup";
 import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
@@ -23,7 +23,6 @@ const initialValues = {
 
 const ResetPassword = () => {
   const { id, token } = useParams();
-  const history = useHistory();
   const [userId, setUserId] = useState(id);
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);

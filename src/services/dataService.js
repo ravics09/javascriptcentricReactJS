@@ -48,9 +48,11 @@ const editUserProfile = (id, formValues) => {
 
 const getUserProfile = (id) => {
   const url = `${API_URL}/profile/${id}`;
+  console.log("id for user==",id);
 
   return axios.get(url, { headers: AuthHeader() }).then(
     (response) => {
+      console.log("response.data.user user==",response.data.user);
       return {
         status: "success",
         user: response.data.user,

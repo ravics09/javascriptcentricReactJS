@@ -1,95 +1,52 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dashboardStyle from "./dashboard.module.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import moment from "moment";
 import { FaHeart, FaRegComment } from "react-icons/fa";
-const data = [
-  {
-    id: 1,
-    postTitle: "Remove all console log in single click.",
-    likes: 34,
-    comments: 30,
-  },
-  {
-    id: 2,
-    postTitle: "How to create google service account ????",
-    likes: 20,
-    comments: 20,
-  },
-  {
-    id: 3,
-    postTitle: "7 Different Ways To Create Objects In Javascript",
-    likes: 20,
-    comments: 20,
-  },
-  {
-    id: 1,
-    postTitle: "Remove all console log in single click.",
-    likes: 34,
-    comments: 30,
-  },
-  {
-    id: 2,
-    postTitle: "How to create google service account ????",
-    likes: 20,
-    comments: 20,
-  },
-  {
-    id: 3,
-    postTitle: "7 Different Ways To Create Objects In Javascript",
-    likes: 20,
-    comments: 20,
-  },
-  {
-    id: 1,
-    postTitle: "Remove all console log in single click.",
-    likes: 34,
-    comments: 30,
-  },
-  {
-    id: 2,
-    postTitle: "How to create google service account ????",
-    likes: 20,
-    comments: 20,
-  },
-  {
-    id: 3,
-    postTitle: "7 Different Ways To Create Objects In Javascript",
-    likes: 20,
-    comments: 20,
-  },
-];
+import FeedService from "./../../services/feedService";
 
 const Dashboard = () => {
   const history = useHistory();
   const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
-    setUserPosts(data);
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    if (loggedInUser) {
+      fecthUserPosts(loggedInUser.user._id);
+    }
+
+    async function fecthUserPosts(id) {
+      const result = await FeedService.getUserPosts(id);
+      if (result.status === "success") {
+        setUserPosts(result.posts);
+      } else {
+        setUserPosts([]);
+      }
+    }
   }, []);
 
   const openSelectedPost = (item) => {
-    let Id = item.id;
-    // history.push(`/fullarticle/${Id}`, { data: item });
-    alert("You are reading article id  "+ Id);
+    let Id = item._id;
+    history.push(`/fullarticle/${Id}`, { data: item });
   };
 
   const editSelectedPost = (item) => {
-    let Id = item.id;
-    // history.push(`/fullarticle/${Id}`, { data: item });
-    alert("You are editing article id  "+ Id);
-  }
+    let Id = item._id;
+    history.push(`/${Id}/editpost`, { data: item });
+  };
 
   const deleteSelectedPost = (item) => {
     let Id = item.id;
     // history.push(`/fullarticle/${Id}`, { data: item });
-    alert("You are deleteing article id  "+ Id);
-  }
+    alert("You are deleteing article id  " + Id);
+  };
 
   const RenderAllPost = ({ item, index }) => {
+    console.log("items==", item);
+    const formateDate = moment(item.createdAt).format("MMM Do");
     return (
       <div className={dashboardStyle.renderPost} key={index}>
         <div className={dashboardStyle.titleSection}>
@@ -99,18 +56,26 @@ const Dashboard = () => {
           >
             {item.postTitle}
           </h5>
-          <p>Posted On </p>
+          <p>Published:  {formateDate}</p>
         </div>
         <div className={dashboardStyle.postInfo}>
-          <FaHeart color="red" /> &nbsp; {item.likes} &nbsp;
-          <FaRegComment color="#0C6EFD" /> {item.comments}
+          <FaHeart color="red" /> &nbsp; &nbsp;
+          <FaRegComment color="#0C6EFD" /> {item.comments.length}
         </div>
         <div>
-          <Button className={dashboardStyle.customBtn} variant="primary" onClick={()=>editSelectedPost(item)}>
+          <Button
+            className={dashboardStyle.customBtn}
+            variant="primary"
+            onClick={() => editSelectedPost(item)}
+          >
             Edit
           </Button>
           {"  "}
-          <Button className={dashboardStyle.customBtn} variant="outline-danger" onClick={()=>deleteSelectedPost(item)}>
+          <Button
+            className={dashboardStyle.customBtn}
+            variant="outline-danger"
+            onClick={() => deleteSelectedPost(item)}
+          >
             Delete
           </Button>
         </div>
@@ -154,20 +119,44 @@ const Dashboard = () => {
           <Row>
             <h5>Other Info</h5>
           </Row>
-          <Row style={{paddingTop: '20px', paddingBottom: '10px'}}>
-            <div style={{display: 'flex', justifyContent:'space-between', paddingTop: '10px', paddingBottom: '10px'}}>
-                <b>Followers</b><b>20</b>
+          <Row style={{ paddingTop: "20px", paddingBottom: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+              }}
+            >
+              <b>Followers</b>
+              <b>20</b>
             </div>
-            <div style={{display: 'flex', justifyContent:'space-between', paddingTop: '10px', paddingBottom: '10px'}}>
-                <b>Following users</b><b>20</b>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+              }}
+            >
+              <b>Following users</b>
+              <b>20</b>
             </div>
-            <div style={{display: 'flex', justifyContent:'space-between', paddingTop: '10px', paddingBottom: '10px'}}>
-                <b>Following Organizations</b><b>20</b>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+              }}
+            >
+              <b>Following Organizations</b>
+              <b>20</b>
             </div>
           </Row>
-          <Row style={{marginLeft:'1px', marginRight:'1px'}}>
-            <Button variant="primary">
-              Edit Profile
+          <Row style={{ marginLeft: "1px", marginRight: "1px" }}>
+            <Button variant="outline-info" as={NavLink} to="/account">
+              Account
             </Button>
           </Row>
         </Col>

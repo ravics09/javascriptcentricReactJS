@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useHistory, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
-import axios from "axios";
 import swal from "sweetalert";
 import moment from "moment";
 import LoginIcon from "@mui/icons-material/Login";
@@ -17,7 +16,7 @@ import PROGRAM_IMG from "./../../assets/images/program.png";
 import DATA_IMG from "./../../assets/images/data.png";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 
-const API_URL = "http://localhost:9090/feed";
+import FeedService from "./../../services/feedService";
 
 const Home = () => {
   const history = useHistory();
@@ -26,41 +25,30 @@ const Home = () => {
   // const { user: currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const url = `${API_URL}/getPosts`;
-    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser) {
       setCurrentUser(true);
     }
 
-    axios.get(url).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          setUserPosts(response.data.posts);
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `Something is wrong.`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
+    async function fetchData() {
+      const result = await FeedService.getAllPosts();
+      if (result.status === "success") {
+        setUserPosts(result.posts);
+      } else {
+        swal({
+          title: "Error!",
+          text: `${result.message}`,
+          icon: "warning",
+          timer: 2000,
+          button: false,
+        });
       }
-    );
+    }
+
+    fetchData();
   }, []);
 
-  // if (!currentUser) {
+  // if (!currentUserD) {
   //   return <Redirect to="/signin" />;
   // }
 
@@ -145,7 +133,6 @@ const Home = () => {
       </Row>
     );
   };
-
 
   return (
     <Container className={homeStyle.container}>
@@ -232,8 +219,7 @@ const Home = () => {
                     src={INTERVIEW_IMG}
                     width={80}
                     height={80}
-                    
-                    style={{paddingRight: 10}}
+                    style={{ paddingRight: 10 }}
                   />
                   <p>
                     We provides more then 400 interview question which helps you
@@ -259,11 +245,11 @@ const Home = () => {
                     src={CODING_IMG}
                     width={100}
                     height={100}
-                    
-                    style={{paddingRight: 10}}
+                    style={{ paddingRight: 10 }}
                   />
                   <p>
-                    We provide Wide range of coding problems for preparation of coding round.
+                    We provide Wide range of coding problems for preparation of
+                    coding round.
                   </p>
                 </div>
               </article>
@@ -285,12 +271,11 @@ const Home = () => {
                     src={PROGRAM_IMG}
                     width={100}
                     height={100}
-                    
-                    style={{paddingRight: 10}}
+                    style={{ paddingRight: 10 }}
                   />
                   <p>
-                    100+ Basic to advance level JS
-                    programs that test help you for coding round.
+                    100+ Basic to advance level JS programs that test help you
+                    for coding round.
                   </p>
                 </div>
               </article>
@@ -312,11 +297,11 @@ const Home = () => {
                     src={DATA_IMG}
                     width={100}
                     height={100}
-                    
-                    style={{paddingRight: 10}}
+                    style={{ paddingRight: 10 }}
                   />
                   <p>
-                    We provide one of the best content on JS DataStrucutre with clean and easy understanding.
+                    We provide one of the best content on JS DataStrucutre with
+                    clean and easy understanding.
                   </p>
                 </div>
               </article>
