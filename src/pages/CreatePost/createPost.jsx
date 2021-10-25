@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import createPostStyle from "./createPost.module.css";
+import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 
 const API_URL = "http://localhost:9090/feed";
@@ -26,6 +27,7 @@ const initialValues = {
 };
 
 const CreatePost = () => {
+  const history = useHistory();
   const [userId, setUserId] = useState("");
   const [isLoading, setLoading] = useState(false);
 
@@ -68,6 +70,9 @@ const CreatePost = () => {
             timer: 2000,
             button: false,
           });
+          setTimeout(() => {
+            history.push(`/home`);
+          }, 2500);
         }
       },
       (error) => {

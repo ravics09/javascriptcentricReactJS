@@ -32,6 +32,7 @@ const EditPost = () => {
     title: "",
     content: "",
   });
+  
   const simulateNetworkRequest = () => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   };
@@ -39,18 +40,12 @@ const EditPost = () => {
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-    async function fetchPostData(){
+    async function fetchPostData() {
       const result = await FeedService.getPost(id);
-      if(result.status === "success"){
+      if (result.status === "success") {
         if (formikRef.current) {
-          formikRef.current.setFieldValue(
-            "title",
-            result.post.postTitle
-          );
-          formikRef.current.setFieldValue(
-            "content",
-            result.post.postContent
-          );
+          formikRef.current.setFieldValue("title", result.post.postTitle);
+          formikRef.current.setFieldValue("content", result.post.postContent);
         }
       }
     }
@@ -69,51 +64,29 @@ const EditPost = () => {
     }
   }, []);
 
-  const handleSubmitPost = (formValues) => {
-    let updatedPostTitle = formValues.title;
-    let updatePostContent = formValues.content;
+  const handleSubmitPost = async (formValues) => {
+    const result = await FeedService.editPost(id, formValues);
+    if (result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
 
-    const url = `${API_URL}/editpost/${id}`;
-    const payload = {
-      updatedPostTitle,
-      updatePostContent,
-    };
-
-    axios.put(url, payload).then(
-      (response) => {
-        if (response.status === 200) {
-          swal({
-            title: "Done!",
-            text: "Your post updated successfully.",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-          setTimeout(() =>{
-            history.push(`/home`);
-          },2500)
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
-      }
-    );
+      setTimeout(() => {
+        history.push(`/home`);
+      }, 2500);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   return (

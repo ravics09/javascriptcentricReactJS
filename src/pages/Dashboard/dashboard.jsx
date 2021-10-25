@@ -5,6 +5,7 @@ import dashboardStyle from "./dashboard.module.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
+import swal from "sweetalert";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import FeedService from "./../../services/feedService";
 
@@ -38,14 +39,32 @@ const Dashboard = () => {
     history.push(`/${Id}/editpost`, { data: item });
   };
 
-  const deleteSelectedPost = (item) => {
-    let Id = item.id;
-    // history.push(`/fullarticle/${Id}`, { data: item });
-    alert("You are deleteing article id  " + Id);
+  const deleteSelectedPost = async (id) => {
+    const result = await FeedService.deletePost(id);
+    if(result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
+
+      setTimeout(function () {
+        window.location.reload();
+      }, 2500);
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   const RenderAllPost = ({ item, index }) => {
-    console.log("items==", item);
     const formateDate = moment(item.createdAt).format("MMM Do");
     return (
       <div className={dashboardStyle.renderPost} key={index}>
@@ -74,7 +93,7 @@ const Dashboard = () => {
           <Button
             className={dashboardStyle.customBtn}
             variant="outline-danger"
-            onClick={() => deleteSelectedPost(item)}
+            onClick={() => deleteSelectedPost(item._id)}
           >
             Delete
           </Button>

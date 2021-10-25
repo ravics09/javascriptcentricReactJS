@@ -52,11 +52,11 @@ const addComment = (postId, userId, comment) => {
 
   return axios.put(url, payload, { headers: AuthHeader() }).then(
     (response) => {
-      console.log("after comment ==",response.data);
+      console.log("after comment ==", response.data);
       return {
         status: "success",
         message: "Your Comment Added Successfully.",
-        comments: response.data.comments
+        comments: response.data.comments,
       };
     },
     (error) => {
@@ -73,7 +73,6 @@ const getUserPosts = (userId) => {
   const url = `${API_URL}/getuserposts/${userId}`;
   return axios.get(url).then(
     (response) => {
-      console.log("user posts data =",response.data.posts.Feed[0]);
       if (response.status === 200) {
         return { status: "success", posts: response.data.posts.Feed };
       }
@@ -85,9 +84,65 @@ const getUserPosts = (userId) => {
         return { status: "failed", message: "Server Not Responding" };
       }
     }
-  )
-}
+  );
+};
 
-const feedService = { getAllPosts, getPost, addComment, getUserPosts };
+const editPost = (id, formValues) => {
+  const url = `${API_URL}/editpost/${id}`;
+  const { title, content } = formValues;
+
+  const payload = {
+    title,
+    content,
+  };
+
+  return axios.put(url, payload).then(
+    (response) => {
+      if (response.status === 200) {
+        return {
+          status: "success",
+          message: "Your post updated successfully.",
+        };
+      }
+    },
+    (error) => {
+      if (error.response) {
+        return { status: "failed", message: error.response.data };
+      } else {
+        return { status: "failed", message: "Server Not Responding" };
+      }
+    }
+  );
+};
+
+const deletePost = (id) => {
+  const url = `${API_URL}/deletepost/${id}`;
+  return axios.delete(url).then(
+    (response) => {
+      if (response.status === 200) {
+        return {
+          status: "success",
+          message: "Selected Post Deleted Successfully.",
+        };
+      }
+    },
+    (error) => {
+      if (error.response) {
+        return { status: "failed", message: error.response.data };
+      } else {
+        return { status: "failed", message: "Server Not Responding" };
+      }
+    }
+  );
+};
+
+const feedService = {
+  getAllPosts,
+  getPost,
+  addComment,
+  getUserPosts,
+  editPost,
+  deletePost,
+};
 
 export default feedService;
