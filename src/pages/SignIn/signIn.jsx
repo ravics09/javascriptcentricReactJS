@@ -62,6 +62,7 @@ const SignIn = ({ props }) => {
 
       setTimeout(function () {
         history.push("/home");
+        window.location.reload();
       }, 3000);
     } else {
       swal({

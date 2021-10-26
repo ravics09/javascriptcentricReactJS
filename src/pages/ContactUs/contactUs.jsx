@@ -1,14 +1,12 @@
 import React from "react";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
 import { FaDev, FaYoutube, FaMediumM } from "react-icons/fa";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
-
-const API_URL = "http://localhost:9090/other";
+import DataService from "./../../services/dataService";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -42,55 +40,36 @@ const initialValues = {
 
 const ContactUs = () => {
   const handleContactForm = (formValues) => {
-    const url = `${API_URL}/sendmessage`;
-
-    let fullName = formValues.fullName;
-    let email = formValues.email;
-    let subject = formValues.subject;
-    let message = formValues.message;
-
-    const payload = {
-      fullName,
-      email,
-      subject,
-      message,
-    };
-
     swal({
       title: "Are You sure ?",
       text: "You want to send this message ?",
       icon: "warning",
       dangerMode: true,
-    }).then((willSend) => {
+    }).then(async (willSend) => {
       if (willSend) {
-        axios.post(url, payload).then(
-          (response) => {
-            if (response.data.statusCode === 200) {
-              swal({
-                title: "Done!",
-                text: "Your Message Sent Successfully.",
-                icon: "success",
-                timer: 2000,
-                button: false,
-              });
-            } else {
-              swal("Oops!", "Something went wrong!", "error");
-            }
-          },
-          (error) => {
-            swal({
-              title: "Error",
-              text: `${error}`,
-              timer: 2000,
-              button: false,
-              icon: "warning",
-              dangerMode: true,
-            });
-          }
-        );
+        const result = await DataService.contactUsMessage(formValues);
+        if (result.status === "success") {
+          swal({
+            title: "Done!",
+            text: `${result.message}`,
+            icon: "success",
+            timer: 2000,
+            button: false,
+          });
+        } else {
+          swal({
+            title: "Error",
+            text: `${result.message}`,
+            timer: 2000,
+            button: false,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
       }
     });
   };
+  
   return (
     <Container
       className={contactUsStyle.container}
@@ -304,4 +283,5 @@ const ContactUs = () => {
     </Container>
   );
 };
+
 export default ContactUs;

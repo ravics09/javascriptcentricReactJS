@@ -121,13 +121,15 @@ const Home = () => {
               <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length}{" "}
               Comments
             </span>
-            <Button
-              variant="outline-dark"
-              size="sm"
-              onClick={() => onSave(item)}
-            >
-              Save
-            </Button>
+            {currentUserD ? (
+              <Button
+                variant="outline-dark"
+                size="sm"
+                onClick={() => onSave(item)}
+              >
+                Save
+              </Button>
+            ) : null}
           </div>
         </div>
       </Row>

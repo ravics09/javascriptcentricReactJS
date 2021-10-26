@@ -91,7 +91,7 @@ const UserAccount = () => {
     }
   }, []);
 
-  const handleSubmitPost = async (formValues) => {
+  const handleUpdatedProfile = async (formValues) => {
     const result = await DataService.editUserProfile(id, formValues);
 
     if (result.status === "success") {
@@ -189,7 +189,7 @@ const UserAccount = () => {
           setSubmitting(true);
           setLgShow(false);
           if (values) {
-            handleSubmitPost(values);
+            handleUpdatedProfile(values);
           }
           setTimeout(() => {
             setSubmitting(false);
