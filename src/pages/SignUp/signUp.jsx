@@ -10,6 +10,7 @@ import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import "bootstrap/dist/css/bootstrap.min.css";
 import signUpStyle from "./signUp.module.css";
 import AuthService from "./../../services/authService";
+const {innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -67,7 +68,7 @@ const SignUp = ({ props }) => {
   return (
     <Container
       className={signUpStyle.container}
-      style={{ border: "1px solid gray", borderRadius: 10 }}
+      style={{ border: "1px solid gray", borderRadius: 10, height: winHight }}
     >
       <Formik
         validationSchema={validationSchema}

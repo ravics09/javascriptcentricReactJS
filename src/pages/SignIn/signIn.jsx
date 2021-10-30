@@ -13,6 +13,7 @@ import {signIn} from './../../redux/slices/authSlice';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
+const {innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -78,7 +79,7 @@ const SignIn = ({ props }) => {
   return (
     <Container
       className={signInStyle.container}
-      style={{ border: "1px solid gray", borderRadius: 10 }}
+      style={{ border: "1px solid gray", borderRadius: 10, height: winHight}}
     >
       <Formik
         validationSchema={validationSchema}

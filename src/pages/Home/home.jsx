@@ -21,8 +21,9 @@ import FeedService from "./../../services/feedService";
 const Home = () => {
   const history = useHistory();
   const [userPosts, setUserPosts] = useState([]);
-  const [currentUserD, setCurrentUser] = useState(false);
-  // const { user: currentUser } = useSelector((state) => state.auth);
+  const [currentUser, setCurrentUser] = useState(false);
+  const { user: exisitingUser } = useSelector((state) => state.auth);
+
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -48,7 +49,8 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // if (!currentUserD) {
+  // if (!exisitingUser) {
+  //   console.log("value of current user==",currentUser);
   //   return <Redirect to="/signin" />;
   // }
 
@@ -121,7 +123,7 @@ const Home = () => {
               <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length}{" "}
               Comments
             </span>
-            {currentUserD ? (
+            {currentUser ? (
               <Button
                 variant="outline-dark"
                 size="sm"
@@ -157,7 +159,7 @@ const Home = () => {
                 </p>
               </article>
             </div>
-            {currentUserD ? null : (
+            {currentUser ? null : (
               <div style={{ paddingBottom: 10 }}>
                 <Stack gap={1}>
                   <Button

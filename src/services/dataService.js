@@ -49,7 +49,6 @@ const editUserProfile = (id, formValues) => {
 
 const getUserProfile = (id) => {
   const url = `${API_URL}/profile/${id}`;
-  console.log("id for user==", id);
 
   return axios.get(url, { headers: AuthHeader() }).then(
     (response) => {
@@ -95,10 +94,39 @@ const contactUsMessage = (formValues) => {
   );
 };
 
+const uploadProfilePhoto = (id, formData, options) => {
+  const url = `${API_URL}/uploadprofileimage/${id}`;
+  const payload = formData;
+
+  return axios.put(url, payload, options).then(
+    (response) => {
+      console.log("response photo data=", response.data);
+      if (response.status === 200) {
+        return {
+          image: response.data,
+          status: "success",
+          message: "Your photo uploaded successfully",
+        };
+      }
+    },
+    (error) => {
+      if (error.response) {
+        return { status: "failed", message: error.response.data };
+      } else {
+        return { status: "failed", message: "Server Not Responding" };
+      }
+    }
+  )
+  // .then((files)=>{
+  //   console.log("files data===",files.data);
+  // });
+};
+
 const dataService = {
   getUserProfile,
   editUserProfile,
   contactUsMessage,
+  uploadProfilePhoto,
 };
 
 export default dataService;

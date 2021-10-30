@@ -13,7 +13,7 @@ const App = () => {
     <div
       style={{
         backgroundColor: "#181A1F",
-        height: "100%",
+        height: winHight,
         minHeight:winHight,
         marginLeft: 100, 
         marginRight: 100,

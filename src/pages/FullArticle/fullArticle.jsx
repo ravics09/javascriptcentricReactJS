@@ -367,7 +367,7 @@ const FullArticle = () => {
           <Card>
             <Card.Img
               variant="top"
-              src={authorDetails.profilePic ? LEADER_IMG : PLACEHOLDER_IMG}
+              src={authorDetails.profilePhoto ? authorDetails.profilePhoto : PLACEHOLDER_IMG}
             />
             <Card.Body>
               <Card.Title>{authorDetails.fullName}</Card.Title>

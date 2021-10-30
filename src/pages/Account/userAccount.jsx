@@ -5,7 +5,7 @@ import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import userAccountStyle from "./userAccount.module.css";
-import LEADER_IMG from "./../../assets/images/leader.jpeg";
+import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import {
   Card,
   Button,
@@ -57,6 +57,11 @@ const UserAccount = () => {
   const [work, setWork] = useState("");
   const [skills, setSkills] = useState("");
   const [lgShow, setLgShow] = useState(false);
+  const [uploadPhotoModal, showUploadPhotoModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [previewPhoto, setPreviewPhoto] = useState(null);
+  const [progressPercent, setProgressPercent] = useState(0);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -68,6 +73,7 @@ const UserAccount = () => {
 
     async function fetchData(id) {
       const result = await DataService.getUserProfile(id);
+      console.log("UserDetails:===", result.user.profilePhotoPath);
 
       if (result.status === "success") {
         setFullName(result.user.fullName);
@@ -75,6 +81,7 @@ const UserAccount = () => {
         setSkills(result.user.skills);
         setLocation(result.user.location);
         setWork(result.user.work);
+        // setProfilePhoto(result.user.profilePhotoPath); //const img = await res.json();
 
         if (formikRef.current) {
           formikRef.current.setFieldValue("fullName", result.user.fullName);
@@ -114,6 +121,56 @@ const UserAccount = () => {
     }
   };
 
+  const fileSelectedHandler = ({ target: { files } }) => {
+    setSelectedFile(files[0]);
+    setPreviewPhoto(URL.createObjectURL(files[0]));
+  };
+
+  const fileUpdatedHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("profilePhoto", selectedFile);
+    setProgressPercent(0);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        // console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        setProgressPercent(percent);
+      },
+    };
+
+    const result = await DataService.uploadProfilePhoto(id, formData, options);
+    if (result.status === "success") {
+      setProfilePhoto(result.image);
+      setTimeout(() => {
+        swal({
+          title: "Done!",
+          text: `photo uploaded successfully`,
+          icon: "success",
+          timer: 2000,
+          button: false,
+        });
+        setProgressPercent(0);
+        showUploadPhotoModal(false);
+      }, 2000);
+
+      setTimeout(() => {
+        window.location.reload();
+      },4000);
+    } else {
+      setTimeout(() => setProgressPercent(0), 1000);
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
+  };
+  //profilePhoto
   return (
     <Container className={userAccountStyle.container}>
       <Row>
@@ -122,10 +179,19 @@ const UserAccount = () => {
             <div className={userAccountStyle.box}>
               <span>
                 <Image
-                  src={LEADER_IMG}
+                  src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
                   className={userAccountStyle.bio_photo}
+                  name={profilePhoto}
                 />
               </span>
+              <div className={userAccountStyle.photoEditBtn}>
+                <Button
+                  variant="dark"
+                  onClick={() => showUploadPhotoModal(true)}
+                >
+                  Edit Photo
+                </Button>
+              </div>
             </div>
             <div className={userAccountStyle.box2}>
               <div className={userAccountStyle.userDetail}>
@@ -420,6 +486,78 @@ const UserAccount = () => {
           </Modal>
         )}
       </Formik>
+
+      {/* //================================================================================================ */}
+      <Modal
+        size="lg"
+        show={uploadPhotoModal}
+        onHide={() => showUploadPhotoModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="photoUploadModal">Upload Photo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Form
+            className={userAccountStyle.photoUploadForm}
+            onSubmit={fileUpdatedHandler}
+            encType="multipart/form-data"
+          >
+            <Row className="mb-3">
+              <img
+                src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
+                // src={`data:image/jpeg;base64,${profilePhoto}`}
+                style={{
+                  width: "300px",
+                  height: "300px",
+                  borderRadius: selectedFile ? "50%" : "0px",
+                }}
+              />
+            </Row>
+            <Row className="mb-3">
+              <div
+                className="progress"
+                style={{ width: "290px", marginLeft: "10px" }}
+              >
+                <div
+                  className="progress-bar progress-bar-info progress-bar-striped"
+                  role="progressbar"
+                  style={{ width: `${progressPercent}%` }}
+                  aria-valuenow={progressPercent}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  {progressPercent}
+                </div>
+              </div>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group controlId="validationProfilePhoto">
+                <Form.File
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  name="profilePhoto"
+                  filename="profilePhoto"
+                  custom
+                  onChange={(e) => fileSelectedHandler(e)}
+                />
+              </Form.Group>
+            </Row>
+            <Row className="mb-2">
+              <div className={userAccountStyle.uploadPhotoBtn}>
+                <Button block type="submit">
+                  Upload Photo
+                </Button>
+              </div>
+            </Row>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };

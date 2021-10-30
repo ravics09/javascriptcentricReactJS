@@ -73,7 +73,7 @@ const ContactUs = () => {
   return (
     <Container
       className={contactUsStyle.container}
-      style={{ border: "1px solid gray", borderRadius: 10 }}
+      style={{ border: "1px solid gray", borderRadius: 10}}
     >
       <Row>
         <Col className={contactUsStyle.contactUsForm}>
@@ -96,7 +96,6 @@ const ContactUs = () => {
               isSubmitting,
               values,
               touched,
-              isValid,
               errors,
             }) => (
               <Form
@@ -204,6 +203,15 @@ const ContactUs = () => {
                     ) : null}
                   </Form.Group>
                 </Row>
+                {/* <Row className="mb-3">
+                  <Form.Group as={Col} md="12" controlId="formFile">
+                    <Form.File
+                      id="inputGroupFile01"
+                      type="file"
+                      custom
+                    />
+                  </Form.Group>
+                </Row> */}
                 <Row
                   className="mb-3"
                   style={{ paddingLeft: 10, paddingRight: 10 }}
