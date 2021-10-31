@@ -102,6 +102,7 @@ const uploadProfilePhoto = (id, formData, options) => {
     .put(url, payload, options, {
       headers: {
         "content-type": "multipart/form-data",
+        AuthHeader
       },
     })
     .then(

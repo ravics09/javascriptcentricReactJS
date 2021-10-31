@@ -73,17 +73,13 @@ const UserAccount = () => {
 
     async function fetchData(id) {
       const result = await DataService.getUserProfile(id);
-      console.log("profile photo", result.user.profilePhoto);
-      // console.log("profilePhotoPath",result.user.profilePhotoPath)
       if (result.status === "success") {
-        console.log("user details==", result.user);
         setFullName(result.user.fullName);
         setBio(result.user.bio);
         setSkills(result.user.skills);
         setLocation(result.user.location);
         setWork(result.user.work);
         setProfilePhoto(result.user.profilePhoto);
-        // setProfilePhoto(result.user.profilePhotoPath); //const img = await res.json();
 
         if (formikRef.current) {
           formikRef.current.setFieldValue("fullName", result.user.fullName);
@@ -124,7 +120,6 @@ const UserAccount = () => {
   };
 
   const fileSelectedHandler = ({ target: { files } }) => {
-    // console.log("files==", files[0]);
     setSelectedFile(files[0]);
     setPreviewPhoto(URL.createObjectURL(files[0]));
   };
@@ -168,6 +163,7 @@ const UserAccount = () => {
       });
     }
   };
+  
   if (profilePhoto) {
     var imgstr = profilePhoto;
     imgstr = imgstr.replace("public", "");

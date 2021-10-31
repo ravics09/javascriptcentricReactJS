@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory, Redirect } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import swal from "sweetalert";
@@ -8,7 +8,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import homeStyle from "./home.module.css";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
-import LEADER_IMG from "./../../assets/images/leader.jpeg";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import CODING_IMG from "./../../assets/images/coding.png";
 import INTERVIEW_IMG from "./../../assets/images/interview.png";
@@ -33,8 +32,7 @@ const Home = () => {
     async function fetchData() {
       const result = await FeedService.getAllPosts();
       if (result.status === "success") {
-        setUserPosts(result.posts);
-        console.log("all posts", result.posts);
+        setUserPosts(result.posts.reverse());
       } else {
         swal({
           title: "Error!",
@@ -85,7 +83,7 @@ const Home = () => {
     const minAgo = moment(item.createdAt).startOf("minute").fromNow();
 
     if (item.postedBy.profilePhoto) {
-      var imgstr = item.postedBy.profilePhoto;;
+      var imgstr = item.postedBy.profilePhoto;
       imgstr = imgstr.replace("public", "");
       var profilePic = "http://localhost:9090" + imgstr;
     } else {
@@ -102,12 +100,7 @@ const Home = () => {
         key={index}
       >
         <div className={homeStyle.cardHeader}>
-          <Image
-            src={profilePic}
-            width={50}
-            height={50}
-            roundedCircle
-          />
+          <Image src={profilePic} width={50} height={50} roundedCircle />
           <div className={homeStyle.cardName}>
             <strong>{item.postedBy.fullName}</strong>
             <p>
