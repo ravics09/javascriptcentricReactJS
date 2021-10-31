@@ -73,14 +73,16 @@ const UserAccount = () => {
 
     async function fetchData(id) {
       const result = await DataService.getUserProfile(id);
-      console.log("UserDetails:===", result.user.profilePhotoPath);
-
+      console.log("profile photo", result.user.profilePhoto);
+      // console.log("profilePhotoPath",result.user.profilePhotoPath)
       if (result.status === "success") {
+        console.log("user details==", result.user);
         setFullName(result.user.fullName);
         setBio(result.user.bio);
         setSkills(result.user.skills);
         setLocation(result.user.location);
         setWork(result.user.work);
+        setProfilePhoto(result.user.profilePhoto);
         // setProfilePhoto(result.user.profilePhotoPath); //const img = await res.json();
 
         if (formikRef.current) {
@@ -122,6 +124,7 @@ const UserAccount = () => {
   };
 
   const fileSelectedHandler = ({ target: { files } }) => {
+    // console.log("files==", files[0]);
     setSelectedFile(files[0]);
     setPreviewPhoto(URL.createObjectURL(files[0]));
   };
@@ -136,7 +139,6 @@ const UserAccount = () => {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percent = Math.floor((loaded * 100) / total);
-        // console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setProgressPercent(percent);
       },
     };
@@ -155,10 +157,6 @@ const UserAccount = () => {
         setProgressPercent(0);
         showUploadPhotoModal(false);
       }, 2000);
-
-      setTimeout(() => {
-        window.location.reload();
-      },4000);
     } else {
       setTimeout(() => setProgressPercent(0), 1000);
       swal({
@@ -170,7 +168,14 @@ const UserAccount = () => {
       });
     }
   };
-  //profilePhoto
+  if (profilePhoto) {
+    var imgstr = profilePhoto;
+    imgstr = imgstr.replace("public", "");
+    var profilePic = "http://localhost:9090" + imgstr;
+  } else {
+    profilePic = PLACEHOLDER_IMG;
+  }
+
   return (
     <Container className={userAccountStyle.container}>
       <Row>
@@ -179,7 +184,7 @@ const UserAccount = () => {
             <div className={userAccountStyle.box}>
               <span>
                 <Image
-                  src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
+                  src={profilePic}
                   className={userAccountStyle.bio_photo}
                   name={profilePhoto}
                 />
@@ -510,8 +515,7 @@ const UserAccount = () => {
           >
             <Row className="mb-3">
               <img
-                src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
-                // src={`data:image/jpeg;base64,${profilePhoto}`}
+                src={selectedFile ? previewPhoto : PLACEHOLDER_IMG}
                 style={{
                   width: "300px",
                   height: "300px",

@@ -98,25 +98,30 @@ const uploadProfilePhoto = (id, formData, options) => {
   const url = `${API_URL}/uploadprofileimage/${id}`;
   const payload = formData;
 
-  return axios.put(url, payload, options).then(
-    (response) => {
-      console.log("response photo data=", response.data);
-      if (response.status === 200) {
-        return {
-          image: response.data,
-          status: "success",
-          message: "Your photo uploaded successfully",
-        };
+  return axios
+    .put(url, payload, options, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    })
+    .then(
+      (response) => {
+        if (response.status === 200) {
+          return {
+            image: response.data.results.profilePhoto,
+            status: "success",
+            message: "Your photo uploaded successfully",
+          };
+        }
+      },
+      (error) => {
+        if (error.response) {
+          return { status: "failed", message: error.response.data };
+        } else {
+          return { status: "failed", message: "Server Not Responding" };
+        }
       }
-    },
-    (error) => {
-      if (error.response) {
-        return { status: "failed", message: error.response.data };
-      } else {
-        return { status: "failed", message: "Server Not Responding" };
-      }
-    }
-  )
+    );
   // .then((files)=>{
   //   console.log("files data===",files.data);
   // });

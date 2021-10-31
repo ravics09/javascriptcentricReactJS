@@ -40,9 +40,10 @@ const FullArticle = () => {
   const [authorDetails, setAuthorDetails] = useState({});
   const [userId, setUserId] = useState("");
   const [comments, setComments] = useState([]);
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   useEffect(() => {
-    const { state } = history.location; // used 'state' to get article data from home page to fullarticle page
+    // const { state } = history.location; // used 'state' to get article data from home page to fullarticle page
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
     async function fetchData() {
@@ -51,6 +52,7 @@ const FullArticle = () => {
         setPostData(result.post);
         setComments(result.post.comments);
         setAuthorDetails(result.post.postedBy);
+        setProfilePhoto(result.post.postedBy.profilePhoto)
       }
     }
     fetchData();
@@ -101,6 +103,13 @@ const FullArticle = () => {
   const ShowComments = ({ item, index }) => {
     //const commentMinAgo = moment(item.postedBy.createdAt).startOf("minute").fromNow();
     const commentDate = moment(item.createdAt).format("MMM Do");
+    if (item.postedBy.profilePhoto) {
+      var imgstr = item.postedBy.profilePhoto;;
+      imgstr = imgstr.replace("public", "");
+      var profilePic = "http://localhost:9090" + imgstr;
+    } else {
+      profilePic = PLACEHOLDER_IMG;
+    }
     return (
       <Row
         className={fullArticleStyle.commentDetails}
@@ -113,7 +122,7 @@ const FullArticle = () => {
         <div className={fullArticleStyle.cardHeader}>
           <div className={fullArticleStyle.cardUserDetail}>
             <Image
-              src={authorDetails.profilePic ? LEADER_IMG : PLACEHOLDER_IMG}
+              src={profilePic}
               width={50}
               height={50}
               roundedCircle
@@ -155,6 +164,14 @@ const FullArticle = () => {
 
   const joinedDate = moment(authorDetails.createdAt).format("LL");
   const postDate = moment(postData.createdAt).format("MMM Do YYYY");
+
+  if (profilePhoto) {
+    var imgstr = profilePhoto;
+    imgstr = imgstr.replace("public", "");
+    var profilePic = "http://localhost:9090" + imgstr;
+  } else {
+    profilePic = PLACEHOLDER_IMG;
+  }
   return (
     <Container className={fullArticleStyle.container}>
       <Row className="mb-3">
@@ -184,7 +201,7 @@ const FullArticle = () => {
             <div className={fullArticleStyle.cardHeader}>
               <div className={fullArticleStyle.cardUserDetail}>
                 <Image
-                  src={authorDetails.profilePic ? LEADER_IMG : PLACEHOLDER_IMG}
+                  src={profilePic}
                   width={50}
                   height={50}
                   roundedCircle
@@ -266,13 +283,11 @@ const FullArticle = () => {
                 </big>
               </div>
               <div>
-                <Button
-                  variant="light"
-                  as={NavLink}
-                  to="/signin"
-                >
-                  Subscribe
-                </Button>
+                {userId ? null : (
+                  <Button variant="light" as={NavLink} to="/signin">
+                    Subscribe
+                  </Button>
+                )}
               </div>
             </div>
           </Row>
@@ -302,7 +317,6 @@ const FullArticle = () => {
                 isSubmitting,
                 values,
                 touched,
-                isValid,
                 errors,
               }) => (
                 <Form
@@ -367,7 +381,7 @@ const FullArticle = () => {
           <Card>
             <Card.Img
               variant="top"
-              src={authorDetails.profilePhoto ? authorDetails.profilePhoto : PLACEHOLDER_IMG}
+              src={profilePic}
             />
             <Card.Body>
               <Card.Title>{authorDetails.fullName}</Card.Title>

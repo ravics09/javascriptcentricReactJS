@@ -24,7 +24,6 @@ const Home = () => {
   const [currentUser, setCurrentUser] = useState(false);
   const { user: exisitingUser } = useSelector((state) => state.auth);
 
-
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser) {
@@ -35,6 +34,7 @@ const Home = () => {
       const result = await FeedService.getAllPosts();
       if (result.status === "success") {
         setUserPosts(result.posts);
+        console.log("all posts", result.posts);
       } else {
         swal({
           title: "Error!",
@@ -83,6 +83,14 @@ const Home = () => {
     const formateDate = moment(item.createdAt).format("MMM Do");
     const hourAgo = moment(item.createdAt).startOf("hour").fromNow();
     const minAgo = moment(item.createdAt).startOf("minute").fromNow();
+
+    if (item.postedBy.profilePhoto) {
+      var imgstr = item.postedBy.profilePhoto;;
+      imgstr = imgstr.replace("public", "");
+      var profilePic = "http://localhost:9090" + imgstr;
+    } else {
+      profilePic = PLACEHOLDER_IMG;
+    }
     return (
       <Row
         className={homeStyle.secondColumn}
@@ -95,7 +103,7 @@ const Home = () => {
       >
         <div className={homeStyle.cardHeader}>
           <Image
-            src={item.postedBy.profilePic ? LEADER_IMG : PLACEHOLDER_IMG}
+            src={profilePic}
             width={50}
             height={50}
             roundedCircle
