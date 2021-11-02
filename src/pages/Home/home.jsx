@@ -14,6 +14,7 @@ import INTERVIEW_IMG from "./../../assets/images/interview.png";
 import PROGRAM_IMG from "./../../assets/images/program.png";
 import DATA_IMG from "./../../assets/images/data.png";
 import { FaHeart, FaRegComment } from "react-icons/fa";
+import DataService from "./../../services/dataService";
 
 import FeedService from "./../../services/feedService";
 
@@ -21,12 +22,14 @@ const Home = () => {
   const history = useHistory();
   const [userPosts, setUserPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(false);
+  const [userId, setUserId] = useState("");
   const { user: exisitingUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser) {
       setCurrentUser(true);
+      setUserId(loggedInUser.userId);
     }
 
     async function fetchData() {
@@ -73,8 +76,25 @@ const Home = () => {
     history.push(`/fullarticle/${Id}`, { data: item });
   };
 
-  const onSave = (index) => {
-    alert("You saved item with index value: " + index);
+  const onSave = async (postId) => {
+    const result = await DataService.addToReadingList(userId, postId);
+    if (result.status === "success") {
+      swal({
+        title: "Done!",
+        text: `${result.message}`,
+        icon: "success",
+        timer: 2000,
+        button: false,
+      });
+    } else {
+      swal({
+        title: "Error!",
+        text: `${result.message}`,
+        icon: "warning",
+        timer: 2000,
+        button: false,
+      });
+    }
   };
 
   const PostCard = ({ item, index }) => {
@@ -128,7 +148,7 @@ const Home = () => {
               <Button
                 variant="outline-dark"
                 size="sm"
-                onClick={() => onSave(item)}
+                onClick={() => onSave(item._id)}
               >
                 Save
               </Button>
