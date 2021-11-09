@@ -27,7 +27,7 @@ const getPost = (id) => {
   const payload = {
     id,
   };
-  return axios.get(url, payload).then(
+  return axios.get(url, payload, { headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return { status: "success", post: response.data.post };
@@ -71,7 +71,7 @@ const addComment = (postId, userId, comment) => {
 
 const getUserPosts = (userId) => {
   const url = `${API_URL}/getuserposts/${userId}`;
-  return axios.get(url).then(
+  return axios.get(url, { headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return { status: "success", posts: response.data.posts.Feed };
@@ -96,7 +96,7 @@ const editPost = (id, formValues) => {
     content,
   };
 
-  return axios.put(url, payload).then(
+  return axios.put(url, payload,{ headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return {
@@ -117,7 +117,7 @@ const editPost = (id, formValues) => {
 
 const deletePost = (id) => {
   const url = `${API_URL}/deletepost/${id}`;
-  return axios.delete(url).then(
+  return axios.delete(url, { headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return {

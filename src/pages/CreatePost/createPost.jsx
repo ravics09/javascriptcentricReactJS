@@ -130,7 +130,7 @@ const CreatePost = () => {
                 onSubmit={handleSubmit}
                 className={createPostStyle.postForm}
               >
-                <Row className="mb-5">
+                <Row className="mb-3">
                   <h3 style={{ marginLeft: 10 }}>Create A New Post</h3>
                 </Row>
                 <Row className="mb-3">

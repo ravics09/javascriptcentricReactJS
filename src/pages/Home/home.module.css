@@ -1,13 +1,11 @@
 .container {
-  /* background-color: white !important; */
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
 .firstColumnFirstRow {
   background-color: #abcff7;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-right: 1px;
   margin-bottom: 10px;
   border-radius: 5px;
   border-width: 1px;
@@ -15,16 +13,13 @@
 .firstColumnSecondRow {
   background-color: #f7dc6f;
   margin-bottom: 10px;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-right: 1px;
   border-radius: 5px;
   border-width: 1px;
 }
 .secondColumn {
   background-color: white;
   margin-bottom: 10px;
-  margin-left: 1px;
-  margin-right: 1px;
   padding-top: 10px;
   box-shadow: 2px 1px 2px black !important;
 }
@@ -53,104 +48,16 @@
   justify-content: space-between;
 }
 .thirdColumn {
-  background-color: #abcff7;
   margin-bottom: 10px;
-  margin-right: 2px;
 }
-.firstFirstColumn {
-  background-color: #abcff7;
-  margin-bottom: 5px;
-  margin-left: 2px;
-}
-.interviewSection {
-  background-color: #abcff7;
+.rightCardSection {
+  display: flex;
   margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
   transition: transform 0.2s;
 }
-.interviewSection:hover {
-  background-color: #abcff7;
+.rightCardSection:hover {
   margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
   transform: scale(1.5);
-  box-shadow: 2px 1px 5px 2px gray !important;
+  border-radius: 50px;
 }
-.interviewSectionBody {
-  display: flex;
-  justify-content: center;
-}
-.codingSection {
-  background-color: #f9e79f;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transition: transform 0.2s;
-}
-.codingSection:hover {
-  background-color: #f9e79f;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transform: scale(1.5);
-  box-shadow: 2px 1px 5px 2px gray !important;
-}
-.codingSectionBody {
-  display: flex;
-  justify-content: center;
-}
-.programSection {
-  background-color: #f1948a;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transition: transform 0.2s;
-}
-.programSection:hover {
-  background-color: #f1948a;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transform: scale(1.5);
-  box-shadow: 2px 1px 5px 2px gray !important;
-}
-.programSectionBody {
-  display: flex;
-  justify-content: center;
-}
-.dataStructureSection {
-  background-color: #f7dc6f;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transition: transform 0.2s;
-}
-.dataStructureSection:hover {
-  background-color: #f7dc6f;
-  margin-bottom: 10px;
-  margin-right: 2px;
-  margin-left: 2px;
-  border-radius: 5px;
-  border-width: 1px;
-  transform: scale(1.5);
-  box-shadow: 2px 1px 5px 2px gray !important;
-}
-.dataStructureSectionBody{
-  display: flex;
-  justify-content: center;
-}
+

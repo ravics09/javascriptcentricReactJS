@@ -79,7 +79,7 @@ const contactUsMessage = (formValues) => {
     message,
   };
 
-  return axios.post(url, payload).then(
+  return axios.post(url, payload, { headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return { status: "success", message: "Your message sent successfully" };

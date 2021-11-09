@@ -4,6 +4,8 @@ import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import moment from "moment";
+// import Parser from 'html-react-parser';
+import Parser from 'html-react-parser/dist/html-react-parser'
 import "bootstrap/dist/css/bootstrap.min.css";
 import fullArticleStyle from "./fullArticle.module.css";
 import {
@@ -270,7 +272,7 @@ const FullArticle = () => {
 
             <div className={fullArticleStyle.cardSubtitle}>
               <article>
-                <p>{postData.postContent}</p>
+                <pre style={{"white-space": "pre-line"}} className={fullArticleStyle.cardBody}>{postData.postContent}</pre>
               </article>
             </div>
           </Row>

@@ -9,10 +9,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import homeStyle from "./home.module.css";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
-import CODING_IMG from "./../../assets/images/coding.png";
-import INTERVIEW_IMG from "./../../assets/images/interview.png";
-import PROGRAM_IMG from "./../../assets/images/program.png";
-import DATA_IMG from "./../../assets/images/data.png";
+import JAVASCRIPT_IMG2 from "./../../assets/images/js2.png";
+import RN_IMG from "./../../assets/images/rn.jpg";
+import REACTJS_IMG from "./../../assets/images/react.png";
+import NODE_JPG from "./../../assets/images/node.jpg";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import DataService from "./../../services/dataService";
 
@@ -55,19 +55,19 @@ const Home = () => {
   //   return <Redirect to="/signin" />;
   // }
 
-  const openInterviewQuestion = () => {
+  const openJavaScriptSection = () => {
     history.push("/interviewquestions");
   };
 
-  const openCodingChallenge = () => {
+  const openReactJSSection = () => {
     history.push("/codingchallenge");
   };
 
-  const openAllPrograms = () => {
+  const openReactNativeSection = () => {
     history.push("/programs");
   };
 
-  const openDataStructures = () => {
+  const openNodeJSSection = () => {
     history.push("/interviewquestions");
   };
 
@@ -211,12 +211,13 @@ const Home = () => {
                 paddingBottom: 10,
               }}
             >
-              <h4>Current Jobs</h4>
-              <p>
-                Please Sign Up to get notify for latest jobs related with
-                javascript. You can click on below job links to apply for a
-                particular job opportunity.
-              </p>
+              <h4>Other Technologies</h4>
+              <p>ExpressJS</p>
+              <p>MongoDB</p>
+              <p>Redux</p>
+              <p>Redux Saga</p>
+              <p>AWS</p>
+              <p></p>
             </div>
           </Row>
         </Col>
@@ -228,109 +229,65 @@ const Home = () => {
             : null}
         </Col>
         <Col md={3}>
-          <Row className={homeStyle.interviewSection}>
-            <div
+          <Row
+            className={homeStyle.rightCardSection}
+            // style={{ backgroundColor: "#abcff7" }}
+          >
+            <Image
+              src={JAVASCRIPT_IMG2}
               style={{
-                paddingTop: 10,
-                paddingBottom: 10,
                 cursor: "pointer",
+                borderRadius: "30px",
+                width: "100%",
+                height: "200px",
               }}
-              onClick={openInterviewQuestion}
-            >
-              <article>
-                <h4>400+ Interview Questions</h4>
-                <div className={homeStyle.interviewSectionBody}>
-                  <Image
-                    src={INTERVIEW_IMG}
-                    width={80}
-                    height={80}
-                    style={{ paddingRight: 10 }}
-                  />
-                  <p>
-                    We provides more then 400 interview question which helps you
-                    to prepare for any javascript interview.
-                  </p>
-                </div>
-              </article>
-            </div>
+              onClick={openJavaScriptSection}
+            />
           </Row>
-          <Row className={homeStyle.codingSection}>
-            <div
+          <Row
+            className={homeStyle.rightCardSection}
+            // style={{ backgroundColor: "#f9e79f" }}
+          >
+            <Image
+              src={REACTJS_IMG}
               style={{
-                paddingTop: 10,
-                paddingBottom: 10,
                 cursor: "pointer",
+                borderRadius: "30px",
+                width: "100%",
+                height: "200px",
               }}
-              onClick={openCodingChallenge}
-            >
-              <article>
-                <h4>100+ Coding Challenge</h4>
-                <div className={homeStyle.codingSectionBody}>
-                  <Image
-                    src={CODING_IMG}
-                    width={100}
-                    height={100}
-                    style={{ paddingRight: 10 }}
-                  />
-                  <p>
-                    We provide Wide range of coding problems for preparation of
-                    coding round.
-                  </p>
-                </div>
-              </article>
-            </div>
+              onClick={openReactJSSection}
+            />
           </Row>
-          <Row className={homeStyle.programSection}>
-            <div
+          <Row
+            className={homeStyle.rightCardSection}
+            // style={{ backgroundColor: "#f1948a" }}
+          >
+            <Image
+              src={RN_IMG}
               style={{
-                paddingTop: 10,
-                paddingBottom: 10,
                 cursor: "pointer",
+                borderRadius: "30px",
+                width: "100%",
+                height: "200px",
               }}
-              onClick={openAllPrograms}
-            >
-              <article>
-                <h4>100+ Programs</h4>
-                <div className={homeStyle.programSectionBody}>
-                  <Image
-                    src={PROGRAM_IMG}
-                    width={100}
-                    height={100}
-                    style={{ paddingRight: 10 }}
-                  />
-                  <p>
-                    100+ Basic to advance level JS programs that test help you
-                    for coding round.
-                  </p>
-                </div>
-              </article>
-            </div>
+              onClick={openReactNativeSection}
+            />
           </Row>
-          <Row className={homeStyle.dataStructureSection}>
-            <div
+          <Row
+            className={homeStyle.rightCardSection}
+            // style={{ backgroundColor: "#f7dc6f" }}
+          >
+            <Image
+              src={NODE_JPG}
               style={{
-                paddingTop: 10,
-                paddingBottom: 10,
                 cursor: "pointer",
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
               }}
-              onClick={openDataStructures}
-            >
-              <article>
-                <h4>JS Data Structure</h4>
-                <div className={homeStyle.dataStructureSectionBody}>
-                  <Image
-                    src={DATA_IMG}
-                    width={100}
-                    height={100}
-                    style={{ paddingRight: 10 }}
-                  />
-                  <p>
-                    We provide one of the best content on JS DataStrucutre with
-                    clean and easy understanding.
-                  </p>
-                </div>
-              </article>
-            </div>
+              onClick={openNodeJSSection}
+            />
           </Row>
         </Col>
       </Row>

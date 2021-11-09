@@ -85,6 +85,7 @@ const Dashboard = () => {
           <Button
             className={dashboardStyle.customBtn}
             variant="primary"
+            size="sm"
             onClick={() => editSelectedPost(item)}
           >
             Edit
@@ -93,6 +94,7 @@ const Dashboard = () => {
           <Button
             className={dashboardStyle.customBtn}
             variant="outline-danger"
+            size="sm"
             onClick={() => deleteSelectedPost(item._id)}
           >
             Delete
@@ -110,7 +112,7 @@ const Dashboard = () => {
       <Row className={dashboardStyle.cardRow}>
         <Col md={3}>
           <div className={dashboardStyle.headerCard}>
-            <big>10</big>
+            <big>{userPosts.length}</big>
             <p>Total Posts</p>
           </div>
         </Col>

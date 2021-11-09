@@ -3,7 +3,8 @@
   padding-left: 10px;
 }
 .navBrandLink {
-  color: rgb(247, 220, 70) !important;
+  /* color: rgb(247, 220, 70) !important; */
+  color: white !important;
   text-decoration: none;
   pointer-events: none;
   font-size: 20px;
@@ -15,9 +16,15 @@
   text-decoration: none;
   padding-right: 5px;
   padding-left: 5px;
+  padding-top:10px;
 }
 .navLink:hover {
   color: white !important;
+}
+.searchBar{
+  padding-top:10px;
+  padding-left: 5px;
+  background-color: #181a1f !important;
 }
 .activeNavLink {
   color: white !important;

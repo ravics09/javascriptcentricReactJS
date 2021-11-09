@@ -20,6 +20,9 @@ import ResetPassword from "./../pages/ResetPassword/resetPassword";
 import UserResetPassword from "./../pages/UserResetPassword/userResetPassword";
 import FullArticle from "./../pages/FullArticle/fullArticle";
 import Account from "./../pages/Account/userAccount";
+import QuizTopic from "./../pages/QuizTopic/quizTopic";
+import JSStatusBoard from "./../pages/JavaScriptStatusBoard/jsStatusBoard";
+import OnlineQuiz from "./../pages/OnlineQuiz/onlineQuiz";
 
 const Routes = () => {
   return (
@@ -44,6 +47,9 @@ const Routes = () => {
       <Route exact component={FullArticle} path="/fullarticle/:id" />
       <Route exact component={EditPost} path="/:id/editpost" />
       <Route exact component={Account} path="/account" />
+      <Route exact component={QuizTopic} path="/selectquiztopic" />
+      <Route exact component={JSStatusBoard} path="/jsstatusdashboard" />
+      <Route exact component={OnlineQuiz} path="/onlinequiz/:id" />
     </Switch>
   );
 };

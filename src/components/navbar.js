@@ -3,14 +3,23 @@ import { useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarStyle from "./navbar.module.css";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import AuthService from './../services/authService';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  InputGroup,
+  FormControl,
+  Button,
+  Form
+} from "react-bootstrap";
+import AuthService from "./../services/authService";
 
 const NavBar = () => {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [dropdownActiveKey, setActiveKey] = useState(1);
+  const [searchText, setSearchText] = useState("");
   // const { user: currentUserD } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -37,17 +46,23 @@ const NavBar = () => {
     setCurrentUser(false);
     await AuthService.signOut();
     history.push("/signin");
+  };
+
+  const handleSearchText = async (e) => {
+    setSearchText(e.target.value);
+  }
+
+  const handleSearch = async () => {
+    alert("You searched for"+searchText);
+    // setSearchText("");
   }
 
   return (
     <div className="row">
       <div className="col-md-12">
-        <Navbar
-          className={NavBarStyle.navContainer}
-          expand="lg"
-        >
+        <Navbar className={NavBarStyle.navContainer} expand="lg">
           <Navbar.Brand className={NavBarStyle.navBrandLink}>
-            JSCentric
+            <span style={{ color: "rgb(247, 220, 70)" }}>JS</span>Centric
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -88,6 +103,12 @@ const NavBar = () => {
               >
                 About Us
               </Nav.Link>
+              <Form className={NavBarStyle.searchBar}>
+                <InputGroup size="sm">
+                  <FormControl placeholder="Search here" value={searchText} onChange={(e) => {handleSearchText(e)}}/>
+                  <Button variant="dark" onClick={()=> handleSearch()}>Search</Button>
+                </InputGroup>
+              </Form>
             </Nav>
             {currentUser ? (
               <Nav
@@ -140,12 +161,14 @@ const NavBar = () => {
                   <NavDropdown.Item
                     exact
                     as={NavLink}
-                    to="/settings"
+                    to="/selectquiztopic"
                     eventKey={3.4}
                   >
-                    Settings
+                    Coding Quiz
                   </NavDropdown.Item>
-                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
             ) : null}
