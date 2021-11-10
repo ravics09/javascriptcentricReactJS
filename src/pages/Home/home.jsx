@@ -31,6 +31,10 @@ const Home = () => {
       setCurrentUser(true);
       setUserId(loggedInUser.userId);
     }
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function (event) {
+      history.go(1);
+    };
 
     async function fetchData() {
       const result = await FeedService.getAllPosts();
