@@ -10,7 +10,7 @@ import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import "bootstrap/dist/css/bootstrap.min.css";
 import signUpStyle from "./signUp.module.css";
 import AuthService from "./../../services/authService";
-const {innerHeight: winHight } = window;
+const { innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -66,10 +66,7 @@ const SignUp = ({ props }) => {
   };
 
   return (
-    <Container
-      className={signUpStyle.container}
-      style={{ border: "1px solid gray", borderRadius: 10, height: winHight }}
-    >
+    <Container className={signUpStyle.container}>
       <Formik
         validationSchema={validationSchema}
         initialValues={initialValues}
@@ -92,8 +89,8 @@ const SignUp = ({ props }) => {
           errors,
         }) => (
           <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
-            <Row className="mb-3">
-              <h3>Welcome</h3>
+            <Row style={{ textAlign: "center", marginBottom: '10px' }}>
+              <h3>Sign Up Here</h3>
               <p>We are not sharing user details to anyone.</p>
             </Row>
             <Row className="mb-3">

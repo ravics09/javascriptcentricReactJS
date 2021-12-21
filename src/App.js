@@ -15,8 +15,8 @@ const App = () => {
         backgroundColor: "#181A1F",
         height: winHight,
         minHeight:winHight,
-        marginLeft: 100, 
-        marginRight: 100,
+        // marginLeft: 100, 
+        // marginRight: 100,
       }}
     >
       <Router>

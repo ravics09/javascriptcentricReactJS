@@ -293,6 +293,21 @@ const Home = () => {
               onClick={openNodeJSSection}
             />
           </Row>
+          <Row
+            className={homeStyle.rightCardSection}
+            // style={{ backgroundColor: "#f7dc6f" }}
+          >
+            <Image
+              src={NODE_JPG}
+              style={{
+                cursor: "pointer",
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
+              }}
+              onClick={openNodeJSSection}
+            />
+          </Row>
         </Col>
       </Row>
     </Container>

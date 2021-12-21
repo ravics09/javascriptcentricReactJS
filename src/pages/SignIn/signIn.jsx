@@ -9,11 +9,11 @@ import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import AuthService from "./../../services/authService";
-import {signIn} from './../../redux/slices/authSlice';
+import { signIn } from "./../../redux/slices/authSlice";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
-const {innerHeight: winHight } = window;
+const { innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -78,145 +78,151 @@ const SignIn = ({ props }) => {
 
   return (
     <Container
-      className={signInStyle.container}
-      style={{ border: "1px solid gray", borderRadius: 10, height: winHight}}
+      className={signInStyle.formContainer}
+      style={{ height: window.innerHeight }}
     >
-      <Formik
-        validationSchema={validationSchema}
-        initialValues={initialValues}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          setSubmitting(true);
-          handleSignIn(values);
-          setTimeout(() => {
-            resetForm();
-            setSubmitting(false);
-          }, 1000);
-        }}
-      >
-        {({
-          handleSubmit,
-          handleChange,
-          handleBlur,
-          isSubmitting,
-          values,
-          touched,
-          errors,
-        }) => (
-          <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>
-            <Row className="mb-3">
-              <h3>Welcome Back</h3>
-              <p>Enter your email and password to sign in</p>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormEmail">
-                <Form.Label>Email</Form.Label>
-                <InputGroup>
-                  <InputGroup.Text style={{ backgroundColor: "white" }}>
-                    <AiOutlineMail />
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    className={signInStyle.formControl}
-                    value={values.email}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    isInvalid={!!errors.email}
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            setSubmitting(true);
+            handleSignIn(values);
+            setTimeout(() => {
+              resetForm();
+              setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            isSubmitting,
+            values,
+            touched,
+            errors,
+          }) => (
+            <Form onSubmit={handleSubmit} className={signInStyle.signInForm}>
+              <Row style={{ textAlign: "center",  marginBottom: '10px' }} >
+                <h3>Welcome Back</h3>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationFormEmail">
+                  <Form.Label>Email</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Text style={{ backgroundColor: "white" }}>
+                      <AiOutlineMail />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      className={signInStyle.formControl}
+                      value={values.email}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      isInvalid={!!errors.email}
+                    />
+                    {touched.email && errors.email ? (
+                      <Form.Control.Feedback type="invalid">
+                        {errors.email}
+                      </Form.Control.Feedback>
+                    ) : null}
+                  </InputGroup>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationFormPassword">
+                  <Form.Label>Password</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Text style={{ backgroundColor: "white" }}>
+                      <BsLock />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type={showPass ? "text" : "password"}
+                      placeholder="Password"
+                      name="password"
+                      className={signInStyle.formControl}
+                      value={values.password}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      isInvalid={!!errors.password}
+                    />
+                    <InputGroup.Text onClick={() => setShowPass(!showPass)}>
+                      {showPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                    </InputGroup.Text>
+                    {touched.password && errors.password ? (
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password}
+                      </Form.Control.Feedback>
+                    ) : null}
+                  </InputGroup>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="12" controlId="validationFormCheckbox">
+                  <Form.Check
+                    type="checkbox"
+                    label="Remember for 30 days"
+                    onChange={(e) => setCheckboxChecked(!checkboxChecked)}
                   />
-                  {touched.email && errors.email ? (
-                    <Form.Control.Feedback type="invalid">
-                      {errors.email}
-                    </Form.Control.Feedback>
-                  ) : null}
-                </InputGroup>
-              </Form.Group>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormPassword">
-                <Form.Label>Password</Form.Label>
-                <InputGroup>
-                  <InputGroup.Text style={{ backgroundColor: "white" }}>
-                    <BsLock />
-                  </InputGroup.Text>
-                  <Form.Control
-                    type={showPass ? "text" : "password"}
-                    placeholder="Password"
-                    name="password"
-                    className={signInStyle.formControl}
-                    value={values.password}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    isInvalid={!!errors.password}
-                  />
-                  <InputGroup.Text onClick={() => setShowPass(!showPass)}>
-                    {showPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
-                  </InputGroup.Text>
-                  {touched.password && errors.password ? (
-                    <Form.Control.Feedback type="invalid">
-                      {errors.password}
-                    </Form.Control.Feedback>
-                  ) : null}
-                </InputGroup>
-              </Form.Group>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormCheckbox">
-                <Form.Check
-                  type="checkbox"
-                  label="Remember for 30 days"
-                  onChange={(e) => setCheckboxChecked(!checkboxChecked)}
-                />
-              </Form.Group>
-            </Row>
-            <Row className="mb-3">
-              <Link
-                to="/forgetpassword"
-                style={{ color: "white" }}
-                as={Col}
-                md="12"
-              >
-                Forget Password ?
-              </Link>
-            </Row>
-            <Row className="mb-2" style={{ padding: 10 }}>
-              <Button
-                block
-                className={signInStyle.customBtn}
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Sign In
-              </Button>
-            </Row>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Link
+                  to="/forgetpassword"
+                  style={{ color: "white" }}
+                  as={Col}
+                  md="12"
+                >
+                  Forget Password ?
+                </Link>
+              </Row>
+              <Row className="mb-2" style={{ padding: 10 }}>
+                <Button
+                  block
+                  className={signInStyle.customBtn}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Sign In
+                </Button>
+              </Row>
 
-            <Row className="mb-2" style={{ paddingLeft: 10, paddingRight: 10 }}>
-              <Button block className={signInStyle.googleSignBtn}>
-                Sign In With {"  "}
-                <InputGroup.Text
+              <Row
+                className="mb-2"
+                style={{ paddingLeft: 10, paddingRight: 10 }}
+              >
+                <Button block className={signInStyle.googleSignBtn}>
+                  Sign In With {"  "}
+                  <InputGroup.Text
+                    style={{
+                      backgroundColor: "#ffff",
+                      border: "white",
+                    }}
+                  >
+                    <FcGoogle />
+                  </InputGroup.Text>
+                </Button>
+              </Row>
+
+              <Row className="mb-2">
+                <p
                   style={{
-                    backgroundColor: "#ffff",
-                    border: "white",
+                    color: "white",
+                    paddingTop: 10,
+                    textAlign: "center",
                   }}
                 >
-                  <FcGoogle />
-                </InputGroup.Text>
-              </Button>
-            </Row>
-
-            <Row className="mb-2">
-              <p
-                style={{ color: "white", paddingTop: 10, textAlign: "center" }}
-              >
-                Don't have an account ? {""}
-                <Link to="/signup" style={{ color: "white" }}>
-                  Sign Up
-                </Link>
-              </p>
-            </Row>
-          </Form>
-        )}
-      </Formik>
+                  Don't have an account ? {""}
+                  <Link to="/signup" style={{ color: "white" }}>
+                    Sign Up
+                  </Link>
+                </p>
+              </Row>
+            </Form>
+          )}
+        </Formik>
     </Container>
   );
 };

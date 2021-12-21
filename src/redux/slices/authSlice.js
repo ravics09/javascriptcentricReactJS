@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { setMessage } from "./message";
 
 import AuthService from "../../services/authService";
 
@@ -49,13 +48,14 @@ export const signOut = createAsyncThunk("auth/signout", async () => {
   await AuthService.signOut();
 });
 
-const initialState = user
+const initialStateValue = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: initialStateValue,
+  reducers: {},
   extraReducers: {
     [signUp.fulfilled]: (state, action) => {
       state.isLoggedIn = false;

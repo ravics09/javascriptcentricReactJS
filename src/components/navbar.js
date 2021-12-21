@@ -10,7 +10,7 @@ import {
   InputGroup,
   FormControl,
   Button,
-  Form
+  Form,
 } from "react-bootstrap";
 import AuthService from "./../services/authService";
 
@@ -50,12 +50,12 @@ const NavBar = () => {
 
   const handleSearchText = async (e) => {
     setSearchText(e.target.value);
-  }
+  };
 
   const handleSearch = async () => {
-    alert("You searched for"+searchText);
+    alert("You searched for" + searchText);
     // setSearchText("");
-  }
+  };
 
   return (
     <div className="row">
@@ -105,8 +105,16 @@ const NavBar = () => {
               </Nav.Link>
               <Form className={NavBarStyle.searchBar}>
                 <InputGroup size="sm">
-                  <FormControl placeholder="Search here" value={searchText} onChange={(e) => {handleSearchText(e)}}/>
-                  <Button variant="dark" onClick={()=> handleSearch()}>Search</Button>
+                  <FormControl
+                    placeholder="Search here"
+                    value={searchText}
+                    onChange={(e) => {
+                      handleSearchText(e);
+                    }}
+                  />
+                  <Button variant="dark" onClick={() => handleSearch()}>
+                    Search
+                  </Button>
                 </InputGroup>
               </Form>
             </Nav>
