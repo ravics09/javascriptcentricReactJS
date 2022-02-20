@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgetPasswordStyle from "./forgetPassword.module.css";
-import RN_IMG from "./../../assets/images/logoi.png";
+import RN_IMG from "./../../assets/images/forogtimg.png";
 import { AiOutlineMail } from "react-icons/ai";
 
 const API_URL = "http://localhost:9090/user";
@@ -81,7 +81,7 @@ const ForgetPassword = () => {
     <Container className={ForgetPasswordStyle.container}>
       <Row className={ForgetPasswordStyle.formContainer}>
         <Row style={{ textAlign: "center", paddingBottom: 50 }}>
-          <h3>Password Reset</h3>
+          <h3 className={ForgetPasswordStyle.headerTitle}>Password Reset</h3>
           <p>Forgot your password? Reset it here.</p>
         </Row>
         <Row>

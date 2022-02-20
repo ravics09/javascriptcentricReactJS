@@ -90,7 +90,7 @@ const SignIn = ({ props }) => {
       <Row className={signInStyle.formContainer}>
         <Row style={{ textAlign: "center", paddingBottom: 50 }}>
           <Col>
-            <h3>Welcome Back</h3>
+            <h3 className={signInStyle.headerTitle}>Welcome Back</h3>
           </Col>
         </Row>
         <Row>

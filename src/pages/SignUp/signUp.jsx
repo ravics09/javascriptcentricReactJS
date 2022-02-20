@@ -79,7 +79,7 @@ const SignUp = ({ props }) => {
       <Row className={signUpStyle.formContainer}>
         <Row style={{ textAlign: "center", paddingBottom:50}}>
           <Col>
-            <h3>Sign Up Here</h3>
+            <h3 className={signUpStyle.headerTitle}>Sign Up Here</h3>
             <p>We are not sharing user details to anyone.</p>
           </Col>
         </Row>
