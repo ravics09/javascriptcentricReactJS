@@ -1,11 +1,23 @@
 .container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  padding-top: 100px;
+  align-items: center;
+  height:90vh;
+  width: 100vw;
+}
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: black solid !important;
+  border-width: 2px !important;
+  border-radius: 10px !important;
+  padding: 50px;
+  background-color: white !important;
 }
 .signUpForm {
   width: 360px;
+  height:100%;
   color: white !important;
 }
 .formControl {
@@ -13,8 +25,8 @@
   width: 100%;
 }
 .customBtn {
-  background-color: blueviolet !important;
-  border: black solid !important;
+  background-color:  blueviolet !important;
+  border: white !important;
   border-width: 1px !important;
   border-radius: 10px !important;
 }

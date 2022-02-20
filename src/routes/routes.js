@@ -21,8 +21,13 @@ import UserResetPassword from "./../pages/UserResetPassword/userResetPassword";
 import FullArticle from "./../pages/FullArticle/fullArticle";
 import Account from "./../pages/Account/userAccount";
 import QuizTopic from "./../pages/QuizTopic/quizTopic";
-import JSStatusBoard from "./../pages/JavaScriptStatusBoard/jsStatusBoard";
+import QuizStatusBoard from "./../pages/QuizStatusBoard/quizStatusBoard";
 import OnlineQuiz from "./../pages/OnlineQuiz/onlineQuiz";
+import JavaScript from "./../pages/JavaScript/javaScript";
+import ReactJS from "./../pages/ReactJS/reactjs";
+import MongoDB from "./../pages/MongoDB/mongoDB";
+import NodeJS from "./../pages/NodeJS/nodeJS";
+import ReactNative from "./../pages/ReactNative/reactNative";
 
 const Routes = () => {
   return (
@@ -48,8 +53,13 @@ const Routes = () => {
       <Route exact component={EditPost} path="/:id/editpost" />
       <Route exact component={Account} path="/account" />
       <Route exact component={QuizTopic} path="/selectquiztopic" />
-      <Route exact component={JSStatusBoard} path="/jsstatusdashboard" />
+      <Route exact component={QuizStatusBoard} path="/:id/quizstatusboard" />
       <Route exact component={OnlineQuiz} path="/onlinequiz/:id" />
+      <Route exact component={JavaScript} path="/topic/javascript" />
+      <Route exact component={ReactJS} path="/topic/reactjs" />
+      <Route exact component={ReactNative} path="/topic/reactnative" />
+      <Route exact component={MongoDB} path="/topic/mongodb" />
+      <Route exact component={NodeJS} path="/topic/nodejs" />
     </Switch>
   );
 };

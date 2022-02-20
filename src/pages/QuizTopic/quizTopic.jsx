@@ -9,16 +9,16 @@ const QuizTopic = () => {
   const handleSelectedQuizTopic = (topic) => {
     switch (topic) {
       case "javascript":
-        history.push("/jsstatusdashboard");
+        history.push(`/${'javascript'}/quiztopicstatusboard`);
         break;
       case "nodejs":
-        history.push("/codingchallenge");
+        history.push(`/${'nodejs'}/quiztopicstatusboard`);
         break;
       case "reactjs":
-        history.push("/codingchallenge");
+        history.push(`/${'reactjs'}/quiztopicstatusboard`);
         break;
       case "reactnative":
-        history.push("/codingchallenge");
+        history.push(`/${'reactnative'}/quiztopicstatusboard`);
         break;
     }
   };

@@ -60,19 +60,23 @@ const Home = () => {
   // }
 
   const openJavaScriptSection = () => {
-    history.push("/interviewquestions");
+    history.push("/topic/javascript");
   };
 
   const openReactJSSection = () => {
-    history.push("/codingchallenge");
+    history.push("/topic/reactjs");
   };
 
   const openReactNativeSection = () => {
-    history.push("/programs");
+    history.push("/topic/reactnative");
   };
 
   const openNodeJSSection = () => {
-    history.push("/interviewquestions");
+    history.push("/topic/nodejs");
+  };
+
+  const openMongoDBSection = () => {
+    history.push("/topic/mongodb");
   };
 
   const openSelectedPost = (item) => {
