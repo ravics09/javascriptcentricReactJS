@@ -68,7 +68,7 @@ const addComment = (postId, userId, comment) => {
     userId,
   };
 
-  return axios.put(url, payload, { headers: AuthHeader() }).then(
+  return axios.put(url, payload).then(
     (response) => {
       console.log("after comment ==", response.data);
       return {
