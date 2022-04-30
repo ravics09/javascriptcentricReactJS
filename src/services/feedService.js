@@ -3,44 +3,62 @@ import AuthHeader from "./authHeader";
 
 const API_URL = "http://localhost:9090/feed";
 
-const getAllPosts = () => {
+const createPost = async (payload) => {
+  const url = `${API_URL}/createpost`;
+  return axios
+    .post(url, payload)
+    .then((response) => {
+      if (response.status === 200) {
+        return {
+          status: "success",
+          message: response.data.message
+        };
+      }
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
+};
+
+const getAllPosts = async () => {
   const url = `${API_URL}/getPosts`;
-  return axios.get(url).then(
-    (response) => {
+  return axios
+    .get(url)
+    .then((response) => {
       return {
         status: "success",
         posts: response.data.posts,
       };
-    },
-    (error) => {
-      if (error.response) {
-        return { status: "failed", message: error.response.data };
-      } else {
-        return { status: "failed", message: "Server Not Responding" };
-      }
-    }
-  );
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
 };
 
-const getPost = (id) => {
+const getPost = async (id) => {
   const url = `${API_URL}/getpost/${id}`;
   const payload = {
     id,
   };
-  return axios.get(url, payload, { headers: AuthHeader() }).then(
-    (response) => {
+  return axios
+    .get(url, payload)
+    .then((response) => {
       if (response.status === 200) {
         return { status: "success", post: response.data.post };
       }
-    },
-    (error) => {
-      if (error.response) {
-        return { status: "failed", message: error.response.data };
-      } else {
-        return { status: "failed", message: "Server Not Responding" };
-      }
-    }
-  );
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
 };
 
 const addComment = (postId, userId, comment) => {
@@ -96,7 +114,7 @@ const editPost = (id, formValues) => {
     content,
   };
 
-  return axios.put(url, payload,{ headers: AuthHeader() }).then(
+  return axios.put(url, payload, { headers: AuthHeader() }).then(
     (response) => {
       if (response.status === 200) {
         return {
@@ -137,6 +155,7 @@ const deletePost = (id) => {
 };
 
 const feedService = {
+  createPost,
   getAllPosts,
   getPost,
   addComment,

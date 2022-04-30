@@ -25,8 +25,7 @@ import FeedService from "./../../services/feedService";
 const Home = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
-  const [currentUser, setCurrentUser] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState();
 
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
@@ -42,7 +41,11 @@ const Home = () => {
     if (isLoggedIn === false) {
       navigate("/");
     } else {
+      setUserId(loggedInUser._id);
       fetchPostData();
+    }
+    return ()=>{
+      window.removeEventListener("resize", handleResize);
     }
   }, [isLoggedIn]);
 
@@ -161,7 +164,6 @@ const Home = () => {
               <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments.length}{" "}
               Comments
             </span>
-            {currentUser ? (
               <Button
                 variant="outline-dark"
                 size="sm"
@@ -169,7 +171,6 @@ const Home = () => {
               >
                 Save
               </Button>
-            ) : null}
           </div>
         </div>
       </Row>

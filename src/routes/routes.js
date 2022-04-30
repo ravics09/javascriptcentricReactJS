@@ -1,20 +1,44 @@
 import React from "react";
-import {
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import { Home, SignIn ,SignUp, InterviewQuestions, Main, CodingChallenge, JavaScriptPrograms, ContactUs, AboutUs, ReadingList, Dashboard, Settings, CreatePost, EditPost, ForgetPassword, ResetPassword, UserResetPassword, FullArticle, Account, QuizStatusBoard, QuizTopic, OnlineQuiz, JavaScript, ReactJS, MongoDB, NodeJS, ReactNative } from "./../pages/index";
-import Navbar from "../components/navbar";
+import {
+  Home,
+  SignIn,
+  SignUp,
+  CreatePost,
+  InterviewQuestions,
+  Main,
+  CodingChallenge,
+  JavaScriptPrograms,
+  ContactUs,
+  AboutUs,
+  ReadingList,
+  Dashboard,
+  Settings,
+  EditPost,
+  ForgetPassword,
+  ResetPassword,
+  UserResetPassword,
+  FullArticle,
+  Account,
+  QuizStatusBoard,
+  QuizTopic,
+  OnlineQuiz,
+  JavaScript,
+  ReactJS,
+  MongoDB,
+  NodeJS,
+  ReactNative,
+} from "./../pages/index";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route exact element={<SignIn/>} path="/" />
-      <Route exact element={<SignIn/>} path="/signin" />
-      <Route exact element={<Home/>} path="/home" />
-      <Route exact element={<SignUp/>} path="/signup" />
+      <Route exact element={<SignIn />} path="/" />
+      <Route exact element={<SignIn />} path="/signin" />
+      <Route exact element={<Home />} path="/home" />
+      <Route exact element={<SignUp />} path="/signup" />
+      <Route exact element={<CreatePost />} path="/createpost" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
@@ -24,7 +48,6 @@ const AppRoutes = () => {
       <Route exact element={<ReadingList/>} path="/readinglist" />
       <Route exact element={<Dashboard/>} path="/dashboard" />
       <Route exact element={<Settings/>} path="/settings" />
-      <Route exact element={<CreatePost/>} path="/createpost" />
       <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
       <Route exact element={<ResetPassword/>} path="/resetpassword/:id/:token" />
       <Route exact element={<UserResetPassword/>} path="/userresetpassword" />
