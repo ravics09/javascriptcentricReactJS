@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ReactNativeStyle from "./reactNative.module.css";
 
 const ReactNative = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const selectJavaScriptTopic = (topic) => {
     switch (topic) {

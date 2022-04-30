@@ -1,67 +1,46 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
-import SignIn from "./../pages/SignIn/signIn";
-import SignUp from "./../pages/SignUp/signUp";
-import Home from "./../pages/Home/home";
-import Main from "../pages/Main/main";
-import InterviewQuestions from "./../pages/InterviewQuestions/interviewQuestions";
-import CodingChallenge from "./../pages/CodingChallenge/codingChallenge";
-import JavaScriptPrograms from "./../pages/Programs/programs";
-import ContactUs from "./../pages/ContactUs/contactUs";
-import AboutUs from "./../pages/AboutUs/aboutUs";
-import ReadingList from "./../pages/ReadingList/readingList";
-import Dashboard from "./../pages/Dashboard/dashboard";
-import Settings from "./../pages/Settings/settings";
-import CreatePost from "./../pages/CreatePost/createPost";
-import EditPost from "./../pages/EditPost/editPost";
-import ForgetPassword from "./../pages/ForgetPassword/forgetPassword";
-import ResetPassword from "./../pages/ResetPassword/resetPassword";
-import UserResetPassword from "./../pages/UserResetPassword/userResetPassword";
-import FullArticle from "./../pages/FullArticle/fullArticle";
-import Account from "./../pages/Account/userAccount";
-import QuizTopic from "./../pages/QuizTopic/quizTopic";
-import QuizStatusBoard from "./../pages/QuizStatusBoard/quizStatusBoard";
-import OnlineQuiz from "./../pages/OnlineQuiz/onlineQuiz";
-import JavaScript from "./../pages/JavaScript/javaScript";
-import ReactJS from "./../pages/ReactJS/reactjs";
-import MongoDB from "./../pages/MongoDB/mongoDB";
-import NodeJS from "./../pages/NodeJS/nodeJS";
-import ReactNative from "./../pages/ReactNative/reactNative";
+import { Home, SignIn ,SignUp, InterviewQuestions, Main, CodingChallenge, JavaScriptPrograms, ContactUs, AboutUs, ReadingList, Dashboard, Settings, CreatePost, EditPost, ForgetPassword, ResetPassword, UserResetPassword, FullArticle, Account, QuizStatusBoard, QuizTopic, OnlineQuiz, JavaScript, ReactJS, MongoDB, NodeJS, ReactNative } from "./../pages/index";
+import Navbar from "../components/navbar";
 
-const Routes = () => {
+const AppRoutes = () => {
   return (
-    <Switch>
-      <Route exact component={SignIn} path="/" />
-      <Route exact component={Home} path="/home" />
-      <Route exact component={SignIn} path="/signin" />
-      <Route exact component={SignUp} path="/signup" />
-      <Route exact component={Main} path="/main" />
-      <Route exact component={InterviewQuestions} path="/interviewquestions" />
-      <Route exact component={CodingChallenge} path="/codingchallenge" />
-      <Route exact component={JavaScriptPrograms} path="/programs" />
-      <Route exact component={ContactUs} path="/contactus" />
-      <Route exact component={AboutUs} path="/aboutus" />
-      <Route exact component={ReadingList} path="/readinglist" />
-      <Route exact component={Dashboard} path="/dashboard" />
-      <Route exact component={Settings} path="/settings" />
-      <Route exact component={CreatePost} path="/createpost" />
-      <Route exact component={ForgetPassword} path="/forgetpassword" />
-      <Route exact component={ResetPassword} path="/resetpassword/:id/:token" />
-      <Route exact component={UserResetPassword} path="/userresetpassword" />
-      <Route exact component={FullArticle} path="/fullarticle/:id" />
-      <Route exact component={EditPost} path="/:id/editpost" />
-      <Route exact component={Account} path="/account" />
-      <Route exact component={QuizTopic} path="/selectquiztopic" />
-      <Route exact component={QuizStatusBoard} path="/:id/quizstatusboard" />
-      <Route exact component={OnlineQuiz} path="/onlinequiz/:id" />
-      <Route exact component={JavaScript} path="/topic/javascript" />
-      <Route exact component={ReactJS} path="/topic/reactjs" />
-      <Route exact component={ReactNative} path="/topic/reactnative" />
-      <Route exact component={MongoDB} path="/topic/mongodb" />
-      <Route exact component={NodeJS} path="/topic/nodejs" />
-    </Switch>
+    <Routes>
+      <Route exact element={<SignIn/>} path="/" />
+      <Route exact element={<SignIn/>} path="/signin" />
+      <Route exact element={<Home/>} path="/home" />
+      <Route exact element={<SignUp/>} path="/signup" />
+      {/* <Route exact element={<Main/>} path="/main" />
+      <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
+      <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
+      <Route exact element={<JavaScriptPrograms/>} path="/programs" />
+      <Route exact element={<ContactUs/>} path="/contactus" />
+      <Route exact element={<AboutUs/>} path="/aboutus" />
+      <Route exact element={<ReadingList/>} path="/readinglist" />
+      <Route exact element={<Dashboard/>} path="/dashboard" />
+      <Route exact element={<Settings/>} path="/settings" />
+      <Route exact element={<CreatePost/>} path="/createpost" />
+      <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
+      <Route exact element={<ResetPassword/>} path="/resetpassword/:id/:token" />
+      <Route exact element={<UserResetPassword/>} path="/userresetpassword" />
+      <Route exact element={<FullArticle/>} path="/fullarticle/:id" />
+      <Route exact element={<EditPost/>} path="/:id/editpost" />
+      <Route exact element={<Account/>} path="/account" />
+      <Route exact element={<QuizTopic/>} path="/selectquiztopic" />
+      <Route exact element={<QuizStatusBoard/>} path="/:id/quizstatusboard" />
+      <Route exact element={<OnlineQuiz/>} path="/onlinequiz/:id" />
+      <Route exact element={<JavaScript/>} path="/topic/javascript" />
+      <Route exact element={<ReactJS/>} path="/topic/reactjs" />
+      <Route exact element={<ReactNative/>} path="/topic/reactnative" />
+      <Route exact element={<MongoDB/>} path="/topic/mongodb" />
+      <Route exact element={<NodeJS/>} path="/topic/nodejs" /> */}
+    </Routes>
   );
 };
 
-export default Routes;
+export default AppRoutes;

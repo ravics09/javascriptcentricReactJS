@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import interviewQuestionsStyle from "./interviewQuestions.module.css";
 import PROTOTYPE_CHAIN_IMG from "./../../assets/images/prototypeChain.png";
 
 const InterviewQuestions = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const [user, setUser] = useState("");
 
   const openInterviewQuestion = () => {

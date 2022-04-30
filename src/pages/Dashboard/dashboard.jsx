@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dashboardStyle from "./dashboard.module.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 import FeedService from "./../../services/feedService";
 
 const Dashboard = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {

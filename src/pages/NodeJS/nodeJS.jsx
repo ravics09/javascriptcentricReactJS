@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NodeJSStyle from "./nodeJS.module.css";
 
 const NodeJS = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const selectJavaScriptTopic = (topic) => {
     switch (topic) {

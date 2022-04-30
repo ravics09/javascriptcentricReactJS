@@ -7,12 +7,12 @@ import {
   ProgressBar,
   Button,
 } from "react-bootstrap";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import QuizStatusBoardStyle from "./quizStatusBoard.module.css";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 
 const QuizStatusBoard = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { id } = useParams();
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [topic, setTopic] = useState('');

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Container, Button, Form, Spinner } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import OnlineQuizStyle from "./onlineQuiz.module.css";
 let quizData = [
@@ -102,7 +102,7 @@ I am then mapping over the entries and calling a custom hook with each item to f
 ];
 
 const OnlineQuiz = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [queNo, setQueNo] = useState(1);

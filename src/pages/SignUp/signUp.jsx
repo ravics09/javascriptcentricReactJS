@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
@@ -19,7 +19,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import signUpStyle from "./signUp.module.css";
 import AuthService from "./../../services/authService";
 import RN_IMG from "./../../assets/images/logoi.png";
-const { innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -43,241 +42,272 @@ const initialValues = {
   confirmPassword: "",
 };
 
-const SignUp = ({ props }) => {
-  const history = useHistory();
+const SignUp = () => {
+  const navigate = useNavigate();
+
+  const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const handleSignUp = async (formValues) => {
-    const result = await AuthService.signUp(formValues);
+    const { fullName, email, password, confirmPassword } = formValues;
 
-    if (result.status === "success") {
-      swal({
-        title: "Done!",
-        text: `${result.message}`,
-        icon: "success",
-        timer: 2000,
-        button: false,
-      });
-
-      setTimeout(function () {
-        history.push("/signin");
-      }, 3000);
-    } else {
+    if (password !== confirmPassword) {
       swal({
         title: "Error!",
-        text: `${result.message}`,
+        text: `Password and confirm pass not matched`,
         icon: "warning",
         timer: 2000,
         button: false,
       });
+    } else {
+      let user = {
+        fullName: fullName,
+        email: email,
+        password: password,
+      };
+
+      const result = await AuthService.signUp(user);
+
+      if (result.status === "success") {
+        swal({
+          title: "Done!",
+          text: `${result.message}`,
+          icon: "success",
+          timer: 2000,
+          button: false,
+        });
+
+        setTimeout(function () {
+          navigate("/signin");
+        }, 3000);
+      } else {
+        swal({
+          title: "Error!",
+          text: `${result.message}`,
+          icon: "warning",
+          timer: 2000,
+          button: false,
+        });
+      }
     }
   };
 
   return (
     <Container className={signUpStyle.container}>
       <Row className={signUpStyle.formContainer}>
-        <Row style={{ textAlign: "center", paddingBottom:50}}>
+        <Row style={{ textAlign: "center", paddingBottom: 50 }}>
           <Col>
             <h3 className={signUpStyle.headerTitle}>Sign Up Here</h3>
             <p>We are not sharing user details to anyone.</p>
           </Col>
         </Row>
         <Row>
-        <Col>
-          <Row className="mb-3">
-            <Image
-              src={RN_IMG}
-              style={{
-                borderRadius: "30px",
-                width: "100%",
-                height: "100%",
+          <Col>
+            <Row className="mb-3">
+              <Image
+                src={RN_IMG}
+                style={{
+                  borderRadius: "30px",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </Row>
+          </Col>
+          <Col>
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={initialValues}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                setSubmitting(true);
+                handleSignUp(values);
+                setTimeout(() => {
+                  resetForm();
+                  setSubmitting(false);
+                }, 1000);
               }}
-            />
-          </Row>
-        </Col>
-        <Col>
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={initialValues}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setSubmitting(true);
-              handleSignUp(values);
-              setTimeout(() => {
-                resetForm();
-                setSubmitting(false);
-              }, 1000);
-            }}
-          >
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              isSubmitting,
-              values,
-              touched,
-              errors,
-            }) => (
-              <Form onSubmit={handleSubmit} className={signUpStyle.signUpForm}>
-                <Row className="mb-3">
-                  <Form.Group
-                    // as={Col}
-                    // md="12"
-                    controlId="validationFormFullName"
-                  >
-                    <Form.Label>Full Name</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text style={{ backgroundColor: "white" }}>
-                        <AiOutlineUser />
-                      </InputGroup.Text>
-                      <Form.Control
-                        type="text"
-                        placeholder="Full Name"
-                        name="fullName"
-                        className={signUpStyle.formControl}
-                        value={values.fullName}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.fullName}
-                      />
-                      {touched.fullName && errors.fullName ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.fullName}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationFormEmail">
-                    <Form.Label>Email</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text style={{ backgroundColor: "white" }}>
-                        <AiOutlineMail />
-                      </InputGroup.Text>
-                      <Form.Control
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        className={signUpStyle.formControl}
-                        value={values.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.email}
-                      />
-                      {touched.email && errors.email ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.email}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group
-                    as={Col}
-                    md="12"
-                    controlId="validationFormPassword"
-                  >
-                    <Form.Label>Password</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text style={{ backgroundColor: "white" }}>
-                        <BsLock />
-                      </InputGroup.Text>
-                      <Form.Control
-                        type={showPass ? "text" : "password"}
-                        placeholder="Password"
-                        name="password"
-                        className={signUpStyle.formControl}
-                        value={values.password}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.password}
-                      />
-                      <InputGroup.Text onClick={() => setShowPass(!showPass)}>
-                        {showPass ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
-                      </InputGroup.Text>
-                      {touched.password && errors.password ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.password}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group
-                    as={Col}
-                    md="12"
-                    controlId="validationFormConfirmPassword"
-                  >
-                    <Form.Label>Confirm Password</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text style={{ backgroundColor: "white" }}>
-                        <BsLock />
-                      </InputGroup.Text>
-                      <Form.Control
-                        type={showConfirmPass ? "text" : "password"}
-                        placeholder="Confirm Password"
-                        name="confirmPassword"
-                        className={signUpStyle.formControl}
-                        value={values.confirmPassword}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.confirmPassword}
-                      />
-                      <InputGroup.Text
-                        onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      >
-                        {showConfirmPass ? (
-                          <BsFillEyeSlashFill />
-                        ) : (
-                          <BsFillEyeFill />
-                        )}
-                      </InputGroup.Text>
-                      {touched.confirmPassword && errors.confirmPassword ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.confirmPassword}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row
-                  className="mb-3"
-                  style={{ paddingLeft: 10, paddingRight: 10 }}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                isSubmitting,
+                values,
+                touched,
+                errors,
+              }) => (
+                <Form
+                  onSubmit={handleSubmit}
+                  className={signUpStyle.signUpForm}
                 >
-                  <Button
-                    block
-                    className={signUpStyle.customBtn}
-                    type="submit"
-                    disabled={isSubmitting}
+                  <Row className="mb-3">
+                    <Form.Group
+                      // as={Col}
+                      // md="12"
+                      controlId="validationFormFullName"
+                    >
+                      <Form.Label>Full Name</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text style={{ backgroundColor: "white" }}>
+                          <AiOutlineUser />
+                        </InputGroup.Text>
+                        <Form.Control
+                          type="text"
+                          placeholder="Full Name"
+                          name="fullName"
+                          className={signUpStyle.formControl}
+                          value={values.fullName}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={!!errors.fullName}
+                        />
+                        {touched.fullName && errors.fullName ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.fullName}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationFormEmail"
+                    >
+                      <Form.Label>Email</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text style={{ backgroundColor: "white" }}>
+                          <AiOutlineMail />
+                        </InputGroup.Text>
+                        <Form.Control
+                          type="email"
+                          placeholder="Email"
+                          name="email"
+                          className={signUpStyle.formControl}
+                          value={values.email}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={!!errors.email}
+                        />
+                        {touched.email && errors.email ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.email}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationFormPassword"
+                    >
+                      <Form.Label>Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text style={{ backgroundColor: "white" }}>
+                          <BsLock />
+                        </InputGroup.Text>
+                        <Form.Control
+                          type={showPass ? "text" : "password"}
+                          placeholder="Password"
+                          name="password"
+                          className={signUpStyle.formControl}
+                          value={values.password}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={!!errors.password}
+                        />
+                        <InputGroup.Text onClick={() => setShowPass(!showPass)}>
+                          {showPass ? (
+                            <BsFillEyeSlashFill />
+                          ) : (
+                            <BsFillEyeFill />
+                          )}
+                        </InputGroup.Text>
+                        {touched.password && errors.password ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.password}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationFormConfirmPassword"
+                    >
+                      <Form.Label>Confirm Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text style={{ backgroundColor: "white" }}>
+                          <BsLock />
+                        </InputGroup.Text>
+                        <Form.Control
+                          type={showConfirmPass ? "text" : "password"}
+                          placeholder="Confirm Password"
+                          name="confirmPassword"
+                          className={signUpStyle.formControl}
+                          value={values.confirmPassword}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={!!errors.confirmPassword}
+                        />
+                        <InputGroup.Text
+                          onClick={() => setShowConfirmPass(!showConfirmPass)}
+                        >
+                          {showConfirmPass ? (
+                            <BsFillEyeSlashFill />
+                          ) : (
+                            <BsFillEyeFill />
+                          )}
+                        </InputGroup.Text>
+                        {touched.confirmPassword && errors.confirmPassword ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.confirmPassword}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row
+                    className="mb-3"
+                    style={{ paddingLeft: 10, paddingRight: 10 }}
                   >
-                    Sign Up
-                  </Button>
-                </Row>
-                <Row className="mb-3">
-                  <p
-                    style={{
-                      color: "black",
-                      paddingTop: 10,
-                      textAlign: "center",
-                    }}
-                  >
-                    Already have an account ? {""}
-                    <Link to="/signin" style={{ color: "black" }}>
-                      Sign In here
-                    </Link>
-                  </p>
-                </Row>
-              </Form>
-            )}
-          </Formik>
-        </Col>
-      
+                    <Button
+                      block
+                      className={signUpStyle.customBtn}
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Sign Up
+                    </Button>
+                  </Row>
+                  <Row className="mb-3">
+                    <p
+                      style={{
+                        color: "black",
+                        paddingTop: 10,
+                        textAlign: "center",
+                      }}
+                    >
+                      Already have an account ? {""}
+                      <Link to="/signin" style={{ color: "black" }}>
+                        Sign In here
+                      </Link>
+                    </p>
+                  </Row>
+                </Form>
+              )}
+            </Formik>
+          </Col>
         </Row>
-        </Row>
+      </Row>
     </Container>
   );
 };
+
 export default SignUp;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams, NavLink } from "react-router-dom";
+import { useNavigate, useParams, NavLink } from "react-router-dom";
 import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
@@ -36,7 +36,7 @@ const initialValues = {
 };
 
 const FullArticle = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { id } = useParams();
   const [postData, setPostData] = useState({});
   const [authorDetails, setAuthorDetails] = useState({});

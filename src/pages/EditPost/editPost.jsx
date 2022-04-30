@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import swal from "sweetalert";
@@ -23,7 +23,7 @@ const validationSchema = yup.object().shape({
 });
 
 const EditPost = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const formikRef = useRef();
   const { id } = useParams();
   const [userId, setUserId] = useState("");

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
-import { Link, useHistory } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Form,
@@ -17,11 +18,13 @@ import { BsFillEyeFill, BsFillEyeSlashFill, BsLock } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import AuthService from "./../../services/authService";
-import { signIn } from "./../../redux/slices/authSlice";
+// import { signIn } from "./../../redux/slices/authSlice";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import signInStyle from "./signIn.module.css";
 import Login_IMG from "./../../assets/images/loginimg.png";
+import { signin, googlesignin } from "./../../actions/authAction";
+
 const { innerHeight: winHight } = window;
 
 const validationSchema = yup.object().shape({
@@ -38,51 +41,73 @@ const initialValues = {
   password: "",
 };
 
-const SignIn = ({ props }) => {
-  const history = useHistory();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+const SignIn = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.AuthReducer);
 
-  // const validateForm = () => {
-  //   return email.length > 0 && password.length > 0;
-  // };
-
-  // useEffect(() => {
-  //   // dispatch(clearMessage());
-  // }, [dispatch]);
-
-  // if (isLoggedIn) {
-  //   return <Redirect to="/home" />;
-  // }
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      navigate("/home");
+    }
+  }, []);
 
   const handleSignIn = async (formValues) => {
-    const result = await AuthService.signIn(formValues);
+    let user = {
+      email: formValues.email,
+      password: formValues.password,
+    };
 
-    if (result.status === "success") {
-      swal({
-        title: "Done!",
-        text: `${result.message}`,
-        icon: "success",
-        timer: 2000,
-        button: false,
-      });
+    dispatch(signin(user)).then((res) => {
+      if (res.status === "success") {
+        swal({
+          title: "Done!",
+          text: `${res.message}`,
+          icon: "success",
+          timer: 2000,
+          button: false,
+        });
 
-      setTimeout(function () {
-        history.push("/home");
-        window.location.reload();
-      }, 3000);
-    } else {
-      swal({
-        title: "Error!",
-        text: `${result.message}`,
-        icon: "warning",
-        timer: 2000,
-        button: false,
-      });
-    }
+        setTimeout(function () {
+          navigate("/home");
+        }, 3000);
+      } else if (res.status === "failed") {
+        swal({
+          title: "Error!",
+          text: `${res.message}`,
+          icon: "warning",
+          timer: 2000,
+          button: false,
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      }
+    });
+  };
+
+  const responseGoogleSuccess = async (response) => {
+    let user = { idToken: response.tokenId };
+
+    dispatch(googlesignin(user)).then((res) => {
+      if (res.status === "success") {
+        navigate("/home");
+      } else if (res.status === "failed") {
+        setMessage(res.message);
+        setTimeout(() => {
+          setMessage("");
+          navigate("/");
+        }, 3000);
+      }
+    });
+  };
+
+  const responseGoogleError = (response) => {
+    alert("Check your internet connection");
   };
 
   return (
@@ -232,17 +257,29 @@ const SignIn = ({ props }) => {
                     className="mb-2"
                     style={{ paddingLeft: 10, paddingRight: 10 }}
                   >
-                    <Button block className={signInStyle.googleSignBtn}>
-                      Sign In With {"  "}
-                      <InputGroup.Text
-                        style={{
-                          backgroundColor: "#ffff",
-                          border: "white",
-                        }}
-                      >
-                        <FcGoogle />
-                      </InputGroup.Text>
-                    </Button>
+                    <GoogleLogin
+                      clientId="53790554286-8kljikjli2t9hdesgsss5a82u739djf7.apps.googleusercontent.com"
+                      render={(renderProps) => (
+                        <Button
+                          block
+                          className={signInStyle.googleSignBtn}
+                          onClick={renderProps.onClick}
+                        >
+                          Sign In With {"  "}
+                          <InputGroup.Text
+                            style={{
+                              backgroundColor: "#ffff",
+                              border: "white",
+                            }}
+                          >
+                            <FcGoogle />
+                          </InputGroup.Text>
+                        </Button>
+                      )}
+                      onSuccess={responseGoogleSuccess}
+                      onFailure={responseGoogleError}
+                      cookiePolicy={"single_host_origin"}
+                    />
                   </Row>
 
                   <Row className="mb-2">

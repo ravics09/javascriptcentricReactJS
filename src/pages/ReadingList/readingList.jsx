@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import readingListStyle from "./readingList.module.css";
 import {
@@ -18,7 +18,7 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 import DataService from "./../../services/dataService";
 
 const ReadingList = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const [readingList, setReadingList] = useState([]);
   const [userId, setUserId] = useState("");
 

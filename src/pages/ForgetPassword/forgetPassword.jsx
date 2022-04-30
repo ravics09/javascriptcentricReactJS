@@ -3,7 +3,7 @@ import * as yup from "yup";
 import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Button,
   Form,
@@ -33,7 +33,7 @@ const initialValues = {
 };
 
 const ForgetPassword = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleForgetPassword = (formValues) => {
     let email = formValues.email;

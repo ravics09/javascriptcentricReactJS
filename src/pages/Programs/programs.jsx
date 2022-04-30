@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
 import programsStyle from "./programs.module.css";
 
 const JavaScriptPrograms = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const [user, setUser] = useState("");
 
   const openInterviewQuestion = () => {

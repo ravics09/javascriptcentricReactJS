@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import MongoDBStyle from "./mongoDB.module.css";
 
 const MongoDB = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const selectJavaScriptTopic = (topic) => {
     switch (topic) {

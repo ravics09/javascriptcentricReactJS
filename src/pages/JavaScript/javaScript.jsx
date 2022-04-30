@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Image } from "react-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import JavaScriptStyle from "./javaScript.module.css";
 import PROTOTYPE_CHAIN_IMG from "./../../assets/images/prototypeChain.png";
 
 const JavaScript = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const [section, setSection] = useState("importantlink");
 
   const selectJavaScriptTopic = (topic) => {
