@@ -8,6 +8,7 @@ import {
   CreatePost,
   FullArticle,
   EditPost,
+  Account,
   InterviewQuestions,
   Main,
   CodingChallenge,
@@ -20,7 +21,6 @@ import {
   ForgetPassword,
   ResetPassword,
   UserResetPassword,
-  Account,
   QuizStatusBoard,
   QuizTopic,
   OnlineQuiz,
@@ -39,8 +39,9 @@ const AppRoutes = () => {
       <Route exact element={<Home />} path="/home" />
       <Route exact element={<SignUp />} path="/signup" />
       <Route exact element={<CreatePost />} path="/createpost" />
-      <Route exact element={<FullArticle/>} path="/fullarticle/:id" />
-      <Route exact element={<EditPost/>} path="/:id/editpost" />
+      <Route exact element={<FullArticle />} path="/fullarticle/:id" />
+      <Route exact element={<EditPost />} path="/:id/editpost" />
+      <Route exact element={<Account />} path="/account" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
@@ -55,7 +56,7 @@ const AppRoutes = () => {
       <Route exact element={<UserResetPassword/>} path="/userresetpassword" />
       <Route exact element={<FullArticle/>} path="/fullarticle/:id" />
       <Route exact element={<EditPost/>} path="/:id/editpost" />
-      <Route exact element={<Account/>} path="/account" />
+
       <Route exact element={<QuizTopic/>} path="/selectquiztopic" />
       <Route exact element={<QuizStatusBoard/>} path="/:id/quizstatusboard" />
       <Route exact element={<OnlineQuiz/>} path="/onlinequiz/:id" />

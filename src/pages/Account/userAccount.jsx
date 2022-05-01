@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
-import "bootstrap/dist/css/bootstrap.min.css";
-import userAccountStyle from "./userAccount.module.css";
-import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import {
   Card,
   Button,
@@ -15,7 +11,13 @@ import {
   Image,
   InputGroup,
 } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import userAccountStyle from "./userAccount.module.css";
+import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import UserService from "./../../services/userService";
 
 const validationSchema = yup.object().shape({
@@ -50,7 +52,7 @@ const UserAccount = () => {
     skills: "",
   });
 
-  const [id, setUserId] = useState("");
+  const [userId, setUserId] = useState("");
   const [fullName, setFullName] = useState("");
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
@@ -62,42 +64,43 @@ const UserAccount = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [previewPhoto, setPreviewPhoto] = useState(null);
   const [progressPercent, setProgressPercent] = useState(0);
+  const { isLoggedIn, loggedInUser } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
-
-    if (loggedInUser) {
-      setUserId(loggedInUser.userId);
-      fetchData(loggedInUser.userId);
-    }
-
-    async function fetchData(id) {
-      const result = await UserService.getUserProfile(id);
-      if (result.status === "success") {
-        setFullName(result.user.fullName);
-        setBio(result.user.bio);
-        setSkills(result.user.skills);
-        setLocation(result.user.location);
-        setWork(result.user.work);
-        setProfilePhoto(result.user.profilePhoto);
-
-        if (formikRef.current) {
-          formikRef.current.setFieldValue("fullName", result.user.fullName);
-          formikRef.current.setFieldValue("email", result.user.email);
-          formikRef.current.setFieldValue("userName", result.user.userName);
-          formikRef.current.setFieldValue("mobile", result.user.mobile);
-          formikRef.current.setFieldValue("location", result.user.location);
-          formikRef.current.setFieldValue("bio", result.user.bio);
-          formikRef.current.setFieldValue("work", result.user.work);
-          formikRef.current.setFieldValue("education", result.user.education);
-          formikRef.current.setFieldValue("skills", result.user.skills);
-        }
-      }
+    if (isLoggedIn) {
+      setUserId(loggedInUser._id);
+      fetchUserData(loggedInUser._id);
     }
   }, []);
 
+  const fetchUserData = async (userID) => {
+    const result = await UserService.getUserProfile(userID);
+    if (result.status === "success") {
+      setFullName(result.user.fullName);
+      setBio(result.user.bio);
+      setSkills(result.user.skills);
+      setLocation(result.user.location);
+      setWork(result.user.work);
+      setProfilePhoto(result.user.profilePhoto);
+
+      if (formikRef.current) {
+        formikRef.current.setFieldValue("fullName", result.user.fullName);
+        formikRef.current.setFieldValue("email", result.user.email);
+        formikRef.current.setFieldValue("userName", result.user.userName);
+        formikRef.current.setFieldValue("mobile", result.user.mobile);
+        formikRef.current.setFieldValue("location", result.user.location);
+        formikRef.current.setFieldValue("bio", result.user.bio);
+        formikRef.current.setFieldValue("work", result.user.work);
+        formikRef.current.setFieldValue("education", result.user.education);
+        formikRef.current.setFieldValue("skills", result.user.skills);
+      }
+    }
+  };
+
   const handleUpdatedProfile = async (formValues) => {
-    const result = await UserService.editUserProfile(id, formValues);
+    const result = await UserService.editUserProfile(userId, formValues);
 
     if (result.status === "success") {
       swal({
@@ -138,7 +141,11 @@ const UserAccount = () => {
       },
     };
 
-    const result = await UserService.uploadProfilePhoto(id, formData, options);
+    const result = await UserService.uploadProfilePhoto(
+      userId,
+      formData,
+      options
+    );
     if (result.status === "success") {
       setProfilePhoto(result.image);
       setTimeout(() => {
@@ -163,7 +170,7 @@ const UserAccount = () => {
       });
     }
   };
-  
+
   if (profilePhoto) {
     var imgstr = profilePhoto;
     imgstr = imgstr.replace("public", "");
@@ -325,26 +332,6 @@ const UserAccount = () => {
                       {touched.email && errors.email ? (
                         <Form.Control.Feedback type="invalid">
                           {errors.email}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationUserName">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Username"
-                        name="userName"
-                        className={userAccountStyle.postTitle}
-                        value={values.userName}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.userName && errors.userName ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.userName}
                         </Form.Control.Feedback>
                       ) : null}
                     </InputGroup>
