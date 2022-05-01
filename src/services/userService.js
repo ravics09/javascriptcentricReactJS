@@ -192,7 +192,7 @@ const removeFromReadingList = async(id, postId) => {
   );
 }
 
-const dataService = {
+const userService = {
   getUserProfile,
   editUserProfile,
   contactUsMessage,
@@ -202,4 +202,4 @@ const dataService = {
   removeFromReadingList
 };
 
-export default dataService;
+export default userService;

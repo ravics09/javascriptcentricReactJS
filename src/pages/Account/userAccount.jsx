@@ -16,7 +16,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import DataService from "./../../services/dataService";
+import UserService from "./../../services/userService";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -72,7 +72,7 @@ const UserAccount = () => {
     }
 
     async function fetchData(id) {
-      const result = await DataService.getUserProfile(id);
+      const result = await UserService.getUserProfile(id);
       if (result.status === "success") {
         setFullName(result.user.fullName);
         setBio(result.user.bio);
@@ -97,7 +97,7 @@ const UserAccount = () => {
   }, []);
 
   const handleUpdatedProfile = async (formValues) => {
-    const result = await DataService.editUserProfile(id, formValues);
+    const result = await UserService.editUserProfile(id, formValues);
 
     if (result.status === "success") {
       swal({
@@ -138,7 +138,7 @@ const UserAccount = () => {
       },
     };
 
-    const result = await DataService.uploadProfilePhoto(id, formData, options);
+    const result = await UserService.uploadProfilePhoto(id, formData, options);
     if (result.status === "success") {
       setProfilePhoto(result.image);
       setTimeout(() => {

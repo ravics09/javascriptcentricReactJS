@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import contactUsStyle from "./contactUs.module.css";
 import { FaDev, FaYoutube, FaMediumM } from "react-icons/fa";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
-import DataService from "./../../services/dataService";
+import UserService from "./../../services/userService";
 
 const validationSchema = yup.object().shape({
   fullName: yup
@@ -47,7 +47,7 @@ const ContactUs = () => {
       dangerMode: true,
     }).then(async (willSend) => {
       if (willSend) {
-        const result = await DataService.contactUsMessage(formValues);
+        const result = await UserService.contactUsMessage(formValues);
         if (result.status === "success") {
           swal({
             title: "Done!",

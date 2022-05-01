@@ -15,7 +15,7 @@ import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import moment from "moment";
 import swal from "sweetalert";
 import { FaHeart, FaRegComment } from "react-icons/fa";
-import DataService from "./../../services/dataService";
+import UserService from "./../../services/userService";
 
 const ReadingList = () => {
   const history = useNavigate();
@@ -30,7 +30,7 @@ const ReadingList = () => {
     }
 
     async function fecthReadingListID(id) {
-      const result = await DataService.fetchReadingList(id);
+      const result = await UserService.fetchReadingList(id);
       if (result.status === "success") {
         setReadingList(result.readingList);
       } else {
@@ -51,7 +51,7 @@ const ReadingList = () => {
   };
 
   const removeItemFromReadingList = async (postId) => {
-    const result = await DataService.removeFromReadingList(userId, postId);
+    const result = await UserService.removeFromReadingList(userId, postId);
     if (result.status === "success") {
       swal({
         title: "Done!",

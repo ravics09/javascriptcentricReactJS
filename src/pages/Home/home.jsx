@@ -19,7 +19,7 @@ import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import JAVASCRIPT_IMG2 from "./../../assets/images/js2.png";
 
 // Import Services
-import DataService from "./../../services/dataService";
+import UserService from "./../../services/userService";
 import FeedService from "./../../services/feedService";
 
 const Home = () => {
@@ -97,7 +97,7 @@ const Home = () => {
   };
 
   const onSave = async (postId) => {
-    const result = await DataService.addToReadingList(userId, postId);
+    const result = await UserService.addToReadingList(userId, postId);
     if (result.status === "success") {
       swal({
         title: "Done!",
