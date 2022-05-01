@@ -11,7 +11,7 @@ const createPost = async (payload) => {
       if (response.status === 200) {
         return {
           status: "success",
-          message: response.data.message
+          message: response.data.message,
         };
       }
     })
@@ -105,53 +105,44 @@ const getUserPosts = (userId) => {
   );
 };
 
-const editPost = (id, formValues) => {
+const editPost = async (id, payload) => {
   const url = `${API_URL}/editpost/${id}`;
-  const { title, content } = formValues;
-
-  const payload = {
-    title,
-    content,
-  };
-
-  return axios.put(url, payload, { headers: AuthHeader() }).then(
-    (response) => {
+  return axios
+    .put(url, payload)
+    .then((response) => {
       if (response.status === 200) {
         return {
           status: "success",
-          message: "Your post updated successfully.",
+          message: response.data.message,
         };
       }
-    },
-    (error) => {
-      if (error.response) {
-        return { status: "failed", message: error.response.data };
-      } else {
-        return { status: "failed", message: "Server Not Responding" };
-      }
-    }
-  );
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
 };
 
-const deletePost = (id) => {
+const deletePost = async (id) => {
   const url = `${API_URL}/deletepost/${id}`;
-  return axios.delete(url, { headers: AuthHeader() }).then(
-    (response) => {
+  return axios
+    .delete(url, { headers: AuthHeader() })
+    .then((response) => {
       if (response.status === 200) {
         return {
           status: "success",
-          message: "Selected Post Deleted Successfully.",
+          message: response.data.message,
         };
       }
-    },
-    (error) => {
-      if (error.response) {
-        return { status: "failed", message: error.response.data };
-      } else {
-        return { status: "failed", message: "Server Not Responding" };
-      }
-    }
-  );
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
 };
 
 const feedService = {

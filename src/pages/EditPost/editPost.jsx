@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
 import editPostStyle from "./editPost.module.css";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
-import FeedService from "./../../services/feedService";
 
-const API_URL = "http://localhost:9090/feed";
+import FeedService from "./../../services/feedService";
 
 const validationSchema = yup.object().shape({
   title: yup
@@ -23,38 +22,47 @@ const validationSchema = yup.object().shape({
 });
 
 const EditPost = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const formikRef = useRef();
   const { id } = useParams();
-  const [userId, setUserId] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
+  const { loggedInUser, isLoggedIn } = useSelector(
+    (state) => state.AuthReducer
+  );
   const [initialValues, setInitialValues] = useState({
     title: "",
     content: "",
   });
-  
+
   const simulateNetworkRequest = () => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   };
 
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
-
-    async function fetchPostData() {
-      const result = await FeedService.getPost(id);
-      if (result.status === "success") {
-        if (formikRef.current) {
+  const fetchPostData = async () => {
+    const result = await FeedService.getPost(id);
+    if (result.status === "success") {
+      const authorId = result.post.postedBy._id;
+      const loggedInUserId = loggedInUser._id;
+      console.log(authorId);
+      console.log(loggedInUserId)
+      if (authorId == loggedInUserId) {
+        setPageLoading(false);
+        if(formikRef.current){
           formikRef.current.setFieldValue("title", result.post.postTitle);
           formikRef.current.setFieldValue("content", result.post.postContent);
         }
+      } else {
+        setPageLoading(false);
+        navigate("/home", { replace: true });
       }
     }
+  };
 
-    if (loggedInUser) {
-      setUserId(loggedInUser.userId);
+  useEffect(() => {
+    setPageLoading(true);
+    if (isLoggedIn) {
       fetchPostData();
-    } else {
-      return null;
     }
 
     if (isLoading) {
@@ -64,8 +72,14 @@ const EditPost = () => {
     }
   }, []);
 
-  const handleSubmitPost = async (formValues) => {
-    const result = await FeedService.editPost(id, formValues);
+  const onSubmitPost = async (formValues) => {
+    const { title, content } = formValues;
+    const payload = {
+      title,
+      content,
+    };
+
+    const result = await FeedService.editPost(id, payload);
     if (result.status === "success") {
       swal({
         title: "Done!",
@@ -76,8 +90,8 @@ const EditPost = () => {
       });
 
       setTimeout(() => {
-        history.push(`/home`);
-      }, 2500);
+        navigate(`/home`);
+      }, 3000);
     } else {
       swal({
         title: "Error!",
@@ -91,113 +105,122 @@ const EditPost = () => {
 
   return (
     <Container className={editPostStyle.container}>
-      <Row className="mb-3">
-        <Col md={9}>
-          <Formik
-            validationSchema={validationSchema}
-            innerRef={formikRef}
-            initialValues={initialValues}
-            onSubmit={(values, { setSubmitting }) => {
-              setSubmitting(true);
-              setLoading(true);
-              if (values) {
-                handleSubmitPost(values);
-              }
-              setTimeout(() => {
-                setSubmitting(false);
-                setLoading(false);
-              }, 3000);
-            }}
-          >
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              resetForm,
-              isSubmitting,
-              values,
-            }) => (
-              <Form onSubmit={handleSubmit} className={editPostStyle.postForm}>
-                <Row className="mb-5">
-                  <h3 style={{ marginLeft: 10 }}>Edit Your Post</h3>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationPostTitle">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        autoFocus
-                        placeholder="New Post Title Here..."
-                        name="title"
-                        className={editPostStyle.postTitle}
-                        value={values.title}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group
-                    as={Col}
-                    md="12"
-                    controlId="validationPostContent"
-                  >
-                    <InputGroup>
-                      <Form.Control
-                        as="textarea"
-                        type="text"
-                        placeholder="Write your post content here..."
-                        name="content"
-                        className={editPostStyle.postContent}
-                        value={values.content}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        maxlength="5000"
-                        minlength="10"
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-2" style={{ padding: 10 }}>
-                  <Button
-                    block
-                    className={editPostStyle.customBtn}
-                    type="submit"
-                    disabled={isLoading}
-                    variant={isLoading ? "success" : "primary"}
-                  >
-                    {isLoading ? "Waiting to save" : "Save Changes"}
-                  </Button>
-                  &nbsp;&nbsp;&nbsp;
-                  <Button
-                    block
-                    className={editPostStyle.customBtn}
-                    type="reset"
-                    disabled={isSubmitting}
-                    variant="outline-danger"
-                    onClick={resetForm}
-                  >
-                    Clear All
-                  </Button>
-                  &nbsp;&nbsp;&nbsp;
-                  <Button
-                    block
-                    className={editPostStyle.customBtn}
-                    type="reset"
-                    disabled={isSubmitting}
-                    variant="danger"
-                    onClick={() => history.replace(`/home`)}
-                  >
-                    Go Back
-                  </Button>
-                </Row>
-              </Form>
-            )}
-          </Formik>
-        </Col>
-        <Col md={3}></Col>
-      </Row>
+      {pageLoading ? null : (
+        <Row className="mb-3">
+          <Col md={9}>
+            <Formik
+              validationSchema={validationSchema}
+              innerRef={formikRef}
+              initialValues={initialValues}
+              onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(true);
+                setLoading(true);
+                if (values) {
+                  onSubmitPost(values);
+                }
+                setTimeout(() => {
+                  setSubmitting(false);
+                  setLoading(false);
+                }, 3000);
+              }}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                resetForm,
+                isSubmitting,
+                values,
+              }) => (
+                <Form
+                  onSubmit={handleSubmit}
+                  className={editPostStyle.postForm}
+                >
+                  <Row className="mb-5">
+                    <h3 style={{ marginLeft: 10 }}>Edit Your Post</h3>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationPostTitle"
+                    >
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          autoFocus
+                          placeholder="New Post Title Here..."
+                          name="title"
+                          className={editPostStyle.postTitle}
+                          value={values.title}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationPostContent"
+                    >
+                      <InputGroup>
+                        <Form.Control
+                          as="textarea"
+                          type="text"
+                          placeholder="Write your post content here..."
+                          name="content"
+                          className={editPostStyle.postContent}
+                          value={values.content}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          maxlength="5000"
+                          minlength="10"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-2" style={{ padding: 10 }}>
+                    <Button
+                      block
+                      className={editPostStyle.customBtn}
+                      type="submit"
+                      disabled={isLoading}
+                      variant={isLoading ? "success" : "primary"}
+                    >
+                      {isLoading ? "Waiting to save" : "Save Changes"}
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                      block
+                      className={editPostStyle.customBtn}
+                      type="reset"
+                      disabled={isSubmitting}
+                      variant="outline-danger"
+                      onClick={resetForm}
+                    >
+                      Clear All
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button
+                      block
+                      className={editPostStyle.customBtn}
+                      type="reset"
+                      disabled={isSubmitting}
+                      variant="danger"
+                      onClick={() => navigate(`/home`, { replace: true })}
+                    >
+                      Go Back
+                    </Button>
+                  </Row>
+                </Form>
+              )}
+            </Formik>
+          </Col>
+          <Col md={3}></Col>
+        </Row>
+      )}
     </Container>
   );
 };

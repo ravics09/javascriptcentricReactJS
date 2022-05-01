@@ -7,6 +7,7 @@ import {
   SignUp,
   CreatePost,
   FullArticle,
+  EditPost,
   InterviewQuestions,
   Main,
   CodingChallenge,
@@ -16,7 +17,6 @@ import {
   ReadingList,
   Dashboard,
   Settings,
-  EditPost,
   ForgetPassword,
   ResetPassword,
   UserResetPassword,
@@ -40,6 +40,7 @@ const AppRoutes = () => {
       <Route exact element={<SignUp />} path="/signup" />
       <Route exact element={<CreatePost />} path="/createpost" />
       <Route exact element={<FullArticle/>} path="/fullarticle/:id" />
+      <Route exact element={<EditPost/>} path="/:id/editpost" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />

@@ -46,7 +46,7 @@ const FullArticle = () => {
   const [userId, setUserId] = useState("");
   const [comments, setComments] = useState([]);
   const [profilePhoto, setProfilePhoto] = useState(null);
-  const { isLoggedIn, loggedInUser } = useSelector(
+  const { loggedInUser } = useSelector(
     (state) => state.AuthReducer
   );
 
