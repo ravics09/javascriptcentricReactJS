@@ -44,9 +44,9 @@ const Home = () => {
       setUserId(loggedInUser._id);
       fetchPostData();
     }
-    return ()=>{
+    return () => {
       window.removeEventListener("resize", handleResize);
-    }
+    };
   }, [isLoggedIn]);
 
   const handleResize = () => {
@@ -161,16 +161,16 @@ const Home = () => {
           <div className={homeStyle.cardFooter}>
             <span>
               <FaHeart color="red" /> &nbsp; {item.likes} Likes &nbsp;{" "}
-              <FaRegComment color="#0C6EFD" /> &nbsp; {item.comments ? item.comments.length : null}{" "}
-              Comments
+              <FaRegComment color="#0C6EFD" /> &nbsp;{" "}
+              {item.comments ? item.comments.length : null} Comments
             </span>
-              <Button
-                variant="outline-dark"
-                size="sm"
-                onClick={() => onSave(item._id)}
-              >
-                Save
-              </Button>
+            <Button
+              variant="outline-dark"
+              size="sm"
+              onClick={() => onSave(item._id)}
+            >
+              Save
+            </Button>
           </div>
         </div>
       </Row>
@@ -179,7 +179,7 @@ const Home = () => {
 
   return (
     <Fragment>
-      <Navbar/>
+      <Navbar />
       <Container className={homeStyle.container}>
         <Row className="mb-3">
           <Col md={3}>
@@ -226,6 +226,40 @@ const Home = () => {
               : null}
           </Col>
           <Col md={3}>
+            <Row className={homeStyle.firstColumnFirstRow}>
+              <div
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                }}
+              >
+                <article>
+                  <h4>Tredning On JavaScript Centric</h4>
+                  <p>Why you should learn NodeJS ?</p>
+                  <p>Why you should learn ReactJs ?</p>
+                  <p>You will not use redux from next time.</p>
+                  <p>What is redux-toolkit ?</p>
+                </article>
+              </div>
+            </Row>
+            <Row className={homeStyle.firstColumnFirstRow}>
+              <div
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                }}
+              >
+                <article>
+                  <h4>Most Liked Posts</h4>
+                  <p>Why you should learn NodeJS ?</p>
+                  <p>Why you should learn ReactJs ?</p>
+                  <p>You will not use redux from next time.</p>
+                  <p>What is redux-toolkit ?</p>
+                </article>
+              </div>
+            </Row>
+          </Col>
+          {/* <Col md={3}>
             <Row
               className={homeStyle.rightCardSection}
               // style={{ backgroundColor: "#abcff7" }}
@@ -301,7 +335,7 @@ const Home = () => {
                 onClick={openNodeJSSection}
               />
             </Row>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </Fragment>

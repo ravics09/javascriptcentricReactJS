@@ -59,14 +59,18 @@ const NavBar = () => {
   };
 
   return (
-    <Container>
-      <Navbar className={NavBarStyle.navContainer} expand="lg">
+    <Navbar expand="md" bg="dark">
+      <Container>
         <Navbar.Brand className={NavBarStyle.navBrandLink}>
-          <span style={{ color: "rgb(247, 220, 70)" }}>JS</span>Centric
+          <span style={{ color: "rgb(247, 220, 70)" }}>JavaScript </span>Centric
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
             <Nav.Link
               exact
               as={NavLink}
@@ -92,95 +96,68 @@ const NavBar = () => {
               className={NavBarStyle.navLink}
               activeClassName={NavBarStyle.activeNavLink}
             >
-              Contact Us
+              Contact
             </Nav.Link>
-            <Nav.Link
+          </Nav>
+          <Form className="d-flex">
+            <Container>
+            <InputGroup>
+              <FormControl
+                type="search"
+                placeholder="Search here"
+                value={searchText}
+                aria-label="Search"
+                onChange={(e) => {
+                  handleSearchText(e);
+                }}
+              />
+              <Button variant="dark" onClick={() => handleSearch()}>
+                Search
+              </Button>
+            </InputGroup>
+            </Container>
+          </Form>
+          <NavDropdown
+            title={<span className={NavBarStyle.navLink}>{userName}</span>}
+            id="navbarScrollingDropdown"
+            className={NavBarStyle.navDropdownLink}
+            eventKey={3}
+          >
+            <NavDropdown.Item
               exact
               as={NavLink}
-              to="/aboutus"
-              className={NavBarStyle.navLink}
-              activeClassName={NavBarStyle.activeNavLink}
+              to="/createpost"
+              eventKey={3.1}
             >
-              About Us
-            </Nav.Link>
-            <Form className={NavBarStyle.searchBar}>
-              <InputGroup size="sm">
-                <FormControl
-                  placeholder="Search here"
-                  value={searchText}
-                  onChange={(e) => {
-                    handleSearchText(e);
-                  }}
-                />
-                <Button variant="dark" onClick={() => handleSearch()}>
-                  Search
-                </Button>
-              </InputGroup>
-            </Form>
-          </Nav>
-          {currentUser ? (
-            <Nav
-              className="ms-auto"
-              activeKey={dropdownActiveKey}
-              onSelect={handleSelect}
+              Create Post
+            </NavDropdown.Item>
+            <NavDropdown.Item exact as={NavLink} to="/dashboard" eventKey={3.1}>
+              Dashboard
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              exact
+              as={NavLink}
+              to="/readinglist"
+              eventKey={3.2}
             >
-              <NavDropdown
-                alignLeft
-                flip
-                title={<span className={NavBarStyle.navLink}>{userName}</span>}
-                id="basic-nav-dropdown"
-                className={NavBarStyle.navDropdownLink}
-                eventKey={3}
-              >
-                <NavDropdown.Item
-                  exact
-                  as={NavLink}
-                  to="/createpost"
-                  eventKey={3.1}
-                >
-                  Create Post
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  exact
-                  as={NavLink}
-                  to="/dashboard"
-                  eventKey={3.1}
-                >
-                  Dashboard
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  exact
-                  as={NavLink}
-                  to="/readinglist"
-                  eventKey={3.2}
-                >
-                  Readling List
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  exact
-                  as={NavLink}
-                  to="/account"
-                  eventKey={3.3}
-                >
-                  Account
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  exact
-                  as={NavLink}
-                  to="/selectquiztopic"
-                  eventKey={3.4}
-                >
-                  Coding Quiz
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          ) : null}
+              Readling List
+            </NavDropdown.Item>
+            <NavDropdown.Item exact as={NavLink} to="/account" eventKey={3.3}>
+              Account
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              exact
+              as={NavLink}
+              to="/selectquiztopic"
+              eventKey={3.4}
+            >
+              Coding Quiz
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+          </NavDropdown>
         </Navbar.Collapse>
-      </Navbar>
-    </Container>
+      </Container>
+    </Navbar>
   );
 };
 export default NavBar;
