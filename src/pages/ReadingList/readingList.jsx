@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import readingListStyle from "./readingList.module.css";
 import {
   Container,
   Row,
@@ -11,16 +9,24 @@ import {
   FormControl,
   Image,
 } from "react-bootstrap";
-import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import moment from "moment";
 import swal from "sweetalert";
 import { FaHeart, FaRegComment } from "react-icons/fa";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from "./../../components/navbar";
 import UserService from "./../../services/userService";
+import readingListStyle from "./readingList.module.css";
+import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 
 const ReadingList = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [readingList, setReadingList] = useState([]);
   const [userId, setUserId] = useState("");
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -47,7 +53,7 @@ const ReadingList = () => {
   }, []);
 
   const openSelectedPost = (Id) => {
-    history.push(`/fullarticle/${Id}`);
+    navigate(`/fullarticle/${Id}`);
   };
 
   const removeItemFromReadingList = async (postId) => {
@@ -60,7 +66,9 @@ const ReadingList = () => {
         timer: 2000,
         button: false,
       });
-      setTimeout(() => {window.location.reload()},2500);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     } else {
       swal({
         title: "Error!",
@@ -122,40 +130,32 @@ const ReadingList = () => {
   };
 
   return (
-    <Container className={readingListStyle.container}>
-      <Row className={readingListStyle.topRow}>
-        <div className={readingListStyle.topRowItems}>
-          <div>
-            <h2>Reading list ({readingList? readingList.length : 0})</h2>
+    <Fragment>
+      <Navbar />
+      <Container className={readingListStyle.container} style={{minHeight:dimensions.height-100}}>
+        <Row className={readingListStyle.topRow}>
+          <div className={readingListStyle.topRowItems}>
+            <h2>Reading list ({readingList ? readingList.length : 0})</h2>
           </div>
-          <div>
-            <InputGroup>
-              <FormControl
-                placeholder="Search here..."
-                aria-label="Search Item"
-              />
-              <Button variant="success">Search</Button>
-            </InputGroup>
-          </div>
-        </div>
-      </Row>
-      <Row className={readingListStyle.postRow}>
-        <Col md={3} className={readingListStyle.otherInfoSection}>
-          <p>
-            API is the acronym for Application Programming Interface, which is a
-            software intermediary that allows two applications to talk to each
-            other!
-          </p>
-        </Col>
-        <Col md={9} className={readingListStyle.readingListSection}>
-          {readingList
-            ? readingList.map((item, index) => (
-                <RenderAllPost item={item} index={index} />
-              ))
-            : null}
-        </Col>
-      </Row>
-    </Container>
+        </Row>
+        <Row className={readingListStyle.postRow}>
+          <Col md={3} className={readingListStyle.otherInfoSection}>
+            <p>
+              API is the acronym for Application Programming Interface, which is
+              a software intermediary that allows two applications to talk to
+              each other!
+            </p>
+          </Col>
+          <Col md={9} className={readingListStyle.readingListSection}>
+            {readingList
+              ? readingList.map((item, index) => (
+                  <RenderAllPost item={item} index={index} />
+                ))
+              : null}
+          </Col>
+        </Row>
+      </Container>
+    </Fragment>
   );
 };
 export default ReadingList;

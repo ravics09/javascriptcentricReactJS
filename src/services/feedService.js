@@ -89,7 +89,7 @@ const addComment = (postId, userId, comment) => {
 
 const getUserPosts = (userId) => {
   const url = `${API_URL}/getuserposts/${userId}`;
-  return axios.get(url, { headers: AuthHeader() }).then(
+  return axios.get(url).then(
     (response) => {
       if (response.status === 200) {
         return { status: "success", posts: response.data.posts.Feed };

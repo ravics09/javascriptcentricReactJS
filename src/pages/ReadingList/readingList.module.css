@@ -1,7 +1,8 @@
 .container {
   background-color: #181a1f !important;
   color: white !important;
-  height: auto;
+  margin-top: 20px;
+  border-radius: 15px;
 }
 .topRow {
   margin-top: 10px;

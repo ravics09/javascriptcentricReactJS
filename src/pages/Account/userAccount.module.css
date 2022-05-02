@@ -1,6 +1,5 @@
 .container {
-  color: white !important;
-  height: auto;
+  margin-top: 20px;
 }
 .accountProfileSection{
   background-color: lightgray !important;

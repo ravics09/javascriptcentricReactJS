@@ -13,27 +13,26 @@ import {
   FormControl,
   Button,
   Form,
+  Image,
 } from "react-bootstrap";
 import { signout } from "./../actions/authAction";
+import PLACEHOLDER_IMG from "./../assets/images/h1.png";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [currentUser, setCurrentUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [dropdownActiveKey, setActiveKey] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const { isLoggedIn, loggedInUser } = useSelector(
     (state) => state.AuthReducer
   );
 
   useEffect(() => {
     if (isLoggedIn) {
-      setCurrentUser(true);
       setUserName(loggedInUser.fullName);
-    } else {
-      setCurrentUser(false);
-      setUserName("");
+      setProfilePhoto(loggedInUser.profilePhoto);
     }
   }, [isLoggedIn]);
 
@@ -55,8 +54,16 @@ const NavBar = () => {
 
   const handleSearch = async () => {
     alert("You searched for" + searchText);
-    // setSearchText("");
+    // setSearchText("")
   };
+
+  // if (profilePhoto) {
+  //   var imgstr = profilePhoto;
+  //   imgstr = imgstr.replace("public", "");
+  //   var profilePic = "http://localhost:9090" + imgstr;
+  // } else {
+  //   profilePic = PLACEHOLDER_IMG;
+  // }
 
   return (
     <Navbar expand="md" bg="dark">
@@ -101,28 +108,39 @@ const NavBar = () => {
           </Nav>
           <Form className="d-flex">
             <Container>
-            <InputGroup>
-              <FormControl
-                type="search"
-                placeholder="Search here"
-                value={searchText}
-                aria-label="Search"
-                onChange={(e) => {
-                  handleSearchText(e);
-                }}
-              />
-              <Button variant="dark" onClick={() => handleSearch()}>
-                Search
-              </Button>
-            </InputGroup>
+              <InputGroup>
+                <FormControl
+                  type="search"
+                  placeholder="Search here"
+                  value={searchText}
+                  aria-label="Search"
+                  onChange={(e) => {
+                    handleSearchText(e);
+                  }}
+                />
+                <Button variant="dark" onClick={() => handleSearch()}>
+                  Search
+                </Button>
+              </InputGroup>
             </Container>
           </Form>
           <NavDropdown
-            title={<span className={NavBarStyle.navLink}>{userName}</span>}
+            title={
+              <Image
+                width={30}
+                height={30}
+                roundedCircle
+                src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
+              />
+            }
             id="navbarScrollingDropdown"
             className={NavBarStyle.navDropdownLink}
             eventKey={3}
           >
+            <NavDropdown.Item exact as={NavLink} to="/account" eventKey={3.3}>
+              @{userName?userName:null}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
             <NavDropdown.Item
               exact
               as={NavLink}
@@ -142,9 +160,6 @@ const NavBar = () => {
             >
               Readling List
             </NavDropdown.Item>
-            <NavDropdown.Item exact as={NavLink} to="/account" eventKey={3.3}>
-              Account
-            </NavDropdown.Item>
             <NavDropdown.Item
               exact
               as={NavLink}
@@ -153,6 +168,7 @@ const NavBar = () => {
             >
               Coding Quiz
             </NavDropdown.Item>
+            <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>

@@ -30,3 +30,6 @@
   right: 0;
   left: auto;
 }
+.navDropdownLink-toggle::after{
+  display: none !important; 
+}

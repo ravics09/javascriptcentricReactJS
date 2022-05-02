@@ -93,7 +93,7 @@ const CreatePost = () => {
       <Navbar />
       <Container className={createPostStyle.container}>
         <Row className="mb-3">
-          <Col md={9}>
+          <Col xl={12} lg={6}  md={9}>
             <Formik
               validationSchema={validationSchema}
               initialValues={initialValues}
@@ -194,7 +194,7 @@ const CreatePost = () => {
               )}
             </Formik>
           </Col>
-          <Col md={3}></Col>
+          <Col xl={0} lg={6}  md={3}></Col>
         </Row>
       </Container>
     </Fragment>

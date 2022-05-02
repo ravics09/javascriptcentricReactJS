@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import {
@@ -9,14 +9,15 @@ import {
   FullArticle,
   EditPost,
   Account,
+  Dashboard,
+  ReadingList,
   InterviewQuestions,
   Main,
   CodingChallenge,
   JavaScriptPrograms,
   ContactUs,
   AboutUs,
-  ReadingList,
-  Dashboard,
+
   Settings,
   ForgetPassword,
   ResetPassword,
@@ -42,14 +43,15 @@ const AppRoutes = () => {
       <Route exact element={<FullArticle />} path="/fullarticle/:id" />
       <Route exact element={<EditPost />} path="/:id/editpost" />
       <Route exact element={<Account />} path="/account" />
+      <Route exact element={<Dashboard/>} path="/dashboard" />
+      <Route exact element={<ReadingList/>} path="/readinglist" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
       <Route exact element={<JavaScriptPrograms/>} path="/programs" />
       <Route exact element={<ContactUs/>} path="/contactus" />
       <Route exact element={<AboutUs/>} path="/aboutus" />
-      <Route exact element={<ReadingList/>} path="/readinglist" />
-      <Route exact element={<Dashboard/>} path="/dashboard" />
+
       <Route exact element={<Settings/>} path="/settings" />
       <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
       <Route exact element={<ResetPassword/>} path="/resetpassword/:id/:token" />

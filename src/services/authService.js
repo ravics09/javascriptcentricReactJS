@@ -8,12 +8,12 @@ const signIn = async (payload) => {
     .then((response) => {
       if (response.status === 200) {
         localStorage.setItem("User", JSON.stringify(response.data.user));
+        return {
+          status: "success",
+          message: "You are redirecting to home page",
+          user: response.data.user,
+        };
       }
-      return {
-        status: "success",
-        message: "You are redirecting to home page",
-        user: response.data.user,
-      };
     })
     .catch((error) => {
       return {
@@ -51,7 +51,7 @@ const signUp = async (payload) => {
       if (response.status === 200) {
         return {
           status: "success",
-          message: response.data.message
+          message: response.data.message,
         };
       }
     })

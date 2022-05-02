@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import * as yup from "yup";
 import swal from "sweetalert";
 import { Formik } from "formik";
@@ -16,6 +16,7 @@ import Modal from "react-bootstrap/Modal";
 import { useSelector, useDispatch } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from "./../../components/navbar";
 import userAccountStyle from "./userAccount.module.css";
 import PLACEHOLDER_IMG from "./../../assets/images/h1.png";
 import UserService from "./../../services/userService";
@@ -84,6 +85,7 @@ const UserAccount = () => {
       setLocation(result.user.location);
       setWork(result.user.work);
       setProfilePhoto(result.user.profilePhoto);
+      localStorage.setItem("photo",result.user.profilePhoto)
 
       if (formikRef.current) {
         formikRef.current.setFieldValue("fullName", result.user.fullName);
@@ -180,6 +182,8 @@ const UserAccount = () => {
   }
 
   return (
+    <Fragment>
+    <Navbar />
     <Container className={userAccountStyle.container}>
       <Row>
         <Col md={8}>
@@ -284,6 +288,7 @@ const UserAccount = () => {
             show={lgShow}
             onHide={() => setLgShow(false)}
             aria-labelledby="example-modal-sizes-title-lg"
+            style={{paddingTop: 50}}
           >
             <Modal.Header closeButton>
               <Modal.Title id="example-modal-sizes-title-lg">
@@ -546,6 +551,8 @@ const UserAccount = () => {
         </Modal.Body>
       </Modal>
     </Container>
+    </Fragment>
+
   );
 };
 export default UserAccount;

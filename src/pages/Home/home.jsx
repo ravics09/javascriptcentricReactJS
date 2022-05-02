@@ -180,84 +180,93 @@ const Home = () => {
   return (
     <Fragment>
       <Navbar />
-      <Container className={homeStyle.container}>
+      <Container
+        className={homeStyle.container}
+        style={{ minHeight: dimensions.height - 100 }}
+      >
         <Row className="mb-3">
-          <Col md={3}>
-            <Row className={homeStyle.firstColumnFirstRow}>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <article>
-                  <h4>Everything on one place</h4>
-                  <p>
-                    A Platform where you can find everything related with
-                    javascript like Interview questions, Javascript programs,
-                    Javascript data structure, codeing challenge and latest
-                    article on Javascript.
-                  </p>
-                </article>
-              </div>
-            </Row>
-            <Row className={homeStyle.firstColumnSecondRow}>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <h4>Other Technologies</h4>
-                <p>ExpressJS</p>
-                <p>MongoDB</p>
-                <p>Redux</p>
-                <p>Redux Saga</p>
-                <p>AWS</p>
-                <p></p>
-              </div>
-            </Row>
+          <Col xl={2} lg={2} md={2}>
+            <Container fluid="xl">
+              <Row className={homeStyle.firstColumnFirstRow}>
+                <div
+                  style={{
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <article>
+                    <h4>Everything on one place</h4>
+                    <p>
+                      A Platform where you can find everything related with
+                      javascript like Interview questions, Javascript programs,
+                      Javascript data structure, codeing challenge and latest
+                      article on Javascript.
+                    </p>
+                  </article>
+                </div>
+              </Row>
+              <Row className={homeStyle.firstColumnSecondRow}>
+                <div
+                  style={{
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <h4>Other Technologies</h4>
+                  <p>ExpressJS</p>
+                  <p>MongoDB</p>
+                  <p>Redux</p>
+                  <p>Redux Saga</p>
+                  <p>AWS</p>
+                  <p></p>
+                </div>
+              </Row>
+            </Container>
           </Col>
-          <Col md={6}>
-            {userPosts
-              ? userPosts.map((item, index) => (
-                  <PostCard item={item} index={index} />
-                ))
-              : null}
+          <Col xl={7} lg={7} md={7} xs={12}>
+            <Container fluid="xl">
+              {userPosts
+                ? userPosts.map((item, index) => (
+                    <PostCard item={item} index={index} />
+                  ))
+                : null}
+            </Container>
           </Col>
-          <Col md={3}>
-            <Row className={homeStyle.firstColumnFirstRow}>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <article>
-                  <h4>Tredning On JavaScript Centric</h4>
-                  <p>Why you should learn NodeJS ?</p>
-                  <p>Why you should learn ReactJs ?</p>
-                  <p>You will not use redux from next time.</p>
-                  <p>What is redux-toolkit ?</p>
-                </article>
-              </div>
-            </Row>
-            <Row className={homeStyle.firstColumnFirstRow}>
-              <div
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}
-              >
-                <article>
-                  <h4>Most Liked Posts</h4>
-                  <p>Why you should learn NodeJS ?</p>
-                  <p>Why you should learn ReactJs ?</p>
-                  <p>You will not use redux from next time.</p>
-                  <p>What is redux-toolkit ?</p>
-                </article>
-              </div>
-            </Row>
+          <Col xl={3} lg={3} md={3}>
+            <Container fluid="xl">
+              <Row className={homeStyle.firstColumnFirstRow}>
+                <div
+                  style={{
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <article>
+                    <h4>Tredning On JavaScript Centric</h4>
+                    <p>Why you should learn NodeJS ?</p>
+                    <p>Why you should learn ReactJs ?</p>
+                    <p>You will not use redux from next time.</p>
+                    <p>What is redux-toolkit ?</p>
+                  </article>
+                </div>
+              </Row>
+              <Row className={homeStyle.firstColumnFirstRow}>
+                <div
+                  style={{
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <article>
+                    <h4>Most Liked Posts</h4>
+                    <p>Why you should learn NodeJS ?</p>
+                    <p>Why you should learn ReactJs ?</p>
+                    <p>You will not use redux from next time.</p>
+                    <p>What is redux-toolkit ?</p>
+                  </article>
+                </div>
+              </Row>
+            </Container>
           </Col>
           {/* <Col md={3}>
             <Row

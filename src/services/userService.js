@@ -100,7 +100,7 @@ const uploadProfilePhoto = async (id, formData, options) => {
         return {
           image: response.data.results.profilePhoto,
           status: "success",
-          message: response.data.message,
+          message: response.data.message
         };
       }
     })
