@@ -11,15 +11,14 @@ import {
   Account,
   Dashboard,
   ReadingList,
+  ForgetPassword,
   InterviewQuestions,
   Main,
   CodingChallenge,
   JavaScriptPrograms,
   ContactUs,
   AboutUs,
-
   Settings,
-  ForgetPassword,
   ResetPassword,
   UserResetPassword,
   QuizStatusBoard,
@@ -45,6 +44,7 @@ const AppRoutes = () => {
       <Route exact element={<Account />} path="/account" />
       <Route exact element={<Dashboard/>} path="/dashboard" />
       <Route exact element={<ReadingList/>} path="/readinglist" />
+      <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
@@ -53,7 +53,7 @@ const AppRoutes = () => {
       <Route exact element={<AboutUs/>} path="/aboutus" />
 
       <Route exact element={<Settings/>} path="/settings" />
-      <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
+
       <Route exact element={<ResetPassword/>} path="/resetpassword/:id/:token" />
       <Route exact element={<UserResetPassword/>} path="/userresetpassword" />
       <Route exact element={<FullArticle/>} path="/fullarticle/:id" />

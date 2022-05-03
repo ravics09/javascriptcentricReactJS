@@ -1,9 +1,7 @@
 import React from "react";
 import * as yup from "yup";
-import axios from "axios";
 import swal from "sweetalert";
 import { Formik } from "formik";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Button,
   Form,
@@ -13,12 +11,14 @@ import {
   InputGroup,
   Image,
 } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import ForgetPasswordStyle from "./forgetPassword.module.css";
-import RN_IMG from "./../../assets/images/forogtimg.png";
 import { AiOutlineMail } from "react-icons/ai";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:9090/user";
+import RN_IMG from "./../../assets/images/forogtimg.png";
+import ForgetPasswordStyle from "./forgetPassword.module.css";
+import { forgotpassword } from "./../../actions/authAction";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -33,48 +33,40 @@ const initialValues = {
 };
 
 const ForgetPassword = () => {
-  const history = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleForgetPassword = (formValues) => {
-    let email = formValues.email;
-    const url = `${API_URL}/forgetpassword`;
-
     const payload = {
-      email,
+      email: formValues.email,
     };
 
-    axios.post(url, payload).then(
-      (response) => {
-        if (response.data.statusCode === 200) {
-          swal({
-            title: "Done!",
-            text: "Password reset link sent to your registered email address.",
-            icon: "success",
-            timer: 2000,
-            button: false,
-          });
-        }
-      },
-      (error) => {
-        if (error.response) {
-          swal({
-            title: "Error!",
-            text: `${error.response.data}`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        } else {
-          swal({
-            title: "Error!",
-            text: `Server Not Responding`,
-            icon: "warning",
-            timer: 2000,
-            button: false,
-          });
-        }
+    dispatch(forgotpassword(payload)).then((res) => {
+      if (res.status === "success") {
+        swal({
+          title: "Done!",
+          text: `${res.message}`,
+          icon: "success",
+          timer: 2000,
+          button: false,
+        });
+
+        setTimeout(function () {
+          navigate("/signin");
+        }, 3000);
+      } else if (res.status === "failed") {
+        swal({
+          title: "Error!",
+          text: `${res.message}`,
+          icon: "warning",
+          timer: 2000,
+          button: false,
+        });
+        setTimeout(() => {
+          navigate("/forgetpassword");
+        }, 3000);
       }
-    );
+    });
   };
 
   return (

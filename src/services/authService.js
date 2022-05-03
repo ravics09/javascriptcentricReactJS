@@ -70,11 +70,31 @@ const signOut = async () => {
   };
 };
 
+const forgotPassword = async (payload) => {
+  return axios
+    .post(`${API_URL}/forgetpassword`, payload)
+    .then((response) => {
+      if (response.status === 200) {
+        return {
+          status: "success",
+          message: response.data.message,
+        };
+      }
+    })
+    .catch((error) => {
+      return {
+        status: "failed",
+        message: error.response.data.message,
+      };
+    });
+};
+
 const authService = {
   signUp,
   signIn,
   googleSignIn,
   signOut,
+  forgotPassword,
 };
 
 export default authService;
