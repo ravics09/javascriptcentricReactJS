@@ -65,14 +65,13 @@ const UserAccount = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [previewPhoto, setPreviewPhoto] = useState(null);
   const [progressPercent, setProgressPercent] = useState(0);
-  const { loggedInUser } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { loggedInUser } = useSelector((state) => state.AuthReducer);
 
   useEffect(() => {
     if (loggedInUser) {
       setUserId(loggedInUser._id);
       fetchUserData(loggedInUser._id);
+      setProfilePhoto(loggedInUser.profilePhoto);
     }
   }, []);
 
@@ -84,8 +83,6 @@ const UserAccount = () => {
       setSkills(result.user.skills);
       setLocation(result.user.location);
       setWork(result.user.work);
-      setProfilePhoto(result.user.profilePhoto);
-      localStorage.setItem("photo",result.user.profilePhoto)
 
       if (formikRef.current) {
         formikRef.current.setFieldValue("fullName", result.user.fullName);
@@ -173,386 +170,392 @@ const UserAccount = () => {
     }
   };
 
-  if (profilePhoto) {
-    var imgstr = profilePhoto;
-    imgstr = imgstr.replace("public", "");
-    var profilePic = "http://localhost:9090" + imgstr;
-  } else {
-    profilePic = PLACEHOLDER_IMG;
-  }
+  // if (profilePhoto) {
+  //   var imgstr = profilePhoto;
+  //   imgstr = imgstr.replace("public", "");
+  //   var profilePic = "http://localhost:9090" + imgstr;
+  // } else {
+  //   profilePic = PLACEHOLDER_IMG;
+  // }
 
   return (
     <Fragment>
-    <Navbar />
-    <Container className={userAccountStyle.container}>
-      <Row>
-        <Col md={8}>
-          <Row className={userAccountStyle.accountProfileSection}>
-            <div className={userAccountStyle.box}>
-              <span>
-                <Image
-                  src={profilePic}
-                  className={userAccountStyle.bio_photo}
-                  name={profilePhoto}
-                />
-              </span>
-              <div className={userAccountStyle.photoEditBtn}>
-                <Button
-                  variant="dark"
-                  onClick={() => showUploadPhotoModal(true)}
-                >
-                  Edit Photo
-                </Button>
-              </div>
-            </div>
-            <div className={userAccountStyle.box2}>
-              <div className={userAccountStyle.userDetail}>
-                <div className={userAccountStyle.profileInfo}>
-                  <p>
-                    <b>
-                      <big>{fullName}</big>
-                    </b>
-                  </p>
-                  <p style={{ color: work ? "darkgreen" : "red" }}>
-                    {work ? work : "Add Work Experience"}{" "}
-                  </p>
-                  <p style={{ color: location ? "darkgreen" : "red" }}>
-                    {location ? location : "Add Location Info"}
-                  </p>
+      <Navbar />
+      <Container className={userAccountStyle.container}>
+        <Row>
+          <Col md={8}>
+            <Container>
+              <Row className={userAccountStyle.accountProfileSection}>
+                <div className={userAccountStyle.box}>
+                  <span>
+                    <Image
+                      src={profilePhoto ? profilePhoto : PLACEHOLDER_IMG}
+                      className={userAccountStyle.bio_photo}
+                      name={profilePhoto}
+                    />
+                  </span>
+                  <div className={userAccountStyle.photoEditBtn}>
+                    <Button
+                      variant="dark"
+                      onClick={() => showUploadPhotoModal(true)}
+                    >
+                      Edit Photo
+                    </Button>
+                  </div>
                 </div>
-                <div>
-                  <Button variant="primary" onClick={() => setLgShow(true)}>
-                    Edit
-                  </Button>
+                <div className={userAccountStyle.box2}>
+                  <div className={userAccountStyle.userDetail}>
+                    <div className={userAccountStyle.profileInfo}>
+                      <p>
+                        <b>
+                          <big>{fullName}</big>
+                        </b>
+                      </p>
+                      <p style={{ color: work ? "darkgreen" : "red" }}>
+                        {work ? work : "Add Work Experience"}{" "}
+                      </p>
+                      <p style={{ color: location ? "darkgreen" : "red" }}>
+                        {location ? location : "Add Location Info"}
+                      </p>
+                    </div>
+                    <div>
+                      <Button variant="primary" onClick={() => setLgShow(true)}>
+                        Edit
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Row>
-        </Col>
+              </Row>
+            </Container>
+          </Col>
 
-        <Col md={4}>
-          <Row className={userAccountStyle.skillSection}>
-            <Card>
-              <Card.Header>About You</Card.Header>
-              <Card.Body>
-                <Card.Text>{bio}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Row>
-          <Row className={userAccountStyle.skillSection}>
-            <Card>
-              <Card.Header>Skills Langauges</Card.Header>
-              <Card.Body>
-                <Card.Text>{skills}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Row>
-          <Row className={userAccountStyle.skillSection}>
-            <Card>
-              <Card.Header>Your Activities</Card.Header>
-              <Card.Body>
-                <Card.Text>10 posts published</Card.Text>
-                <Card.Text>5 comments written</Card.Text>
-                <Card.Text>19 likes on your post</Card.Text>
-              </Card.Body>
-            </Card>
-          </Row>
-        </Col>
-      </Row>
-      <Formik
-        validationSchema={validationSchema}
-        innerRef={formikRef}
-        initialValues={initialValues}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(true);
-          setLgShow(false);
-          if (values) {
-            handleUpdatedProfile(values);
-          }
-          setTimeout(() => {
-            setSubmitting(false);
+          <Col md={4}>
+            <Container>
+              <Row className={userAccountStyle.skillSection}>
+                <Card>
+                  <Card.Header>About You</Card.Header>
+                  <Card.Body>
+                    <Card.Text>{bio}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Row>
+              <Row className={userAccountStyle.skillSection}>
+                <Card>
+                  <Card.Header>Skills Langauges</Card.Header>
+                  <Card.Body>
+                    <Card.Text>{skills}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Row>
+              <Row className={userAccountStyle.skillSection}>
+                <Card>
+                  <Card.Header>Your Activities</Card.Header>
+                  <Card.Body>
+                    <Card.Text>10 posts published</Card.Text>
+                    <Card.Text>5 comments written</Card.Text>
+                    <Card.Text>19 likes on your post</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+        <Formik
+          validationSchema={validationSchema}
+          innerRef={formikRef}
+          initialValues={initialValues}
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(true);
             setLgShow(false);
-          }, 3000);
-        }}
-      >
-        {({
-          handleSubmit,
-          handleChange,
-          handleBlur,
-          values,
-          touched,
-          errors,
-        }) => (
-          <Modal
-            size="lg"
-            show={lgShow}
-            onHide={() => setLgShow(false)}
-            aria-labelledby="example-modal-sizes-title-lg"
-            style={{paddingTop: 50}}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="example-modal-sizes-title-lg">
-                Edit Profile
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form
-                onSubmit={handleSubmit}
-                className={userAccountStyle.postForm}
-              >
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationFullName">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        autoFocus
-                        placeholder="FullName"
-                        name="fullName"
-                        className={userAccountStyle.postTitle}
-                        value={values.fullName}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.fullName && errors.fullName ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.fullName}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationFullName">
-                    <InputGroup>
-                      <Form.Control
-                        readOnly
-                        type="email"
-                        name="email"
-                        disabled={true}
-                        className={userAccountStyle.postTitle}
-                        value={values.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.email && errors.email ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.email}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationMobile">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Mobile"
-                        name="mobile"
-                        className={userAccountStyle.postTitle}
-                        value={values.mobile}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.mobile && errors.mobile ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.mobile}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationLocation">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Location"
-                        name="location"
-                        className={userAccountStyle.postTitle}
-                        value={values.location}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.location && errors.location ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.location}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationWork">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Work"
-                        name="work"
-                        className={userAccountStyle.postTitle}
-                        value={values.work}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.work && errors.work ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.work}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationEducation">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Education"
-                        name="education"
-                        className={userAccountStyle.postTitle}
-                        value={values.education}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.education && errors.education ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.education}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationSkills">
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Skills"
-                        name="skills"
-                        className={userAccountStyle.postTitle}
-                        value={values.skills}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      {touched.skills && errors.skills ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.skills}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="12" controlId="validationBio">
-                    <InputGroup>
-                      <Form.Control
-                        as="textarea"
-                        type="text"
-                        placeholder="Write about yourself..."
-                        name="bio"
-                        className={userAccountStyle.postContent}
-                        value={values.bio}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        maxLength="5000"
-                        minLength="10"
-                      />
-                      {touched.bio && errors.bio ? (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.bio}
-                        </Form.Control.Feedback>
-                      ) : null}
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-2" style={{ padding: 10 }}>
-                  <Button
-                    block
-                    className={userAccountStyle.customBtn}
-                    type="submit"
-                  >
-                    Save Changes
-                  </Button>
-                </Row>
-              </Form>
-            </Modal.Body>
-          </Modal>
-        )}
-      </Formik>
-
-      {/* //================================================================================================ */}
-      <Modal
-        size="lg"
-        show={uploadPhotoModal}
-        onHide={() => showUploadPhotoModal(false)}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="photoUploadModal">Upload Photo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            if (values) {
+              handleUpdatedProfile(values);
+            }
+            setTimeout(() => {
+              setSubmitting(false);
+              setLgShow(false);
+            }, 3000);
           }}
         >
-          <Form
-            className={userAccountStyle.photoUploadForm}
-            onSubmit={fileUpdatedHandler}
-            encType="multipart/form-data"
-          >
-            <Row className="mb-3">
-              <img
-                src={selectedFile ? previewPhoto : PLACEHOLDER_IMG}
-                style={{
-                  width: "300px",
-                  height: "300px",
-                  borderRadius: selectedFile ? "50%" : "0px",
-                }}
-              />
-            </Row>
-            <Row className="mb-3">
-              <div
-                className="progress"
-                style={{ width: "290px", marginLeft: "10px" }}
-              >
-                <div
-                  className="progress-bar progress-bar-info progress-bar-striped"
-                  role="progressbar"
-                  style={{ width: `${progressPercent}%` }}
-                  aria-valuenow={progressPercent}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
+          {({
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            values,
+            touched,
+            errors,
+          }) => (
+            <Modal
+              size="lg"
+              show={lgShow}
+              onHide={() => setLgShow(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+              style={{ paddingTop: 50 }}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">
+                  Edit Profile
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form
+                  onSubmit={handleSubmit}
+                  className={userAccountStyle.postForm}
                 >
-                  {progressPercent}
-                </div>
-              </div>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group controlId="validationProfilePhoto">
-                <Form.File
-                  type="file"
-                  accept=".png, .jpg, .jpeg"
-                  name="profilePhoto"
-                  filename="profilePhoto"
-                  custom
-                  onChange={(e) => fileSelectedHandler(e)}
-                />
-              </Form.Group>
-            </Row>
-            <Row className="mb-2">
-              <div className={userAccountStyle.uploadPhotoBtn}>
-                <Button block type="submit">
-                  Upload Photo
-                </Button>
-              </div>
-            </Row>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </Container>
-    </Fragment>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationFullName">
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          autoFocus
+                          placeholder="FullName"
+                          name="fullName"
+                          className={userAccountStyle.postTitle}
+                          value={values.fullName}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.fullName && errors.fullName ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.fullName}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationFullName">
+                      <InputGroup>
+                        <Form.Control
+                          readOnly
+                          type="email"
+                          name="email"
+                          disabled={true}
+                          className={userAccountStyle.postTitle}
+                          value={values.email}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.email && errors.email ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.email}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationMobile">
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          placeholder="Mobile"
+                          name="mobile"
+                          className={userAccountStyle.postTitle}
+                          value={values.mobile}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.mobile && errors.mobile ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.mobile}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationLocation">
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          placeholder="Location"
+                          name="location"
+                          className={userAccountStyle.postTitle}
+                          value={values.location}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.location && errors.location ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.location}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationWork">
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          placeholder="Work"
+                          name="work"
+                          className={userAccountStyle.postTitle}
+                          value={values.work}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.work && errors.work ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.work}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group
+                      as={Col}
+                      md="12"
+                      controlId="validationEducation"
+                    >
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          placeholder="Education"
+                          name="education"
+                          className={userAccountStyle.postTitle}
+                          value={values.education}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.education && errors.education ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.education}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationSkills">
+                      <InputGroup>
+                        <Form.Control
+                          type="text"
+                          placeholder="Skills"
+                          name="skills"
+                          className={userAccountStyle.postTitle}
+                          value={values.skills}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        {touched.skills && errors.skills ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.skills}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="12" controlId="validationBio">
+                      <InputGroup>
+                        <Form.Control
+                          as="textarea"
+                          type="text"
+                          placeholder="Write about yourself..."
+                          name="bio"
+                          className={userAccountStyle.postContent}
+                          value={values.bio}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          maxLength="5000"
+                          minLength="10"
+                        />
+                        {touched.bio && errors.bio ? (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.bio}
+                          </Form.Control.Feedback>
+                        ) : null}
+                      </InputGroup>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-2" style={{ padding: 10 }}>
+                    <Button
+                      className={userAccountStyle.customBtn}
+                      type="submit"
+                    >
+                      Save Changes
+                    </Button>
+                  </Row>
+                </Form>
+              </Modal.Body>
+            </Modal>
+          )}
+        </Formik>
 
+        {/* //================================================================================================ */}
+        <Modal
+          size="lg"
+          show={uploadPhotoModal}
+          onHide={() => showUploadPhotoModal(false)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="photoUploadModal">Upload Photo</Modal.Title>
+          </Modal.Header>
+          <Modal.Body
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Form
+              className={userAccountStyle.photoUploadForm}
+              onSubmit={fileUpdatedHandler}
+              encType="multipart/form-data"
+            >
+              <Row className="mb-3">
+                <img
+                  src={selectedFile ? previewPhoto : PLACEHOLDER_IMG}
+                  style={{
+                    width: "300px",
+                    height: "300px",
+                    borderRadius: selectedFile ? "50%" : "0px",
+                  }}
+                />
+              </Row>
+              <Row className="mb-3">
+                <div
+                  className="progress"
+                  style={{ width: "290px", marginLeft: "10px" }}
+                >
+                  <div
+                    className="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    style={{ width: `${progressPercent}%` }}
+                    aria-valuenow={progressPercent}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                  >
+                    {progressPercent}
+                  </div>
+                </div>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group controlId="validationProfilePhoto">
+                  <Form.Control
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    name="profilePhoto"
+                    filename="profilePhoto"
+                    custom
+                    onChange={(e) => fileSelectedHandler(e)}
+                  />
+                </Form.Group>
+              </Row>
+              <Row className="mb-2">
+                <div className={userAccountStyle.uploadPhotoBtn}>
+                  <Button type="submit">
+                    Upload Photo
+                  </Button>
+                </div>
+              </Row>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </Container>
+    </Fragment>
   );
 };
 export default UserAccount;
