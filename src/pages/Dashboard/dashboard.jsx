@@ -16,9 +16,7 @@ import FeedService from "./../../services/feedService";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
-  const { isLoggedIn, loggedInUser } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { loggedInUser } = useSelector((state) => state.AuthReducer);
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -34,7 +32,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (loggedInUser) {
       fecthUserPosts(loggedInUser._id);
     }
   }, []);
@@ -117,7 +115,10 @@ const Dashboard = () => {
   return (
     <Fragment>
       <Navbar />
-      <Container className={dashboardStyle.container} style={{minHeight:dimensions.height-100}}>
+      <Container
+        className={dashboardStyle.container}
+        style={{ minHeight: dimensions.height - 100 }}
+      >
         <Row className={dashboardStyle.topRow}>
           <h2>Dashboard</h2>
         </Row>

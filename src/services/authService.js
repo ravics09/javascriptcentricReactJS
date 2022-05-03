@@ -8,6 +8,7 @@ const signIn = async (payload) => {
     .then((response) => {
       if (response.status === 200) {
         localStorage.setItem("User", JSON.stringify(response.data.user));
+        localStorage.setItem("AccessToken", JSON.stringify(response.data.accessToken));
         return {
           status: "success",
           message: "You are redirecting to home page",
@@ -18,7 +19,7 @@ const signIn = async (payload) => {
     .catch((error) => {
       return {
         status: "failed",
-        message: error.response.data.message,
+        message: error ? "Server is not responding" : error.response.data.message,
       };
     });
 };

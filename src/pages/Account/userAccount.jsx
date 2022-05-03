@@ -65,12 +65,12 @@ const UserAccount = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [previewPhoto, setPreviewPhoto] = useState(null);
   const [progressPercent, setProgressPercent] = useState(0);
-  const { isLoggedIn, loggedInUser } = useSelector(
+  const { loggedInUser } = useSelector(
     (state) => state.AuthReducer
   );
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (loggedInUser) {
       setUserId(loggedInUser._id);
       fetchUserData(loggedInUser._id);
     }

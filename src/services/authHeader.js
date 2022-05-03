@@ -1,10 +1,10 @@
-// If there is a logged in user with accessToken (JWT), this service will return HTTP Authorization header. Otherwise, return an empty object.
 const authHeader = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log("token", user.accessToken);
+  const accessToken = JSON.parse(localStorage.getItem("AccessToken"));
+  const user = JSON.parse(localStorage.getItem("User"));
+  console.log("token", accessToken);
 
-  if (user && user.accessToken) {
-    const header = { Authorization: "Bearer " + user.accessToken };
+  if (user && accessToken) {
+    const header = { Authorization: "Bearer " + accessToken };
     return header;
   } else {
     return {};

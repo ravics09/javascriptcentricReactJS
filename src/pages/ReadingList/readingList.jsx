@@ -5,12 +5,11 @@ import {
   Row,
   Col,
   Button,
-  InputGroup,
-  FormControl,
   Image,
 } from "react-bootstrap";
 import moment from "moment";
 import swal from "sweetalert";
+import { useSelector } from "react-redux";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -23,16 +22,16 @@ const ReadingList = () => {
   const navigate = useNavigate();
   const [readingList, setReadingList] = useState([]);
   const [userId, setUserId] = useState("");
+  const { loggedInUser } = useSelector((state) => state.AuthReducer);
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
   });
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser) {
-      setUserId(loggedInUser.userId);
-      fecthReadingListID(loggedInUser.userId);
+      setUserId(loggedInUser._id);
+      fecthReadingListID(loggedInUser._id);
     }
 
     async function fecthReadingListID(id) {
@@ -47,7 +46,6 @@ const ReadingList = () => {
           timer: 2000,
           button: false,
         });
-        setReadingList([]);
       }
     }
   }, []);

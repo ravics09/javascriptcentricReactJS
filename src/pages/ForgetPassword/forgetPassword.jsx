@@ -72,6 +72,7 @@ const ForgetPassword = () => {
   return (
     <Container className={ForgetPasswordStyle.container}>
       <Row className={ForgetPasswordStyle.formContainer}>
+        <Container>
         <Row style={{ textAlign: "center", paddingBottom: 50 }}>
           <h3 className={ForgetPasswordStyle.headerTitle}>Password Reset</h3>
           <p>Forgot your password? Reset it here.</p>
@@ -190,6 +191,7 @@ const ForgetPassword = () => {
             </Formik>
           </Col>
         </Row>
+        </Container>
       </Row>
     </Container>
   );

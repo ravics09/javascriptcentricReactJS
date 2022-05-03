@@ -32,22 +32,18 @@ const Home = () => {
     width: window.innerWidth,
   });
 
-  const { isLoggedIn, loggedInUser } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { loggedInUser } = useSelector((state) => state.AuthReducer);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    if (isLoggedIn === false) {
-      navigate("/");
-    } else {
+    if (loggedInUser) {
       setUserId(loggedInUser._id);
       fetchPostData();
     }
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [isLoggedIn]);
+  }, []);
 
   const handleResize = () => {
     setDimensions({

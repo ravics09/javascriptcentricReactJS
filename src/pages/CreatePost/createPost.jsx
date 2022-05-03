@@ -34,7 +34,7 @@ const CreatePost = () => {
 
   const [userId, setUserId] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const { isLoggedIn, loggedInUser } = useSelector(
+  const { loggedInUser } = useSelector(
     (state) => state.AuthReducer
   );
 
@@ -52,7 +52,7 @@ const CreatePost = () => {
         setLoading(false);
       });
     }
-  }, [isLoggedIn]);
+  }, []);
 
   const handleSubmitPost = async (formValues) => {
     let postTitle = formValues.title;

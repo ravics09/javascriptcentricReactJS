@@ -45,7 +45,7 @@ const getUserProfile = async (id) => {
 
   // return axios.get(url, { headers: AuthHeader() }).then(
   return axios
-    .get(url)
+    .get(url, { headers: AuthHeader() })
     .then((response) => {
       if (response.status === 200) {
         return {
@@ -100,7 +100,7 @@ const uploadProfilePhoto = async (id, formData, options) => {
         return {
           image: response.data.results.profilePhoto,
           status: "success",
-          message: response.data.message
+          message: response.data.message,
         };
       }
     })

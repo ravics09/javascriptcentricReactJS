@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import {
   Home,
@@ -32,19 +33,81 @@ import {
 } from "./../pages/index";
 
 const AppRoutes = () => {
+  const { isLoggedIn } = useSelector((state) => state.AuthReducer);
+
+  const IsAuth = ({ children }) => {
+    return isLoggedIn === true ? children : <Navigate to="/signin" replace />;
+  };
+
   return (
     <Routes>
       <Route exact element={<SignIn />} path="/" />
       <Route exact element={<SignIn />} path="/signin" />
-      <Route exact element={<Home />} path="/home" />
       <Route exact element={<SignUp />} path="/signup" />
-      <Route exact element={<CreatePost />} path="/createpost" />
-      <Route exact element={<FullArticle />} path="/fullarticle/:id" />
-      <Route exact element={<EditPost />} path="/:id/editpost" />
-      <Route exact element={<Account />} path="/account" />
-      <Route exact element={<Dashboard/>} path="/dashboard" />
-      <Route exact element={<ReadingList/>} path="/readinglist" />
-      <Route exact element={<ForgetPassword/>} path="/forgetpassword" />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <Home />
+          </IsAuth>
+        }
+        path="/home"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <CreatePost />
+          </IsAuth>
+        }
+        path="/createpost"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <FullArticle />
+          </IsAuth>
+        }
+        path="/fullarticle/:id"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <EditPost />
+          </IsAuth>
+        }
+        path="/:id/editpost"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <Account />
+          </IsAuth>
+        }
+        path="/account"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <Dashboard />
+          </IsAuth>
+        }
+        path="/dashboard"
+      />
+      <Route
+        exact
+        element={
+          <IsAuth>
+            <ReadingList />
+          </IsAuth>
+        }
+        path="/readinglist"
+      />
+      <Route exact element={<ForgetPassword />} path="/forgetpassword" />
       {/* <Route exact element={<Main/>} path="/main" />
       <Route exact element={<InterviewQuestions/>} path="/interviewquestions" />
       <Route exact element={<CodingChallenge/>} path="/codingchallenge" />
